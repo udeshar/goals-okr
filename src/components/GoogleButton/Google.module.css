@@ -1,0 +1,7 @@
+.btnWrapper{
+          border: 0.5px solid var(--border-color);
+          height: 50px;
+          border-radius: 30px;
+          cursor: pointer;
+          transition: 0.5s;
+}
