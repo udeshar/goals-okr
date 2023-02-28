@@ -7,25 +7,30 @@ import { useState } from 'react'
 import Link from 'next/link'
 import CustomButton from '@/components/CustomButton/customButton'
 import { HrWithText } from '../login'
+import { useRouter } from 'next/router'
 
 export default function Signup() {
 
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [conpassword, setConPassword] = useState('');
-
 	const [emailError, setEmailError] = useState('');
 	const [passwordError, setPasswordError] = useState('');
 	const [conpassError, setConPassError] = useState('');
+	const [tnc, setTnc] = useState(false);
+	const [tncError, setTncError] = useState('');
+	const router = useRouter();
 
 	function submitForm(){
 		let flag = 0;
 		if(email == '') {flag=1; setEmailError("Email can't be blank");}
 		if(password == '') {flag=1; setPasswordError("Password can't be blank");}
 		else if(password.length < 6) {flag=1; setPasswordError("Password must be more than 5 characters")}
-
+		if(conpassword == '') {flag=1; setConPassError("Password can't be blank");}
+		else if(password != conpassword) {flag=1; setConPassError("Password does not match")}
+		if(!tnc) {flag =1; setTncError('Accept terms and conditions')}
 		if(flag == 0){
-			console.log("Success");
+			router.push('/user-info');
 		}
 	}
 
@@ -49,9 +54,13 @@ export default function Signup() {
 							<Custom_input id="password" required type={'password'} placeholder={'Password'} value={password} setValue={setPassword} className={'mb-3'} title={'Password'} error={passwordError} setError={setPasswordError}   />
 							<Custom_input id="conpassword" required type={'password'} placeholder={'Password'} value={conpassword} setValue={setConPassword} className={'mb-3'} title={'Confirm Password'} error={conpassError} setError={setConPassError}   />
 							<div className='d-flex align-items-center mt-4' >
-								<Form.Check type='checkbox' id='remember' label='I Agree To The ' />&nbsp;&nbsp;
+								<Form.Check color='#000' value={tnc} onChange={(e)=>{setTnc(e.target.checked); setTncError('')}} type='checkbox' id='remember' label='I Agree To The ' />&nbsp;&nbsp;
 								<Link className="link" href="#"> Terms & Conditions</Link>
 							</div>
+							{
+								tncError &&
+								<p  className={styles.createAccount} style={{color : 'var(--error)'}} >{tncError}</p>
+							}
 							<CustomButton text={"Sign Up"} onClick={()=>submitForm()} className={"my-4"} />
 							<p className={styles.createAccount} >Already have an account? <Link className="link" href="/login">Sign In</Link></p>
 						</div>
