@@ -32,3 +32,27 @@
           padding: 3px 6px;
           height: 20px;
 }
+.menu{
+          display: none;
+}
+
+@media only screen and ( max-width : 668px){
+          .switchAndBell {
+             display: none;
+          }
+          .screen_name{
+                    font-size: 22px;
+          }
+          .name{
+                    display: none;
+          }
+          .role{
+                    display: none;
+          }
+          .nav_wrapper{
+                    padding: 17px 5%;
+          }
+          .menu{
+                    display: block;
+          }
+}

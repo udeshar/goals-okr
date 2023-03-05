@@ -122,3 +122,13 @@ p{
   border-radius: 50%;
   object-fit: cover;
 }
+.okr_drawer{
+  background-color: var(--below-background-color) !important;
+}
+
+@media only screen and (max-width : 668px){
+  .profile_image{
+    width: 34px;
+    height: 34px;
+  }
+}

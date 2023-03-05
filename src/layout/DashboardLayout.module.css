@@ -15,3 +15,13 @@
           padding : 22px 35px;
           padding-bottom: 100px;
 }
+
+@media only screen and ( max-width : 668px){
+          .content{
+                    padding : 10px 5%;
+                    padding-bottom: 100px;
+          }
+          .sidbar{
+                    display: none;
+          }
+}

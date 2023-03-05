@@ -1,27 +1,44 @@
 import React,{useState} from 'react'
-import Image from 'next/image'
+import clsx from 'clsx';
 import styles from './navbar.module.css';
 import {CiBellOn} from 'react-icons/ci'
 import Switch from '../Switch/switch';
+import { CiMenuFries } from 'react-icons/ci'
+import useBoundStore from '@/store';
 
 const Navbar = ({ screen }) => {
+      const {toggleDrawer, menuCollapsed, toggleMenu} = useBoundStore((state) => ({
+            toggleDrawer : state.toggleDrawer,
+            menuCollapsed : state.menuCollapsed,
+            toggleMenu : state.toggleMenu
+      }))
+
+      function onMenuClick(){
+            if(menuCollapsed){
+                  toggleMenu();
+            } else{
+                  toggleDrawer()
+            }
+      }
+
       return (
             <div className={styles.nav_wrapper +' d-flex justify-content-between w-100 align-items-center'} >
-                  <div>
+                  <div className="d-flex align-items-center" >
+                        <CiMenuFries onClick={onMenuClick} className={clsx(styles.menu , menuCollapsed && "d-block"," me-3")} size={18} role="button" />
                         <p className={styles.screen_name} >{screen}</p>
                   </div>
                   <div className="d-flex align-items-center" >
-                        <div className="me-4">
+                        <div className={styles.switchAndBell + " me-4"}>
                               <Switch />
                         </div>
-                        <div className="me-5 mt-1" style={{position : 'relative'}} >
+                        <div className={" me-3 me-md-5 mt-1"} style={{position : 'relative'}} >
                               <CiBellOn size={25} />
                               <div className={styles.noti +" allcenter"} >
                                     <p style={{fontSize : 13}} > 3</p>
                               </div>
                         </div>
                         <div className='d-flex justify-content-between align-items-center'>
-                              <div className='text-end pe-3' >
+                              <div className='text-end pe-2 pe-md-3 ' >
                                     <p className={styles.name} >Udesh arlekar</p>
                                     <p className={styles.role} >Admin</p>
                               </div>

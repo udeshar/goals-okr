@@ -9,7 +9,11 @@ const Foot = styled.div`
       bottom : 0px;
       left : 0px;
       right : 0px;
-      margin : 0px 35px
+      margin : 0px 35px;
+      @media only screen and (max-width : 668px){
+            padding : 15px 0px;
+            margin : 0px 5%;
+      }
 `
 
 const Footer = () => {
@@ -18,7 +22,7 @@ const Footer = () => {
                   <div>
                         <p style={{fontSize : 14, color : 'var(--mediumGrey)'}}  >OKR @ All Rights Reserved</p>
                   </div>
-                  <div>
+                  <div style={{whiteSpace : 'nowrap'}} >
                         <Link href="#" className='ms-3 link' >About us</Link>
                         <Link href="#" className='ms-3 link' >Contact us</Link>
                   </div>

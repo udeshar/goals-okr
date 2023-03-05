@@ -1,15 +1,20 @@
-import React from 'react'
+import React, {useState} from 'react'
 import styles from './sidebar.module.css'
 import Image from 'next/image'
 import logo from '@/assets/icons/logo.png'
 import clsx from 'clsx'
-import {RiMenu4Fill} from 'react-icons/ri'
 import {CiHome, CiHeart, CiBoxList, CiSettings, CiCreditCard2, CiMenuFries, CiLogout} from 'react-icons/ci'
 import {HiOutlineBuildingOffice} from 'react-icons/hi2'
+import Switch from '../Switch/switch'
+import useBoundStore from '@/store'
 
-const Sidebar = () => {
+const Sidebar = ({className}) => {
+          const {toggleMenu,menuCollapsed} = useBoundStore((state) => ({
+                    toggleMenu : state.toggleMenu,
+                    menuCollapsed : state.menuCollapsed
+          }))
           return (
-                    <div className={styles.sidebar} >
+                    <div className={clsx(className,styles.sidebar, menuCollapsed && styles.okr_collapse)} >
                               <div>
                                         <div className={styles.logowrapper + " d-flex align-items-center justify-content-between"}>
                                                   <div className='d-flex align-items-center' >
@@ -21,7 +26,10 @@ const Sidebar = () => {
                                                             <p className={styles.okr + ' ms-2'} >OKR</p>
                                                   </div>
                                                   <div>
-                                                            <CiMenuFries size={18} role="button" />
+                                                            <CiMenuFries onClick={()=> toggleMenu()} className={styles.menu} size={18} role="button" />
+                                                            <div className={styles.okr_switch} >
+                                                                      <Switch  /> 
+                                                            </div>
                                                   </div>
                                         </div>
 

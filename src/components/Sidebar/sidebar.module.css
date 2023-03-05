@@ -1,67 +1,147 @@
-.sidebar{
-          width:  280px;
-          /* background-color: var(--background-color); */
-       background-color: var(--below-background-color);
-          min-height: 100vh;
-          display: flex;
-          flex-direction: column;
-          justify-content: space-between;
-          padding: 0px 20px;
+.sidebar {
+   width: 280px;
+   /* background-color: var(--background-color); */
+   background-color: var(--below-background-color);
+   min-height: 100vh;
+   display: flex;
+   flex-direction: column;
+   justify-content: space-between;
+   padding: 0px 20px;
+   transition: .5s;
 }
-.logo{
-          width: 40px;
-          height: auto;
+
+.logo {
+   width: 40px;
+   height: auto;
 }
-.logowrapper{
-          padding: 20px 0px;
+
+.logowrapper {
+   padding: 20px 0px;
 }
-.okr{
-          font-size: 25px;
-          font-family: var(--poppins);
-          font-weight: 500;
+
+.okr {
+   font-size: 25px;
+   font-family: var(--poppins);
+   font-weight: 500;
 }
-.btn_head{
-       font-size: 15px;   
-       padding-left: 30px;
-       padding-right: 20px;
+
+.btn_head {
+   font-size: 15px;
+   padding-left: 30px;
+   padding-right: 20px;
 }
-.sd_btn{
-          transition: .3s;
-          padding: 12px 20px;
-          padding-left: 30px;
-          color : var(--greyText);
-          position : relative;
-          border-radius: 0px 10px 10px 0px;
-          overflow: hidden;
+
+.sd_btn {
+   transition: .3s;
+   padding: 12px 20px;
+   padding-left: 30px;
+   color: var(--greyText);
+   position: relative;
+   border-radius: 0px 10px 10px 0px;
+   overflow: hidden;
 }
-.sd_btn p{
-          font-size: 16px;
-          margin-top: 2px;
+
+.sd_btn p {
+   font-size: 16px;
+   margin-top: 2px;
 }
-.sd_btn:hover{
-          transition: .3s;
-          background-color: var(--hover-color);
+
+.sd_btn:hover {
+   transition: .3s;
+   background-color: var(--hover-color);
 }
-.active{
-          color: var(--accent) !important;
-          font-weight: 500;
-          background-color: var(--hover-color);
+
+.active {
+   color: var(--accent) !important;
+   font-weight: 500;
+   background-color: var(--hover-color);
 }
-.active::before{
-          content: ' ';
-          width: 4px;
-          background-color: var(--accent);
-          position: absolute;
-          left: 0px;
-          height: 100%;
-          border-radius: 0px 20px 20px 0px;
+
+.active::before {
+   content: ' ';
+   width: 4px;
+   background-color: var(--accent);
+   position: absolute;
+   left: 0px;
+   height: 100%;
+   border-radius: 0px 20px 20px 0px;
 }
-.theme_switch{
-          padding: 20px;
+
+.theme_switch {
+   padding: 20px;
 }
-.switch{
-          width: 100%;
+
+.switch {
+   width: 100%;
 }
-/* .switch .react-switch-handle{
-          width: 50%;
-} */
+
+.okr_switch{
+   display: none;
+}
+
+/* Sidebar styles */
+.okr_collapse{
+   width: 70px;
+   padding: 0px 0px;
+ }
+ .okr_collapse .sd_btn {
+   padding: 20px 5px;
+   padding-left: 0px;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+ }
+ .okr_collapse .sd_btn p {
+   display: none;
+ }
+ .okr_collapse .btn_head {
+   display: none;
+ }
+ .okr_collapse .okr {
+   display: none;
+ }
+ .okr_collapse .menu{
+   display: none;
+ }
+ .okr_collapse .logowrapper {
+   justify-content: center !important;
+ }
+
+
+@media only screen and ( max-width : 1098px ) and (min-width : 669px){
+   .sidebar {
+      width: 70px;
+      padding: 0px 0px;
+   }
+   .sd_btn {
+      padding: 20px 5px;
+      padding-left: 0px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+   }
+   .sd_btn p {
+      display: none;
+   }
+   .btn_head {
+      display: none;
+   }
+   .okr {
+      display: none;
+   }
+   .menu{
+      display: none;
+   }
+   .logowrapper {
+      justify-content: center !important;
+   }
+}
+
+@media only screen and ( max-width : 668px){
+   .menu{
+      display: none;
+   }
+   .okr_switch{
+      display: block;
+   }
+}
