@@ -1,0 +1,17 @@
+.layout{
+          width: 100%;
+}
+.middle{
+          background-color: var(--below-background-color);
+          flex:  1;
+          height: 100vh;
+          overflow: auto;
+}
+.middleContent{
+          position: relative;
+          min-height: 100vh;
+}
+.content{
+          padding : 22px 35px;
+          padding-bottom: 100px;
+}

@@ -1,0 +1,67 @@
+.sidebar{
+          width:  280px;
+          /* background-color: var(--background-color); */
+       background-color: var(--below-background-color);
+          min-height: 100vh;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          padding: 0px 20px;
+}
+.logo{
+          width: 40px;
+          height: auto;
+}
+.logowrapper{
+          padding: 20px 0px;
+}
+.okr{
+          font-size: 25px;
+          font-family: var(--poppins);
+          font-weight: 500;
+}
+.btn_head{
+       font-size: 15px;   
+       padding-left: 30px;
+       padding-right: 20px;
+}
+.sd_btn{
+          transition: .3s;
+          padding: 12px 20px;
+          padding-left: 30px;
+          color : var(--greyText);
+          position : relative;
+          border-radius: 0px 10px 10px 0px;
+          overflow: hidden;
+}
+.sd_btn p{
+          font-size: 16px;
+          margin-top: 2px;
+}
+.sd_btn:hover{
+          transition: .3s;
+          background-color: var(--hover-color);
+}
+.active{
+          color: var(--accent) !important;
+          font-weight: 500;
+          background-color: var(--hover-color);
+}
+.active::before{
+          content: ' ';
+          width: 4px;
+          background-color: var(--accent);
+          position: absolute;
+          left: 0px;
+          height: 100%;
+          border-radius: 0px 20px 20px 0px;
+}
+.theme_switch{
+          padding: 20px;
+}
+.switch{
+          width: 100%;
+}
+/* .switch .react-switch-handle{
+          width: 50%;
+} */
