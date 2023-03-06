@@ -20,7 +20,7 @@ const Footer = () => {
       return (
             <Foot style={{borderTop : '1px solid var(--border-color)'}} className="d-flex align-items-center justify-content-between" >
                   <div>
-                        <p style={{fontSize : 14, color : 'var(--mediumGrey)'}}  >OKR @ All Rights Reserved</p>
+                        <p style={{fontSize : 14, color : 'var(--mediumGrey)'}}  >KeyVision © 2023. All Rights Reserved</p>
                   </div>
                   <div style={{whiteSpace : 'nowrap'}} >
                         <Link href="#" className='ms-3 link' >About us</Link>

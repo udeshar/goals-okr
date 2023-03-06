@@ -23,7 +23,7 @@ const Sidebar = ({className}) => {
                                                                       alt="logo"
                                                                       className={styles.logo}
                                                             />
-                                                            <p className={styles.okr + ' ms-2'} >OKR</p>
+                                                            <p className={styles.okr + ' ms-2'} >KeyVision</p>
                                                   </div>
                                                   <div>
                                                             <CiMenuFries onClick={()=> toggleMenu()} className={styles.menu} size={18} role="button" />
