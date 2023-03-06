@@ -3,6 +3,7 @@
 }
 .middle{
           background-color: var(--below-background-color);
+          transition: .5s;
           flex:  1;
           height: 100vh;
           overflow: auto;

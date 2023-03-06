@@ -23,10 +23,13 @@ const Custom_dropdown = ({value, setValue, placeholder, className, title, requir
                                                   padding : '0px 30px',
                                                   fontSize : 15,
                                                   outline : 'none',
+                                                  color : 'var(--bs-body-color)',
                                                   boxShadow : 'none'
                                         }),
                                         valueContainer : (baseStyles, state) => ({
                                                   ...baseStyles,
+                                                  backgroundColor : 'var(--background-color)',
+                                                  color : 'var(--bs-body-color) !important',
                                                   padding : '0px'
                                         }),
                                         indicatorSeparator: (baseStyles, state) => ({
@@ -39,8 +42,22 @@ const Custom_dropdown = ({value, setValue, placeholder, className, title, requir
                                         }),
                                         option: (baseStyles, state) => ({
                                                   ...baseStyles,
-                                                  fontSize : '13px'
+                                                  color : 'var(--bs-body-color)',
+                                                  fontSize : '13px',
+                                                  backgroundColor : 'var(--below-background-color)',
+                                                  "&:hover" : {
+                                                            backgroundColor : "var(--hover-color)"
+                                                  }
                                         }),
+                                        singleValue: (baseStyles, state) => ({
+                                                  ...baseStyles,
+                                                  color : 'var(--bs-body-color)'
+                                        }),
+                                        menu: (baseStyles, state) => ({
+                                                  ...baseStyles,
+                                                  color : 'var(--bs-body-color)',
+                                                  backgroundColor : 'var(--below-background-color)',
+                                        })
                               }}
                               />
                               {

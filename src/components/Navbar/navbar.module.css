@@ -4,6 +4,7 @@
           top: 0px;
           z-index: 1;
           background-color: var(--below-background-color);
+          transition: .5s;
 }
 
 .name{

@@ -22,6 +22,7 @@
   --light: #fff;
   --dark : #000;
   --hover-color : #e9e9e9;
+  --hover-with-opacity : #e9e9e977;
   --shadows : #00000039;
   --shadows2 : #00000009;
 
@@ -46,6 +47,7 @@
   --light: #292929;
   --dark : #fafafa;
   --hover-color : #0f0f0f;
+  --hover-with-opacity : #0f0f0f6f;
   --shadows : #00000039;
   --shadows2 : #0000006f;
 
