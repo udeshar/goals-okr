@@ -15,6 +15,7 @@ const Custom_dropdown = ({value, setValue, placeholder, className, title, requir
                               styles={{
                                         control: (baseStyles, state) => ({
                                                   ...baseStyles,
+                                                  backgroundColor : 'var(--background-color)',
                                                   borderColor: state.isFocused ? "var(--accent)" : error ? 'var(--error)' : 'var(--border-color)',
                                                   borderWidth : '0.5px',
                                                   height: '50px',
