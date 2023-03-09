@@ -4,6 +4,17 @@
 :root{
   --poppins : 'Poppins', sans-serif;
   --roboto : 'Roboto', sans-serif;
+
+  --redO : #e94c4c9f;
+  --blueO : #3f4eb39f;
+  --greenO : #47c4459f;
+  --yellowO : #d7d74c9f;
+
+  --red : #e94c4c;
+  --blue : #3f4eb3;
+  --green : #47c445;
+  --yellow : #d7d74c;
+  --orange : #ffa600;
 }
 
 .light {
@@ -106,6 +117,11 @@ p{
   font-weight: 500;
   text-decoration: none;
   font-size: 15px;
+  cursor: pointer;
+}
+.linkWithNoStyles{
+  color:  inherit;
+  text-decoration: none;
 }
 .font-regular{
   font-weight: 500;
@@ -126,6 +142,12 @@ p{
 }
 .okr_drawer{
   background-color: var(--below-background-color) !important;
+}
+
+.heading{
+  font-size: 18px;
+  font-weight: 500;
+  font-family: var(--poppins);
 }
 
 @media only screen and (max-width : 668px){

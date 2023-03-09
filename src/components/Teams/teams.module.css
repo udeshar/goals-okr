@@ -1,0 +1,19 @@
+.heading{
+          font-size: 18px;
+          font-weight: 500;
+          font-family: var(--poppins);
+}
+.teamWrapper{
+          background-color: var(--background-color);
+          border-radius: 10px;
+          padding: 10px 20px;
+}
+.singleTeam{
+          padding: 8px 0px;
+}
+.teamIcon{
+          height: 28px;
+          width: 28px;
+          border-radius: 50%;
+          font-size: 13px;;
+}

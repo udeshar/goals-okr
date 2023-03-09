@@ -3,6 +3,10 @@ import DashboardLayout from '@/layout/DashboardLayout'
 import ObjectiveCard from '@/components/ObjectiveCard/objectiveCard'
 import {Row, Col} from 'react-bootstrap'
 import styles from '@/styles/home.module.css'
+import OverallProgress from '@/components/OverallProgress/overallProgress'
+import DetailedProgress from '@/components/DetailedProgress/detailedProgress'
+import Teams from '@/components/Teams/Teams'
+import VisualProgress from '@/components/VisualProgress/visualProgress'
 
 export default function Home() {
 	return (
@@ -14,21 +18,25 @@ export default function Home() {
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
 			<main>
-				<DashboardLayout>
+				<DashboardLayout screen={"home"}>
+					<OverallProgress />
 					<Row>
-						<Col lg={7} >
-							<p className={styles.heading} >Recent Objectives</p>
-							<Row className="mt-3" >
-								<Col lg={6} >
-									<ObjectiveCard />
-								</Col>
-								<Col lg={6} >
-									<ObjectiveCard />
-								</Col>
-							</Row>
+						<Col lg={8} xs={12} >
+							<VisualProgress />
 						</Col>
-						<Col lg={5} ></Col>
+						<Col lg={4} xs={12} >
+						<Teams />
+						</Col>
 					</Row>
+					<DetailedProgress />
+					{/* <Row>
+						<Col lg={8} xs={12} >
+							<DetailedProgress />
+						</Col>
+						<Col lg={4}  xs={12} >
+							<Teams />
+						</Col>
+					</Row> */}
 				</DashboardLayout>
 			</main>
 		</>

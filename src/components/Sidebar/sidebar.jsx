@@ -1,4 +1,5 @@
 import React, {useState} from 'react'
+import Link from 'next/link'
 import styles from './sidebar.module.css'
 import Image from 'next/image'
 import logo from '@/assets/icons/logo.png'
@@ -8,7 +9,7 @@ import {HiOutlineBuildingOffice} from 'react-icons/hi2'
 import Switch from '../Switch/switch'
 import useBoundStore from '@/store'
 
-const Sidebar = ({className}) => {
+const Sidebar = ({className, screen}) => {
           const {toggleMenu,menuCollapsed} = useBoundStore((state) => ({
                     toggleMenu : state.toggleMenu,
                     menuCollapsed : state.menuCollapsed
@@ -35,30 +36,42 @@ const Sidebar = ({className}) => {
 
                                         <div className='mt-3' >
                                                   <p className={ styles.btn_head + '  font-regular py-2 mb-2'}>Menu</p>
-                                                  <div className={clsx(styles.sd_btn ,' align-items-center d-flex')} role="button" >
-                                                            <CiHome size={23} />
-                                                            <p className="ms-3" >Home</p>
-                                                  </div>
-                                                  <div className={clsx(styles.sd_btn ,' align-items-center d-flex')} role="button" >
-                                                            <CiBoxList size={23} />
-                                                            <p className="ms-3" >Objectives</p>
-                                                  </div>
-                                                  <div className={clsx(styles.sd_btn ,' align-items-center d-flex')} role="button" >
-                                                            <CiCreditCard2 size={23} />
-                                                            <p className="ms-3" >My Tasks</p>
-                                                  </div>
-                                                  <div className={clsx(styles.sd_btn ,' align-items-center d-flex')} role="button" >
-                                                            <CiHeart size={23} />
-                                                            <p className="ms-3" >Favorites</p>
-                                                  </div>
-                                                  <div className={clsx(styles.sd_btn , styles.active,' align-items-center d-flex')} role="button" >
-                                                            <HiOutlineBuildingOffice size={23} />
-                                                            <p className="ms-3" >Organization</p>
-                                                  </div>
-                                                  <div className={clsx(styles.sd_btn ,' align-items-center d-flex')} role="button" >
-                                                            <CiSettings size={23} />
-                                                            <p className="ms-3" >Settings</p>
-                                                  </div>
+                                                  <Link href="/" className='linkWithNoStyles' >
+                                                            <div className={clsx(screen == 'home' && styles.active, styles.sd_btn ,' align-items-center d-flex')} role="button" >
+                                                                      <CiHome size={23} />
+                                                                      <p className="ms-3" >Home</p>
+                                                            </div>
+                                                  </Link>
+                                                  <Link href="/objectives" className='linkWithNoStyles' >
+                                                            <div className={clsx(screen == 'objectives' && styles.active, styles.sd_btn ,' align-items-center d-flex')} role="button" >
+                                                                      <CiBoxList size={23} />
+                                                                      <p className="ms-3" >Objectives</p>
+                                                            </div>
+                                                  </Link>
+                                                  <Link href="#" className='linkWithNoStyles' >
+                                                            <div className={clsx(screen == 'mytasks' && styles.active, styles.sd_btn ,' align-items-center d-flex')} role="button" >
+                                                                      <CiCreditCard2 size={23} />
+                                                                      <p className="ms-3" >My Tasks</p>
+                                                            </div>
+                                                  </Link>
+                                                  <Link href="#" className='linkWithNoStyles' >
+                                                            <div className={clsx(screen == 'favorites' && styles.active, styles.sd_btn ,' align-items-center d-flex')} role="button" >
+                                                                      <CiHeart size={23} />
+                                                                      <p className="ms-3" >Favorites</p>
+                                                            </div>
+                                                  </Link>
+                                                  <Link href="#" className='linkWithNoStyles' >
+                                                            <div className={clsx(screen == 'organization' && styles.active, styles.sd_btn ,' align-items-center d-flex')} role="button" >
+                                                                      <HiOutlineBuildingOffice size={23} />
+                                                                      <p className="ms-3" >Organization</p>
+                                                            </div>
+                                                  </Link>
+                                                  <Link href="#" className='linkWithNoStyles' >
+                                                            <div className={clsx(screen == 'settings' && styles.active, styles.sd_btn ,' align-items-center d-flex')} role="button" >
+                                                                      <CiSettings size={23} />
+                                                                      <p className="ms-3" >Settings</p>
+                                                            </div>
+                                                  </Link>
                                         </div>
                               </div>
                               

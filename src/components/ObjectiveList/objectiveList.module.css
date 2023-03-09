@@ -1,0 +1,70 @@
+.okrWrapper{
+          padding: 12px 20px;
+          background-color: var(--background-color);
+          border-radius: 10px;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          position: relative;
+          overflow: hidden;
+}
+.okrtitle{
+          display: flex;
+          align-items: center; 
+}
+.singleTeam{
+          padding: 8px 0px;
+}
+.teamIcon{
+          height: 24px;
+          width: 24px;
+          border-radius: 50%;
+          font-size: 11px;
+          font-weight: 500;
+}
+.noHeight{
+          max-height: 0px !important;
+          padding: 0px !important;
+          margin-top: -5px !important;
+          overflow: hidden;
+}
+.status{
+          display: flex;
+          align-items: center;
+          width: 200px;
+          white-space: nowrap;
+          justify-content: center;
+}
+.risk{
+          color: var(--red);
+}
+.progress{
+          position: absolute;
+          right: 0px;
+          top: 0px;
+          bottom: 0px;
+          background-color: var(--red);
+          width: 50px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+}
+.smallText{
+          font-size: 14px;
+}
+.keyResult{
+          border-left: 1px solid var(--border-color);
+          min-height: 10px;
+          transition: .5s;
+}
+@media only screen and (max-width : 668px){
+          .status{
+                    width: 60px;
+                    justify-content: start;
+          }
+          .keyText{
+                    text-overflow: ellipsis;
+                    width: 80%;
+                    overflow: hidden;
+          }
+}

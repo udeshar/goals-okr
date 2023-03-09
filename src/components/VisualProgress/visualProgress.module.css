@@ -1,0 +1,21 @@
+.heading{
+          font-size: 18px;
+          font-weight: 500;
+          font-family: var(--poppins);
+}
+.visualCard{
+          background-color: var(--background-color);
+          border-radius: 15px;
+          min-height: 150px;
+          padding: 20px;
+          padding-bottom: 30px;
+}
+
+@media only screen and (max-width : 668px){
+          .visualCard{
+                    padding: 10px 0px 20px 0px;
+          }
+          .visualCard p{
+                    font-size: 14px;
+          }
+}

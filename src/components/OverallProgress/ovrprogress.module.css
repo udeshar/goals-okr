@@ -1,0 +1,38 @@
+.heading{
+          font-size: 18px;
+          font-weight: 500;
+          font-family: var(--poppins);
+}
+.progressCard{
+          background-color: var(--background-color);
+          border-radius: 10px;
+          height: 140px;
+          padding: 20px;
+          position: relative;
+          overflow: hidden;
+}
+.title{
+          font-size: 15px;
+}
+.borderLine{
+          position: absolute;
+          content: ' ';
+          bottom: 0px;
+          left: 0px;
+          right: 0px;
+          height: 4px;
+          opacity: 0.7;
+          z-index: 1;
+}
+.iconwrap{
+          height: 50px;
+          width: 50px  !important;
+          border-radius: 50%;
+          color: #fff;
+          font-size: 22px;
+          flex : 0 0 50px;
+}
+.result{
+          font-size: 24px;
+          font-family : var(--poppins);
+}
