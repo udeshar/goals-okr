@@ -4,6 +4,7 @@ import styles from './objectiveList.module.css'
 import { BsChevronDown, BsDot } from 'react-icons/bs'
 import Link from 'next/link';
 import clsx from 'clsx';
+import OkrModal from '../Modals/okrModal';
 
 const OKRs = [
           {
@@ -92,14 +93,14 @@ const OKRs = [
           }
 ];
 
-const SingleOkr = () => {
+const SingleOkr = ({ onClick, item }) => {
           const [isOpen, setIsOpen] = useState(false);
           return (
-                    <div className={styles.overallOkrWrapper} >
+                    <div className={styles.overallOkrWrapper}>
                               <div className={clsx(styles.okrWrapper, isOpen ? ' my-3' : ' mt-3')} >
                                         <div className={styles.okrtitle} >
                                                   <BsChevronDown role={"button"} onClick={() => setIsOpen(!isOpen)} />
-                                                  <p className="ps-3" >Increase Revenu by hello</p>
+                                                  <p className="ps-3" role="button" onClick={() => onClick(item)} >{item.objective}</p>
                                         </div>
                                         <div className='d-flex align-items-center' >
                                                   <Link href="#" className={styles.singleTeam + ' d-md-flex align-items-center linkWithNoStyles d-none'}>
@@ -118,8 +119,27 @@ const SingleOkr = () => {
                                         </div>
                               </div>
 
-                              <div className={clsx(styles.keyResult, !isOpen && styles.noHeight, 'ms-2 ms-md-5')}>
-                                        <div className={styles.smallText + " ps-1 ps-md-4 py-2 d-flex justify-content-between align-items-md-center"}>
+                              <div className={clsx(styles.keyResult, !isOpen && styles.noHeight, 'mx-2 ms-md-5')}>
+                                        {
+                                                  item?.keyResults.map((itemm, index) => (
+                                                            <div className={styles.smallText + " ps-1 ps-md-4 py-2 d-flex justify-content-between align-items-md-center"}>
+                                                                      <div className="d-flex align-items-center" >
+                                                                                <BsDot size={30} />
+                                                                                <p className={styles.keyText} >{itemm?.title}</p>
+                                                                      </div>
+                                                                      <div className={clsx('d-flex justify-content-between')}>
+                                                                                <p>Mayuresh</p>
+                                                                                <div className={clsx(styles.status, 'd-none d-md-flex')}>
+                                                                                          <p>{itemm?.progress} / {itemm?.target}</p>
+                                                                                </div>
+                                                                                <p className='ms-2' style={{ color: 'var(--red)' }} >
+                                                                                          50%
+                                                                                </p>
+                                                                      </div>
+                                                            </div>
+                                                  ))
+                                        }
+                                        {/* <div className={styles.smallText + " ps-1 ps-md-4 py-2 d-flex justify-content-between align-items-md-center"}>
                                                   <div className="d-flex align-items-center" >
                                                             <BsDot size={30} />
                                                             <p className={styles.keyText} >Increase brand value by 10%</p>
@@ -148,7 +168,7 @@ const SingleOkr = () => {
                                                                       50%
                                                             </p>
                                                   </div>
-                                        </div>
+                                        </div> */}
                               </div>
                     </div>
           )
@@ -156,13 +176,19 @@ const SingleOkr = () => {
 
 
 const ObjectiveList = () => {
+          const [isModalOpen, setIsModalOpen] = useState(false);
+          const [item, setItem] = useState({});
           return (
                     <div>
                               {
                                         OKRs.map((item, index) => (
-                                                  <SingleOkr />
+                                                  <SingleOkr item={item} onClick={(item) => {
+                                                            setItem(item);
+                                                            setIsModalOpen(true);
+                                                  }} />
                                         ))
                               }
+                              <OkrModal show={isModalOpen} setShow={(value) => setIsModalOpen(value)} data={item} />
                     </div>
           )
 }

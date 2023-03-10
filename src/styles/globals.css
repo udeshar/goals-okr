@@ -91,6 +91,18 @@ p{
   margin-bottom: 0px;
 }
 
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  /* Hide the up/down arrows */
+  -webkit-appearance: none;
+  margin: 0; /* Optional - if you want to remove the default margin */
+}
+
+input.hide-controls {
+  /* Hide the input's number-specific UI */
+  -moz-appearance: textfield;
+}
+
 @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;
@@ -148,6 +160,15 @@ p{
   font-size: 18px;
   font-weight: 500;
   font-family: var(--poppins);
+}
+
+.modal-content{
+  color : var(--bs-body-color);
+  background-color : var(--below-background-color);
+}
+
+.modal{
+  background: none;
 }
 
 @media only screen and (max-width : 668px){
