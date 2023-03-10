@@ -50,6 +50,10 @@
           font-size: 15px;
           color: var(--greyText);
 }
+.footer{
+          justify-content: flex-start;
+          border-top: none;
+}
 
 @media only screen and (max-width : 668px){
           .keyResults{

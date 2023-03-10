@@ -6,38 +6,9 @@ import { MdPeople } from 'react-icons/md'
 import styles from './okrModal.module.css'
 import ModalWrapper from './ModalWrapper'
 import Link from 'next/link'
-
-const SingleKeyResult = ({ item, index }) => {
-          const [initial, setInitial] = useState(0);
-          const [progress, setProgress] = useState(item?.progress);
-          const [target, setTarget] = useState(item?.target);
-          return (
-                    <div className={styles.keyFullWrapper + " d-flex"} >
-                              <div className={styles.keyResults + " d-flex py-3 justify-content-between align-items-center"} >
-                                        <p className={styles.keyTitle} >{item?.title}</p>
-                                        <div className='d-flex align-items-center my-1'>
-                                                  <MdPeople className={styles.people} />
-                                                  <p className={styles.people + ' ps-2'} >Ranjana</p>
-                                        </div>
-                                        <div className="d-flex" >
-                                                  <div className="me-4" >
-                                                            <label htmlFor={"start" + index}>Initial</label>
-                                                            <input value={initial} onChange={(e) => setInitial(e.target.value)} type="number" name={"start" + index} id={"start" + index} />
-                                                  </div>
-                                                  <div className="me-4">
-                                                            <label htmlFor={"progress" + index}>Progress</label>
-                                                            <input value={progress} onChange={(e) => setProgress(e.target.value)} type="number" name={"progress" + index} id={"progress" + index} />
-                                                  </div>
-                                                  <div className="me-4">
-                                                            <label htmlFor={"target" + index}>Target</label>
-                                                            <input value={target} onChange={(e) => setTarget(e.target.value)} type="number" name={"target" + index} id={"target" + index} />
-                                                  </div>
-                                        </div>
-                              </div>
-                              <BsThreeDotsVertical className="mt-4" role="button" />
-                    </div>
-          )
-}
+import CustomButton from '../CustomButton/customButton'
+import { ContextMenu, MenuItem, ContextMenuTrigger } from "react-contextmenu";
+import SingleKeyResult from '../SingleKeyResult/singleKeyResult'
 
 const OkrModal = ({ show, setShow, data }) => {
 
@@ -62,8 +33,21 @@ const OkrModal = ({ show, setShow, data }) => {
                                                                       </div>
                                                                       <p className={styles.smallText + " ps-1"} >Operations</p>
                                                             </Link>
-                                                  </div>
-                                                  <BsThreeDotsVertical role="button" className="mt-1" />
+                                                  </div>    
+                                                  <ContextMenuTrigger id={"objective"} mouseButton={0}>
+                                                            <BsThreeDotsVertical role="button" className="mt-1" />
+                                                  </ContextMenuTrigger>
+                                                  <ContextMenu id={"objective"} rtl={true} >
+                                                            <MenuItem data={{ foo: 'bar' }} onClick={() => { }}>
+                                                                      Delete Objective
+                                                            </MenuItem>
+                                                            <MenuItem data={{ foo: 'bar' }} onClick={() => { }}>
+                                                                      Edit Objective
+                                                            </MenuItem>
+                                                            <MenuItem data={{ foo: 'bar' }} onClick={() => { }}>
+                                                                      Change Team
+                                                            </MenuItem>
+                                                  </ContextMenu>
                                         </div>
                                         <p className='accentText mt-4' >Key Results</p>
                                         <div className="pt-2" >
@@ -72,10 +56,11 @@ const OkrModal = ({ show, setShow, data }) => {
                                                                       <SingleKeyResult item={itemm} index={index} />
                                                             ))
                                                   }
-
                                         </div>
-
                               </div>
+                              <Modal.Footer className={styles.footer} >
+                                        <CustomButton className="w-auto px-5" text={"Add Key Result"} onClick={() => { }} nofilled={true} />
+                              </Modal.Footer>
                     </ModalWrapper>
           );
 }

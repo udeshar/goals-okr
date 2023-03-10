@@ -3,9 +3,9 @@
           height: 50px;
           border-radius: 30px;
           width: 100%;
-          color: var(--light);
           cursor: pointer;
           transition: 0.5s;
+          color: var(--light);
           background-color: var(--accent);
 }
 .customBtn p{
@@ -13,3 +13,10 @@
           color: var(--light);
           font-weight: 500;
 } 
+.nofill{
+          background-color: transparent;
+          border: 0.5px solid var(--border-color);
+}
+.nofill p{
+          color: var(--accent);
+}
