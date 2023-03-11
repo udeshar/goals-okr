@@ -3,13 +3,27 @@ import { BsThreeDotsVertical } from 'react-icons/bs'
 import { MdPeople } from 'react-icons/md'
 import styles from '../Modals/okrModal.module.css'
 import { ContextMenu, MenuItem, ContextMenuTrigger } from "react-contextmenu";
+import CreateKeyResult from '../Modals/CreateKeyResult';
 
 const SingleKeyResult = ({ item, index }) => {
           const [initial, setInitial] = useState(0);
           const [progress, setProgress] = useState(item?.progress);
           const [target, setTarget] = useState(item?.target);
+          const [krModal, setKrModal] = useState(false);
           return (
                     <div className={styles.keyFullWrapper + " d-flex"} >
+                              {
+                                        krModal && 
+                                        <CreateKeyResult 
+                                        show={krModal} 
+                                        setShow={(val) => setKrModal(val)} 
+                                        edit={true} 
+                                        kr={item?.title}
+                                        init={initial}
+                                        pr={progress}
+                                        tr={target}
+                                        />
+                              }
                               <div className={styles.keyResults + " d-flex py-3 justify-content-between align-items-center"} >
                                         <p className={styles.keyTitle} >{item?.title}</p>
                                         <div className='d-flex align-items-center my-1'>
@@ -36,10 +50,7 @@ const SingleKeyResult = ({ item, index }) => {
                                         <BsThreeDotsVertical className="mt-4" role="button" />
                               </ContextMenuTrigger>
                               <ContextMenu id={"keyResult" + index} rtl={true} >
-                                        <MenuItem data={{ foo: 'bar' }} onClick={()=>{}}>
-                                                  Add People
-                                        </MenuItem>
-                                        <MenuItem data={{ foo: 'bar' }} onClick={()=>{}}>
+                                        <MenuItem data={{ foo: 'bar' }} onClick={()=>setKrModal(true)}>
                                                   Edit Key Result
                                         </MenuItem>
                                         <MenuItem data={{ foo: 'bar' }} onClick={()=>{}}>

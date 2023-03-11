@@ -2,11 +2,12 @@ import clsx from 'clsx';
 import styles from './Input.module.css';
 import Select from 'react-select'
 
-const Custom_dropdown = ({value, setValue, placeholder, className, title, required, error, setError, id, options}) => {
+const Custom_dropdown = ({value, setValue, placeholder, className, title, required, error, setError, id, options, styleInside, isMulti}) => {
           return (
                     <div className={className} >
                               <label className={styles.labelStyle} htmlFor={id}>{title}{required ? '*' : '' }</label>
                               <Select 
+                              isMulti={isMulti}
                               options={options} 
                               value={value}
                               placeholder={placeholder}
@@ -24,7 +25,8 @@ const Custom_dropdown = ({value, setValue, placeholder, className, title, requir
                                                   fontSize : 15,
                                                   outline : 'none',
                                                   color : 'var(--bs-body-color)',
-                                                  boxShadow : 'none'
+                                                  boxShadow : 'none',
+                                                  ...styleInside,
                                         }),
                                         valueContainer : (baseStyles, state) => ({
                                                   ...baseStyles,

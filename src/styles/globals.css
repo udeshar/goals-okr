@@ -184,6 +184,17 @@ input.hide-controls {
 .react-contextmenu-item:hover{
   background-color: var(--hover-with-opacity);
 }
+textarea{
+  border: 1px solid var(--border-color);
+  background-color: var(--background-color);
+  border-radius: 10px;
+  width: 100%;
+  color: var(--bs-body-color);
+  padding: 15px;
+}
+textarea:focus{
+  outline: 1px solid var(--accent);
+}
 
 @media only screen and (max-width : 668px){
   .profile_image{
