@@ -35,15 +35,16 @@
           outline: 1px solid var(--accent);
 }
 .keyResults label{
-          margin-right: 10px;
+          margin-right: 20px;
           color: var(--lightGreyText);
           font-size: 14px;
+          display: block;
 }
 .keyResults{
           flex: 1;
 }
 .keyTitle{
-          width: 40%;
+          width: 50%;
           font-size: 15px;
 }
 .people{
@@ -54,9 +55,26 @@
           justify-content: space-between;
           border-top: none;
 }
+.duedata{
+          display: flex;
+          align-items: center;
+          border-radius: 15px;
+          padding: 5px 10px;
+          color: #fff;
+          font-size: 13px;
+          font-weight: 500;
+}
+.lessBorder{
+          border-radius: 10px !important;
+}
 
 @media only screen and (max-width : 668px){
           .keyResults{
+                    flex-wrap: wrap;
+          }
+}
+@media only screen and (max-width : 992px){
+          .rightSection{
                     flex-wrap: wrap;
           }
           .keyTitle{

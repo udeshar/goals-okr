@@ -25,9 +25,9 @@ const OkrModal = ({ show, setShow, data }) => {
                               <CreateKeyResult show={krModal} setShow={(val) => setKrModal(val)} />
                               <ModalWrapper show={show} setShow={setShow} size={"xl"} >
                                         <div className={styles.modalWrapper + ' px-2 px-md-4 pt-4'} >
-                                                  {/* <div className={styles.closeButton} >
-                                                  <AiOutlineClose size={25} role={"button"} onClick={handleClose} />
-                                        </div> */}
+                                                  <div className={styles.closeButton} >
+                                                            <AiOutlineClose size={25} role={"button"} onClick={handleClose} />
+                                                  </div>
                                                   <div className="d-flex justify-content-between" >
                                                             <div className="d-md-flex d-block align-items-center flex-wrap" >
                                                                       <h4 className='m-0' >{item?.objective}</h4>
@@ -38,26 +38,12 @@ const OkrModal = ({ show, setShow, data }) => {
                                                                                 <p className={styles.smallText + " ps-1"} >Operations</p>
                                                                       </Link>
                                                             </div>
-                                                            <ContextMenuTrigger id={"objective"} mouseButton={0}>
-                                                                      <BsThreeDotsVertical role="button" className="mt-1" />
-                                                            </ContextMenuTrigger>
-                                                            <ContextMenu id={"objective"} rtl={true} >
-                                                                      <MenuItem data={{ foo: 'bar' }} onClick={() => { }}>
-                                                                                Delete Objective
-                                                                      </MenuItem>
-                                                                      <MenuItem data={{ foo: 'bar' }} onClick={() => { }}>
-                                                                                Edit Objective
-                                                                      </MenuItem>
-                                                                      <MenuItem data={{ foo: 'bar' }} onClick={() => { }}>
-                                                                                Change Team
-                                                                      </MenuItem>
-                                                            </ContextMenu>
                                                   </div>
                                                   <p className='accentText mt-4' >Key Results</p>
                                                   <div className="pt-2" >
                                                             {
                                                                       item?.keyResults?.map((itemm, index) => (
-                                                                                <SingleKeyResult item={itemm} index={index} />
+                                                                                <SingleKeyResult item={itemm} index={index} key={"jhdch"+index} />
                                                                       ))
                                                             }
                                                   </div>

@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import styles from './Input.module.css';
 
-const Custom_input = ({type, value, setValue, placeholder, className, title, required, error, setError, id}) => {
+const Custom_input = ({type, value, setValue, placeholder, className, title, required, error, setError, id, customClassName}) => {
           return (
                     <div className={className} >
                               <label className={styles.labelStyle} htmlFor={id}>{title}{required ? '*' : '' }</label>
@@ -10,7 +10,7 @@ const Custom_input = ({type, value, setValue, placeholder, className, title, req
                                         name={id}
                                         required={required}
                                         type={type} 
-                                        className={ clsx(styles.input, error && styles.inputError)}
+                                        className={ clsx(styles.input, customClassName, error && styles.inputError)}
                                         value={value}
                                         onChange={(e)=>setValue(e.target.value)}
                                         onFocus={()=>setError("")}

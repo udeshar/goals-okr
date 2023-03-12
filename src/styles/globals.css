@@ -175,6 +175,7 @@ input.hide-controls {
   background-color: var(--background-color);
   border-radius: 8px;
   padding: 5px 0px;
+  z-index: 1;
 }
 .react-contextmenu-item{
   padding: 6px 15px;

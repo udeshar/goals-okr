@@ -5,6 +5,9 @@ import { BsChevronDown, BsDot } from 'react-icons/bs'
 import Link from 'next/link';
 import clsx from 'clsx';
 import OkrModal from '../Modals/okrModal';
+import { BsThreeDotsVertical } from 'react-icons/bs'
+import { ContextMenu, MenuItem, ContextMenuTrigger } from "react-contextmenu";
+import CreateObjective from '@/components/Modals/CeateObjective'
 
 const OKRs = [
           {
@@ -93,7 +96,7 @@ const OKRs = [
           }
 ];
 
-const SingleOkr = ({ onClick, item }) => {
+const SingleOkr = ({ onClick, item, onEditClick, index }) => {
           const [isOpen, setIsOpen] = useState(false);
           return (
                     <div className={styles.overallOkrWrapper}>
@@ -112,6 +115,19 @@ const SingleOkr = ({ onClick, item }) => {
                                                   <div className={styles.status + " " + styles.risk} >
                                                             <BsDot size={30} />
                                                             <p className={styles.smallText} >At Risk</p>
+                                                  </div>
+                                                  <div>
+                                                            <ContextMenuTrigger id={"objj"+index} mouseButton={0}>
+                                                                      <BsThreeDotsVertical size={20} role="button" className='ms-3 ms-md-1 me-1 me-md-5' />
+                                                            </ContextMenuTrigger>
+                                                            <ContextMenu id={"objj"+index} rtl={true} >
+                                                                      <MenuItem data={{ foo: 'bar' }} onClick={() => onEditClick(item)}>
+                                                                                Edit Objective
+                                                                      </MenuItem>
+                                                                      <MenuItem data={{ foo: 'bar' }} onClick={() => { }}>
+                                                                                Delete Objective
+                                                                      </MenuItem>
+                                                            </ContextMenu>
                                                   </div>
                                                   <div className={styles.progress + " d-none d-md-flex"} >
                                                             <p>20%</p>
@@ -139,36 +155,6 @@ const SingleOkr = ({ onClick, item }) => {
                                                             </div>
                                                   ))
                                         }
-                                        {/* <div className={styles.smallText + " ps-1 ps-md-4 py-2 d-flex justify-content-between align-items-md-center"}>
-                                                  <div className="d-flex align-items-center" >
-                                                            <BsDot size={30} />
-                                                            <p className={styles.keyText} >Increase brand value by 10%</p>
-                                                  </div>
-                                                  <div className={clsx('d-flex justify-content-between')}>
-                                                            <p>Mayuresh</p>
-                                                            <div className={clsx(styles.status, 'd-none d-md-flex')}>
-                                                                      <p>95000 / 300000</p>
-                                                            </div>
-                                                            <p className='ms-2' style={{ color: 'var(--red)' }} >
-                                                                      50%
-                                                            </p>
-                                                  </div>
-                                        </div>
-                                        <div className={styles.smallText + " ps-1 ps-md-4 py-2 d-flex justify-content-between align-items-md-center"}>
-                                                  <div className="d-flex align-items-center" >
-                                                            <BsDot size={30} />
-                                                            <p className={styles.keyText} >Increase brand value by 10%</p>
-                                                  </div>
-                                                  <div className={clsx('d-flex justify-content-between')}>
-                                                            <p>Mayuresh</p>
-                                                            <div className={clsx(styles.status, 'd-none d-md-flex')}>
-                                                                      <p>95000 / 300000</p>
-                                                            </div>
-                                                            <p className='ms-2' style={{ color: 'var(--red)' }} >
-                                                                      50%
-                                                            </p>
-                                                  </div>
-                                        </div> */}
                               </div>
                     </div>
           )
@@ -178,17 +164,26 @@ const SingleOkr = ({ onClick, item }) => {
 const ObjectiveList = () => {
           const [isModalOpen, setIsModalOpen] = useState(false);
           const [item, setItem] = useState({});
+          const [show, setShow] = useState(false);
           return (
                     <div>
                               {
                                         OKRs.map((item, index) => (
-                                                  <SingleOkr item={item} onClick={(item) => {
+                                                  <SingleOkr 
+                                                  item={item} 
+                                                  index={index}
+                                                  onEditClick={(item)=>{
+                                                            setItem(item);
+                                                            setShow(true);
+                                                  }}
+                                                  onClick={(item) => {
                                                             setItem(item);
                                                             setIsModalOpen(true);
                                                   }} />
                                         ))
                               }
                               <OkrModal show={isModalOpen} setShow={(value) => setIsModalOpen(value)} data={item} />
+                              <CreateObjective show={show} setShow={(v)=>setShow(v)} edit obj={item?.objective}  />
                     </div>
           )
 }

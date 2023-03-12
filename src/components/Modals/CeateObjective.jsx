@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import ModalWrapper from './ModalWrapper'
 import { Modal } from 'react-bootstrap'
 import styles from './okrModal.module.css'
@@ -24,13 +24,20 @@ const options = [
 const CreateObjective = ({show, setShow, obj, edit}) => {
           const [ojective, setObjective] = useState(obj || '');
           const handleClose = () => setShow(false);
+
+          useEffect(() => {
+               console.log(obj);
+               setObjective(obj)
+          }, [obj])
+          
+
           return (
                     <ModalWrapper size={'lg'} show={show} setShow={setShow} >
                               <div className={styles.closeButton} >
                                         <AiOutlineClose size={25} role={"button"} onClick={handleClose} />
                               </div>
                               <div className="px-2 px-md-4 py-4" >
-                                        <h4 className='mb-3' >Add Objective</h4>
+                                        <h4 className='mb-3' >{edit ? 'Edit ' : 'Add '}Objective</h4>
 
                                         <label htmlFor="textarea" style={{fontWeight : 500, fontSize : 15}} >Enter the objective</label>
                                         <textarea 
