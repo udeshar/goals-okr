@@ -14,7 +14,7 @@ const SingleKeyResult = ({ item, index }) => {
                                         <p className={styles.keyTitle} >{item?.title}</p>
                                         <div className='d-flex align-items-center my-1'>
                                                   <MdPeople className={styles.people} />
-                                                  <p className={styles.people + ' ps-2'} >Ranjana</p>
+                                                  <p className={styles.people + ' ps-2'} >Udesh</p>
                                         </div>
                                         <div className="d-flex" >
                                                   <div className="me-4" >
