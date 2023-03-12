@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import Head from 'next/head'
 import DashboardLayout from '@/layout/DashboardLayout'
 import styles from '@/styles/Objectives.module.css'
@@ -6,8 +6,10 @@ import { Row, Col } from 'react-bootstrap'
 import CustomButton from '@/components/CustomButton/customButton'
 import { MdAddTask } from 'react-icons/md'
 import ObjectiveList from '@/components/ObjectiveList/objectiveList'
+import CreateObjective from '@/components/Modals/CeateObjective'
 
 const Objectives = () => {
+      const [show, setShow] = useState(false);
       return (
             <>
                   <Head>
@@ -19,9 +21,11 @@ const Objectives = () => {
                   <main>
                         <DashboardLayout screen={"objectives"}>
                               <div className={'d-flex align-items-center justify-content-between'} >
+                                    <CreateObjective show={show} setShow={(v)=>setShow(v)}  />
                                     <div className={'d-flex link align-items-center'} >
-                                          <MdAddTask />
-                                          <p className={'ps-2'} >Add Objective</p>
+                                          {/* <MdAddTask /> */}
+                                          <CustomButton text={"Add Objective"}  className={'px-4'} nofilled onClick={()=>setShow(true)} />
+                                          {/* <p ></p> */}
                                     </div>
                                     <div>
                                           <p>sort By</p>
