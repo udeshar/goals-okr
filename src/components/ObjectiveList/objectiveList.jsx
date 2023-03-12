@@ -96,7 +96,7 @@ const OKRs = [
           }
 ];
 
-const SingleOkr = ({ onClick, item, onEditClick, index }) => {
+const SingleOkr = ({ onClick, item, onEditClick, index, screen }) => {
           const [isOpen, setIsOpen] = useState(false);
           return (
                     <div className={styles.overallOkrWrapper}>
@@ -106,12 +106,15 @@ const SingleOkr = ({ onClick, item, onEditClick, index }) => {
                                                   <p className="ps-3" role="button" onClick={() => onClick(item)} >{item.objective}</p>
                                         </div>
                                         <div className='d-flex align-items-center' >
-                                                  <Link href="#" className={styles.singleTeam + ' d-md-flex align-items-center linkWithNoStyles d-none'}>
-                                                            <div style={{ backgroundColor: 'red' }} className={styles.teamIcon + " allcenter"} >
-                                                                      <p>OP</p>
-                                                            </div>
-                                                            <p className={styles.smallText + " ps-1"} >Operations</p>
-                                                  </Link>
+                                                  {
+                                                            screen != 'myObjectives' &&
+                                                            <Link href="#" className={styles.singleTeam + ' d-md-flex align-items-center linkWithNoStyles d-none'}>
+                                                                      <div style={{ backgroundColor: 'red' }} className={styles.teamIcon + " allcenter"} >
+                                                                                <p>OP</p>
+                                                                      </div>
+                                                                      <p className={styles.smallText + " ps-1"} >Operations</p>
+                                                            </Link>
+                                                  }
                                                   <div className={styles.status + " " + styles.risk} >
                                                             <BsDot size={30} />
                                                             <p className={styles.smallText} >At Risk</p>
@@ -161,7 +164,7 @@ const SingleOkr = ({ onClick, item, onEditClick, index }) => {
 }
 
 
-const ObjectiveList = () => {
+const ObjectiveList = ({screen}) => {
           const [isModalOpen, setIsModalOpen] = useState(false);
           const [item, setItem] = useState({});
           const [show, setShow] = useState(false);
@@ -172,6 +175,7 @@ const ObjectiveList = () => {
                                                   <SingleOkr 
                                                   item={item} 
                                                   index={index}
+                                                  screen={screen}
                                                   onEditClick={(item)=>{
                                                             setItem(item);
                                                             setShow(true);
@@ -182,10 +186,25 @@ const ObjectiveList = () => {
                                                   }} />
                                         ))
                               }
-                              <OkrModal show={isModalOpen} setShow={(value) => setIsModalOpen(value)} data={item} />
-                              <CreateObjective show={show} setShow={(v)=>setShow(v)} edit obj={item?.objective}  />
+                              <OkrModal show={isModalOpen} setShow={(value) => setIsModalOpen(value)} data={item} screen={screen} />
+                              <CreateObjective 
+                              show={show} 
+                              setShow={(v)=>setShow(v)} 
+                              edit 
+                              obj={item?.objective} 
+                              screen={screen}  
+                              />
                     </div>
           )
+}
+
+export async function getServerSideProps(){
+          const screen = "Hello World";
+          return {
+                    props : {
+                              screen : "Hello world"
+                    }
+          }
 }
 
 export default ObjectiveList

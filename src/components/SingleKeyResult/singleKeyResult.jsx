@@ -6,7 +6,7 @@ import styles from '../Modals/okrModal.module.css'
 import { ContextMenu, MenuItem, ContextMenuTrigger } from "react-contextmenu";
 import CreateKeyResult from '../Modals/CreateKeyResult';
 
-const SingleKeyResult = ({ item, index, key }) => {
+const SingleKeyResult = ({ item, index, key, screen }) => {
           const [initial, setInitial] = useState(0);
           const [progress, setProgress] = useState(item?.progress);
           const [target, setTarget] = useState(item?.target);
@@ -23,6 +23,7 @@ const SingleKeyResult = ({ item, index, key }) => {
                                         init={initial}
                                         pr={progress}
                                         tr={target}
+                                        screen={screen}
                                         />
                               }
                               <div className={styles.keyResults + " d-flex py-3 justify-content-between align-items-center"} >
@@ -32,10 +33,13 @@ const SingleKeyResult = ({ item, index, key }) => {
                                                             <BiTimeFive className="me-1" size={16} />
                                                             <p>12/10/2022</p>
                                                   </div>
-                                                  <div className='d-flex align-items-center my-1 me-5'>
-                                                            <MdPeople className={styles.people} />
-                                                            <p className={styles.people + ' ps-2'} >Udesh</p>
-                                                  </div>
+                                                  {
+                                                            screen != 'myObjectives' &&
+                                                            <div className='d-flex align-items-center my-1 me-5'>
+                                                                      <MdPeople className={styles.people} />
+                                                                      <p className={styles.people + ' ps-2'} >Udesh</p>
+                                                            </div>
+                                                  }
                                                   <div className="d-flex">
                                                             <div className="me-4" >
                                                                       <label htmlFor={"start" + index}>Initial</label>

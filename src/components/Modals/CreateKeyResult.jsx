@@ -23,7 +23,7 @@ const options = [
      }
 ]
 
-const CreateKeyResult = ({ show, setShow, kr, init, pr, tr, edit }) => {
+const CreateKeyResult = ({ show, setShow, kr, init, pr, tr, edit, screen }) => {
      const [keyResult, setKeyResult] = useState(kr || '');
      const [initial, setInitial] = useState(init || 0);
      const [progress, setProgress] = useState(pr || 0);
@@ -65,18 +65,22 @@ const CreateKeyResult = ({ show, setShow, kr, init, pr, tr, edit }) => {
                          </div>
                     </div>
                     <Row>
-                         <Col>
-                              <div  >
-                                   <Custom_dropdown
-                                        title={"Select People"}
-                                        styleInside={{ borderRadius: '10px !important' }}
-                                        error={''}
-                                        setError={() => { }}
-                                        options={options}
-                                        isMulti={true}
-                                   />
-                              </div>
-                         </Col>
+                         {
+                              screen != 'myObjectives' &&
+                              <Col>
+                                   <div  >
+                                        <Custom_dropdown
+                                             title={"Select People"}
+                                             styleInside={{ borderRadius: '10px !important' }}
+                                             error={''}
+                                             setError={() => { }}
+                                             options={options}
+                                             isMulti={true}
+                                        />
+                                   </div>
+                              </Col>
+                         }
+                         
                          <Col>
                               <Custom_input 
                               type={"datetime-local"}  

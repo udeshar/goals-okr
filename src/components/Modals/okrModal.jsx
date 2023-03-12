@@ -11,7 +11,7 @@ import { ContextMenu, MenuItem, ContextMenuTrigger } from "react-contextmenu";
 import SingleKeyResult from '../SingleKeyResult/singleKeyResult'
 import CreateKeyResult from './CreateKeyResult'
 
-const OkrModal = ({ show, setShow, data }) => {
+const OkrModal = ({ show, setShow, data, screen }) => {
 
           const handleClose = () => setShow(false);
           const [item, setItem] = useState(data || {});
@@ -22,7 +22,7 @@ const OkrModal = ({ show, setShow, data }) => {
 
           return (
                     <>
-                              <CreateKeyResult show={krModal} setShow={(val) => setKrModal(val)} />
+                              <CreateKeyResult show={krModal} setShow={(val) => setKrModal(val)} screen={screen} />
                               <ModalWrapper show={show} setShow={setShow} size={"xl"} >
                                         <div className={styles.modalWrapper + ' px-2 px-md-4 pt-4'} >
                                                   <div className={styles.closeButton} >
@@ -31,19 +31,22 @@ const OkrModal = ({ show, setShow, data }) => {
                                                   <div className="d-flex justify-content-between" >
                                                             <div className="d-md-flex d-block align-items-center flex-wrap" >
                                                                       <h4 className='m-0' >{item?.objective}</h4>
-                                                                      <Link href="#" className={styles.singleTeam + ' align-items-center linkWithNoStyles d-flex ps-md-4'}>
-                                                                                <div style={{ backgroundColor: 'red' }} className={styles.teamIcon + " allcenter"} >
-                                                                                          <p>OP</p>
-                                                                                </div>
-                                                                                <p className={styles.smallText + " ps-1"} >Operations</p>
-                                                                      </Link>
+                                                                      {
+                                                                                screen != 'myObjectives' &&
+                                                                                <Link href="#" className={styles.singleTeam + ' align-items-center linkWithNoStyles d-flex ps-md-4'}>
+                                                                                          <div style={{ backgroundColor: 'red' }} className={styles.teamIcon + " allcenter"} >
+                                                                                                    <p>OP</p>
+                                                                                          </div>
+                                                                                          <p className={styles.smallText + " ps-1"} >Operations</p>
+                                                                                </Link>
+                                                                      }
                                                             </div>
                                                   </div>
                                                   <p className='accentText mt-4' >Key Results</p>
                                                   <div className="pt-2" >
                                                             {
                                                                       item?.keyResults?.map((itemm, index) => (
-                                                                                <SingleKeyResult item={itemm} index={index} key={"jhdch"+index} />
+                                                                                <SingleKeyResult item={itemm} index={index} key={"jhdch"+index} screen={screen} />
                                                                       ))
                                                             }
                                                   </div>

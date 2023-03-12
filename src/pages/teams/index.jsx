@@ -5,7 +5,7 @@ import styles from './team.module.css'
 const team = () => {
   return (
     <div>
-      <DashboardLayout/ >
+      <DashboardLayout screen={"teams"} />
     </div>
   )
 }
