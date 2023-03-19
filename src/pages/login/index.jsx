@@ -6,6 +6,10 @@ import Custom_input from '@/components/CustomInput/custom_input'
 import { useState } from 'react'
 import Link from 'next/link'
 import CustomButton from '@/components/CustomButton/customButton'
+import { useQuery } from 'react-query'
+import { signin } from '@/services/api'
+import { useRouter } from 'next/router'
+import useBoundStore from '@/store';
 
 export function HrWithText({text, className}){
 	return(
@@ -17,22 +21,41 @@ export function HrWithText({text, className}){
 
 export default function Login() {
 
+	const setUserInfo = useBoundStore((state) => state.setUserInfo)
+	const router = useRouter();
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
-
 	const [emailError, setEmailError] = useState('');
 	const [passwordError, setPasswordError] = useState('');
 
+	const { isLoading, isError, data, error, refetch } = useQuery('todos', () => signin({email, password}),{
+		enabled : false,
+		refetchOnWindowFocus: false,
+		refetchOnMount: false,
+		force : true
+	})
+	if(data){
+		console.log(data)
+		setUserInfo(data)
+		router.push('/')
+	}
+
+	if(isError){
+		console.log(error)
+	}
+	
 	function submitForm(){
 		let flag = 0;
 		if(email == '') {flag=1; setEmailError("Email can't be blank");}
 		if(password == '') {flag=1; setPasswordError("Password can't be blank");}
 		else if(password.length < 6) {flag=1; setPasswordError("Password must be more than 5 characters")}
-
+		
 		if(flag == 0){
 			console.log("Success");
+			refetch();
 		}
 	}
+
 
 	return (
 		<>
@@ -47,6 +70,7 @@ export default function Login() {
 					<Col xl={6} lg={8} sm={12}  className={styles.leftCol + " allcenter"} >
 						<div className={styles.leftWrapper}>
 							<h1>Login</h1>
+							{isLoading && <p>Loading...</p>}
 							<p>See your growth and get consulting support</p>
 							<Google_button className={'allcenter mt-5'} />
 							<HrWithText className={'my-5'} text={"or sign in with email"} />
@@ -56,6 +80,9 @@ export default function Login() {
 								<Form.Check type='checkbox' id='remember' label='Remember me' />
 								<Link className="link" href="/forgot-password">Forgot password?</Link>
 							</div>
+							{
+								isError && <p className="text-center my-3 text-danger" >{error?.response?.data?.message}</p>
+							}
 							<CustomButton text={"Login"} onClick={()=>submitForm()} className={"my-4"} />
 							<p className={styles.createAccount} >Not Registered Yet? <Link className="link" href="/signup">Create An Account Here</Link></p>
 						</div>

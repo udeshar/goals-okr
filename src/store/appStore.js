@@ -1,7 +1,6 @@
 import { persist } from 'zustand/middleware'
 
-export const useAppStore = (
-          persist((set)=>({
+export const useAppStore = ((set)=>({
 
                     // variables
                     theme: 'light',
@@ -12,9 +11,6 @@ export const useAppStore = (
                     toggleTheme: () => set((state)=>({ theme: state.theme == 'light' ? 'dark' : 'light' })),
                     toggleDrawer: () => set((state)=>({ drawerOpened: !state.drawerOpened})),
                     toggleMenu: () => set((state)=>({ menuCollapsed: !state.menuCollapsed})),
-          }),{
-                    name: "app-storage",
-                    onRehydrateStorage: ()=>console.log("Rehydrated")
           })
 )
 

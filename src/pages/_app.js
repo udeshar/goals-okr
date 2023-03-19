@@ -5,7 +5,15 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import useBoundStore from '@/store';
 import { useEffect, useState } from 'react';
+import { QueryClient, QueryClientProvider } from 'react-query';
 
+const queryClient = new QueryClient({
+      defaultOptions: {
+            queries: {
+                  refetchOnWindowFocus: false,
+            },
+      },
+})
 
 export default function App({ Component, pageProps }) {
       const theme = useBoundStore((state) => state.theme)
@@ -14,11 +22,13 @@ export default function App({ Component, pageProps }) {
             console.log(theme)
             setMyTheme(theme)
       }, [theme])
-      
-      return(
+
+      return (
             <div className={myTheme} >
-                  <Component {...pageProps} />
-                  <ToastContainer />
-            </div> 
+                  <QueryClientProvider client={queryClient} >
+                        <Component {...pageProps} />
+                        <ToastContainer />
+                  </QueryClientProvider>
+            </div>
       )
 }
