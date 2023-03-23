@@ -20,3 +20,6 @@
 .nofill p{
           color: var(--accent);
 }
+.loading{
+          background-color: var(--mediumGrey);
+}

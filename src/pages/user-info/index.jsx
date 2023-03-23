@@ -6,6 +6,8 @@ import { useState } from 'react'
 import CustomButton from '@/components/CustomButton/customButton'
 import Custom_dropdown from '@/components/CustomInput/custom_dropdown'
 import { useRouter } from 'next/router'
+import { useQuery } from 'react-query'
+import { userInfo } from '@/services/api'
 
 const options = [
 	{
@@ -29,6 +31,24 @@ export default function ProfileInfo() {
 	const [gender, setGender] = useState('');
 	const [genderError, setGenderError] = useState('');
           const router = useRouter();
+	const { email } = router.query //type can be verifyEmail or forgotPassword
+
+	const { isLoading, isError, data, error, refetch } = useQuery('userInfo', () => userInfo({
+		email, 
+		firstName : fname,
+		lastName : lname,
+		gender : gender.value,
+		dateOfBirth : dob
+	}),{
+		enabled : false,
+		cacheTime : 0
+	})
+	if(data){
+		router.push('/login')
+	}
+	if(isError){
+		console.log(error)
+	}
 
 	function submitForm(){
 		let flag = 0;
@@ -38,7 +58,7 @@ export default function ProfileInfo() {
 		if(gender == '') {flag=1; setGenderError("Please select your gender");}
 
 		if(flag == 0){
-			router.push('/');
+			refetch();
 		}
 	}
 
@@ -60,8 +80,11 @@ export default function ProfileInfo() {
 							<Custom_input id="lastname" required type={'text'} placeholder={'Doe'} value={lname} setValue={setLname} className={'my-3'} title={'Last Name'} error={lnameError} setError={setLnameError}  />
 							<Custom_input id="dob" required type={'date'} placeholder={''} value={dob} setValue={setDob} className={'my-3'} title={'Date of Birth'} error={dobError} setError={setDobError}  />
 							<Custom_dropdown id={gender} options={options} className={'my-3 mb-5'} title={'Gender'} required placeholder={'Select gender'} value={gender} setValue={setGender} error={genderError} setError={setGenderError} />
+							{
+								isError && <p className="text-center my-3 text-danger" >{error?.response?.data?.message}</p>
+							}
 							<p className={styles.codeDigit} >Your data will be safe and secure</p>
-                                                                      <CustomButton text={"Submit"} onClick={()=>submitForm()} className={"my-4"} />
+                                                                      <CustomButton text={"Submit"} onClick={()=>submitForm()} className={"my-4"} loading={isLoading} />
 						</div>
 					</Col>
 					<Col xl={6} lg={4} sm={12} className={styles.imageSection + " d-none d-lg-block"}>

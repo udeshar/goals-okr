@@ -6,21 +6,46 @@ import { useState } from 'react'
 import CustomButton from '@/components/CustomButton/customButton'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
+import { useQuery } from 'react-query'
+import { verifyOtp } from '@/services/api'
 
 export default function ConfirmOtp() {
 
 	const [otp, setotp] = useState('');
 	const [otpError, setotpError] = useState('');
 	const router = useRouter();
-	const { email } = router.query
+	const { email, type, id } = router.query //type can be verifyEmail or forgotPassword
 
+	const { isLoading, isError, data, error, refetch } = useQuery('verifyOtp', () => verifyOtp({email, otp, id, type : 'verifyEmail'}),{
+		enabled : false,
+		cacheTime : 0
+	})
+
+	if(data){
+		console.log(data)
+		if(type == 'verifyEmail'){
+			router.push({
+				pathname : '/user-info',
+				query : {email}
+			})
+		} else{
+			router.push({
+				pathname : '/change-password',
+				query : {email, otp}
+			})
+		}
+	}
+
+	if(isError){
+		console.log(error)
+	}
 
 	function submitForm(){
 		let flag = 0;
 		if(otp == '') {flag=1; setotpError("otp can't be blank");}
 
 		if(flag == 0){
-			router.push('/change-password');
+			refetch();
 		}
 	}
 
@@ -39,8 +64,12 @@ export default function ConfirmOtp() {
 							<h1>Confirm OTP</h1>
 							<p>a four digit verification code has been sent on <Link href="#" className="link" >{email}</Link></p>
 							<Custom_input id="otp" required type={'text'} placeholder={'OTP'} value={otp} setValue={setotp} className={'my-5'} title={'Enter OTP'} error={otpError} setError={setotpError}  />
-							<p className={styles.codeDigit} >OTP not recieved? <span className="accentText" >Resend OTP</span></p>
-                                                                      <CustomButton text={"Confirm"} onClick={()=>submitForm()} className={"my-4"} />
+							{
+								isError && <p className="text-center mb-2 text-danger" >{error?.response?.data?.message}</p>
+							}
+							<p className={styles.codeDigit} >OTP not recieved? <span className="accentText" onClick={refetch}  >Resend OTP</span></p>
+							<p className={styles.codeDigit} >OTP will be valid for only 5 minutes</p>
+                                                                      <CustomButton text={"Confirm"} onClick={()=>submitForm()} className={"my-4"} loading={isLoading} />
 						</div>
 					</Col>
 					<Col xl={6} lg={4} sm={12} className={styles.imageSection + " d-none d-lg-block"}>

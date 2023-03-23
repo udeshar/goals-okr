@@ -6,6 +6,8 @@ import { useState } from 'react'
 import CustomButton from '@/components/CustomButton/customButton'
 import { useRouter } from 'next/router'
 import {toast} from 'react-toastify'
+import { useQuery } from 'react-query'
+import { changePassword } from '@/services/api'
 
 export default function ConfirmPassword() {
 
@@ -14,6 +16,21 @@ export default function ConfirmPassword() {
 	const [passwordError, setpasswordError] = useState('');
           const [conpasswordError, setconpasswordError] = useState('');
           const router = useRouter();
+	const { email, otp } = router.query;
+
+	const { isLoading, isError, data, error, refetch } = useQuery('changePassword', () => changePassword({email, otp, password}),{
+		enabled : false,
+		cacheTime : 0
+	})
+
+	if(data){
+		toast.success("Password changed successfully");
+		router.push('/login');
+	}
+
+	if(isError){
+		console.log(error)
+	}
 
 	function submitForm(){
 		let flag = 0;
@@ -21,8 +38,7 @@ export default function ConfirmPassword() {
                     else if(password.length < 6) {flag=1; setpasswordError("Password cannot be less than 6 characters");}
                     if(conpassword != password) {flag=1; setconpasswordError("Password does not match");}
 		if(flag == 0){
-                              toast.success("Password changed successfully");
-                              router.push('/login');
+                              refetch();
 		}
 	}
 
@@ -42,8 +58,10 @@ export default function ConfirmPassword() {
 							<p>Set up a strong password for being secured</p>
 							<Custom_input id="password" required type={'password'} placeholder={'Password'} value={password} setValue={setpassword} className={'mt-5'} title={'Enter Password'} error={passwordError} setError={setpasswordError}  />
 							<Custom_input id="conpassword" required type={'password'} placeholder={'Confirm Password'} value={conpassword} setValue={setconpassword} className={'mt-3 mb-5'} title={'Confirm Password'} error={conpasswordError} setError={setconpasswordError}  />
-							{/* <p className={styles.codeDigit} >password not recieved? <span className="accentText" >Resend password</span></p> */}
-                                                                      <CustomButton text={"Confirm"} onClick={()=>submitForm()} className={"my-4"} />
+							{
+								isError && <p className="text-center mb-2 text-danger" >{error?.response?.data?.message}</p>
+							}
+                                                                      <CustomButton text={"Confirm"} onClick={()=>submitForm()} className={"my-4"} loading={isLoading} />
 						</div>
 					</Col>
 					<Col xl={6} lg={4} sm={12} className={styles.imageSection + " d-none d-lg-block"}>

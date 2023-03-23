@@ -28,20 +28,20 @@ export default function Login() {
 	const [emailError, setEmailError] = useState('');
 	const [passwordError, setPasswordError] = useState('');
 
-	const { isLoading, isError, data, error, refetch } = useQuery('todos', () => signin({email, password}),{
+	const { isLoading, isError, data, error, refetch } = useQuery('signin', () => signin({email, password}),{
 		enabled : false,
-		refetchOnWindowFocus: false,
-		refetchOnMount: false,
-		force : true
+		cacheTime : 0
 	})
 	if(data){
 		console.log(data)
 		setUserInfo(data)
 		router.push('/')
 	}
-
-	if(isError){
-		console.log(error)
+	if(error?.response?.data?.message == 'email not verified'){
+		router.push({
+			pathname: '/confirm-otp',
+			query: { email, type: 'verifyEmail' },
+		});
 	}
 	
 	function submitForm(){
@@ -70,7 +70,6 @@ export default function Login() {
 					<Col xl={6} lg={8} sm={12}  className={styles.leftCol + " allcenter"} >
 						<div className={styles.leftWrapper}>
 							<h1>Login</h1>
-							{isLoading && <p>Loading...</p>}
 							<p>See your growth and get consulting support</p>
 							<Google_button className={'allcenter mt-5'} />
 							<HrWithText className={'my-5'} text={"or sign in with email"} />
@@ -83,7 +82,7 @@ export default function Login() {
 							{
 								isError && <p className="text-center my-3 text-danger" >{error?.response?.data?.message}</p>
 							}
-							<CustomButton text={"Login"} onClick={()=>submitForm()} className={"my-4"} />
+							<CustomButton text={"Login"} onClick={()=>submitForm()} className={"my-4"} loading={isLoading} />
 							<p className={styles.createAccount} >Not Registered Yet? <Link className="link" href="/signup">Create An Account Here</Link></p>
 						</div>
 					</Col>

@@ -6,6 +6,8 @@ import { useState } from 'react'
 import CustomButton from '@/components/CustomButton/customButton'
 import { useRouter } from 'next/router'
 import {toast} from 'react-toastify'
+import { useQuery } from 'react-query'
+import { forgotPassword } from '@/services/api'
 
 export default function ForgotPassword() {
 
@@ -13,16 +15,27 @@ export default function ForgotPassword() {
 	const [emailError, setEmailError] = useState('');
           const router = useRouter();
 
+	const { isLoading, isError, data, error, refetch } = useQuery('forgotpassword', () => forgotPassword({email}),{
+		enabled : false,
+		cacheTime : 0
+	})
+	if(data){
+		toast.success('Verification email sent')
+		router.push({
+			pathname : '/confirm-otp',
+			query:{email, type : 'forgotPassword'}
+		})
+	}
+	if(isError){
+		console.log(error)
+	}
+
 	function submitForm(){
 		let flag = 0;
 		if(email == '') {flag=1; setEmailError("Email can't be blank");}
 
 		if(flag == 0){
-			toast.success('Verification email sent')
-			router.push({
-				pathname : '/confirm-otp',
-				query:{email}
-			})
+			refetch();
 		}
 	}
 
@@ -42,7 +55,10 @@ export default function ForgotPassword() {
 							<p>Lost password? no worries, we got you there</p>
 							<Custom_input id="email" required type={'email'} placeholder={'Email'} value={email} setValue={setEmail} className={'my-5'} title={'Email'} error={emailError} setError={setEmailError}  />
 							<p className={styles.codeDigit} >Note : a four digit verification code will be sent on above email</p>
-                                                                      <CustomButton text={"Submit"} onClick={()=>submitForm()} className={"my-4"} />
+							{
+								isError && <p className="text-center my-3 text-danger" >{error?.response?.data?.message}</p>
+							}
+                                                                      <CustomButton text={"Submit"} onClick={()=>submitForm()} className={"mb-4"} loading={isLoading} />
 						</div>
 					</Col>
 					<Col xl={6} lg={4} sm={12} className={styles.imageSection + " d-none d-lg-block"}>

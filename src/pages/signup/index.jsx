@@ -7,7 +7,10 @@ import { useState } from 'react'
 import Link from 'next/link'
 import CustomButton from '@/components/CustomButton/customButton'
 import { HrWithText } from '../login'
+import { useQuery } from 'react-query'
+import { signup } from '@/services/api'
 import { useRouter } from 'next/router'
+import useBoundStore from '@/store';
 
 export default function Signup() {
 
@@ -21,6 +24,21 @@ export default function Signup() {
 	const [tncError, setTncError] = useState('');
 	const router = useRouter();
 
+	const { isLoading, isError, data, error, refetch } = useQuery('signup', () => signup({email, password}),{
+		enabled : false,
+		cacheTime : 0
+	})
+
+	if(data){
+		router.push({
+			pathname: '/confirm-otp',
+			query: { email, type: 'verifyEmail' },
+		});
+	}
+	if(isError){
+		console.log(error)
+	}
+
 	function submitForm(){
 		let flag = 0;
 		if(email == '') {flag=1; setEmailError("Email can't be blank");}
@@ -30,7 +48,7 @@ export default function Signup() {
 		else if(password != conpassword) {flag=1; setConPassError("Password does not match")}
 		if(!tnc) {flag =1; setTncError('Accept terms and conditions')}
 		if(flag == 0){
-			router.push('/user-info');
+			refetch();
 		}
 	}
 
@@ -61,7 +79,10 @@ export default function Signup() {
 								tncError &&
 								<p  className={styles.createAccount} style={{color : 'var(--error)'}} >{tncError}</p>
 							}
-							<CustomButton text={"Sign Up"} onClick={()=>submitForm()} className={"my-4"} />
+							{
+								isError && <p className="text-center my-3 text-danger" >{error?.response?.data?.message}</p>
+							}
+							<CustomButton text={"Sign Up"} onClick={()=>submitForm()} className={"my-4"} loading={isLoading} />
 							<p className={styles.createAccount} >Already have an account? <Link className="link" href="/login">Sign In</Link></p>
 						</div>
 					</Col>
