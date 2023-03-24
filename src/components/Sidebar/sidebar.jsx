@@ -9,12 +9,21 @@ import { IoPeopleOutline } from 'react-icons/io5'
 import {HiOutlineBuildingOffice} from 'react-icons/hi2'
 import Switch from '../Switch/switch'
 import useBoundStore from '@/store'
+import Cookies from 'js-cookie'
+import { useRouter } from 'next/router'
 
 const Sidebar = ({className, screen}) => {
+          const router = useRouter();
           const {toggleMenu,menuCollapsed} = useBoundStore((state) => ({
                     toggleMenu : state.toggleMenu,
                     menuCollapsed : state.menuCollapsed
           }))
+
+          const logout = () => {
+                    Cookies.remove('accessToken');
+                    router.replace('/login');
+          }
+
           return (
                     <div className={clsx(className,styles.sidebar, menuCollapsed && styles.okr_collapse)} >
                               <div>
@@ -83,7 +92,7 @@ const Sidebar = ({className, screen}) => {
                               </div>
                               
                               <div className={'mb-3 mt-5'} >
-                                        <div className={clsx(styles.sd_btn ,' align-items-center d-flex')} role="button" >
+                                        <div className={clsx(styles.sd_btn ,' align-items-center d-flex')} role="button" onClick={logout}  >
                                                   <CiLogout size={23} />
                                                   <p className="ms-3" >Logout</p>
                                         </div>

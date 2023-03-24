@@ -7,8 +7,13 @@ import OverallProgress from '@/components/OverallProgress/overallProgress'
 import DetailedProgress from '@/components/DetailedProgress/detailedProgress'
 import Teams from '@/components/Teams/Teams'
 import VisualProgress from '@/components/VisualProgress/visualProgress'
+import Cookies from 'js-cookie'
 
 export default function Home() {
+
+	const userData = Cookies.get('accessToken');
+	console.log(userData);
+
 	return (
 		<>
 			<Head>

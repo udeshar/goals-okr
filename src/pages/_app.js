@@ -24,7 +24,7 @@ export default function App({ Component, pageProps }) {
       }, [theme])
 
       return (
-            <div className={myTheme} >
+            <div className={myTheme} style={{minHeight : '100vh'}} >
                   <QueryClientProvider client={queryClient} >
                         <Component {...pageProps} />
                         <ToastContainer />

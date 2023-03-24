@@ -11,6 +11,7 @@ import { signin, googleSignin } from '@/services/api'
 import { useRouter } from 'next/router'
 import useBoundStore from '@/store';
 import SocialLogin from '@/components/GoogleButton/social-login'
+import Cookies from 'js-cookie'
 
 export function HrWithText({ text, className }) {
 	return (
@@ -43,6 +44,7 @@ export default function Login() {
 	if (data || g_data) {
 		console.log(data || g_data)
 		setUserInfo(data || g_data)
+		Cookies.set('accessToken', data?.accessToken || g_data?.accessToken )
 		router.push('/')
 	}
 	if (error?.response?.data?.message == 'email not verified') {
