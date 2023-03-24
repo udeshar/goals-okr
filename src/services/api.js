@@ -45,4 +45,14 @@ export async function changePassword(userData) {
 	return response.data;
 }
 
+export async function googleSignup(userData){
+	const response = await api.post('/auth/googleSignup', userData)
+	return response.data;
+}
+
+export async function googleSignin(userData){
+	const response = await api.post('/auth/googleSignin', userData)
+	return response.data;
+}
+
 export default api

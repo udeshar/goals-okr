@@ -3,14 +3,15 @@ import styles from '@/styles/Onboarding.module.css'
 import { Row, Col, Form } from 'react-bootstrap'
 import Google_button from '@/components/GoogleButton/google_button'
 import Custom_input from '@/components/CustomInput/custom_input'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import CustomButton from '@/components/CustomButton/customButton'
 import { HrWithText } from '../login'
 import { useQuery } from 'react-query'
-import { signup } from '@/services/api'
+import { signup, googleSignup } from '@/services/api'
 import { useRouter } from 'next/router'
 import useBoundStore from '@/store';
+import SocialLogin from '@/components/GoogleButton/social-login'
 
 export default function Signup() {
 
@@ -22,9 +23,15 @@ export default function Signup() {
 	const [conpassError, setConPassError] = useState('');
 	const [tnc, setTnc] = useState(false);
 	const [tncError, setTncError] = useState('');
+	const [token , setToken] = useState('');
 	const router = useRouter();
 
 	const { isLoading, isError, data, error, refetch } = useQuery('signup', () => signup({email, password}),{
+		enabled : false,
+		cacheTime : 0
+	})
+
+	const { isLoading : g_isLoading, isError : g_isError, data : g_data, error : g_error, refetch : g_refetch } = useQuery('googlesignup', () => googleSignup({token }),{
 		enabled : false,
 		cacheTime : 0
 	})
@@ -35,9 +42,22 @@ export default function Signup() {
 			query: { email, type: 'verifyEmail' },
 		});
 	}
+	if(g_data){
+		router.push({
+			pathname: '/user-info',
+			query: { email: g_data?.email },
+		});
+	}
 	if(isError){
 		console.log(error)
 	}
+
+	useEffect(() => {
+		if(token){
+			g_refetch()
+		}
+	}, [token])
+	
 
 	function submitForm(){
 		let flag = 0;
@@ -66,7 +86,14 @@ export default function Signup() {
 						<div className={styles.leftWrapper}>
 							<h1>Sign Up</h1>
 							<p>See your growth and get consulting support</p>
-							<Google_button className={'allcenter mt-5'} signup={true} />
+							{/* <Google_button className={'allcenter mt-5'} signup={true} /> */}
+							<SocialLogin 
+							text={'signup_with'}
+							className={'mt-4 pt-2'} 
+							onSuccess={(tok)=>{
+								console.log(tok)
+								setToken(tok?.credential)
+							}} />
 							<HrWithText className={'my-5'} text={"or sign up with email"} />
 							<Custom_input id="email" required type={'email'} placeholder={'Email'} value={email} setValue={setEmail} className={'mb-3'} title={'Email'} error={emailError} setError={setEmailError}  />
 							<Custom_input id="password" required type={'password'} placeholder={'Password'} value={password} setValue={setPassword} className={'mb-3'} title={'Password'} error={passwordError} setError={setPasswordError}   />
@@ -80,9 +107,9 @@ export default function Signup() {
 								<p  className={styles.createAccount} style={{color : 'var(--error)'}} >{tncError}</p>
 							}
 							{
-								isError && <p className="text-center my-3 text-danger" >{error?.response?.data?.message}</p>
+								(isError || g_isError) && <p className="text-center my-3 text-danger" >{error?.response?.data?.message || g_error?.response?.data?.message}</p>
 							}
-							<CustomButton text={"Sign Up"} onClick={()=>submitForm()} className={"my-4"} loading={isLoading} />
+							<CustomButton text={"Sign Up"} onClick={()=>submitForm()} className={"my-4"} loading={isLoading || g_isLoading} />
 							<p className={styles.createAccount} >Already have an account? <Link className="link" href="/login">Sign In</Link></p>
 						</div>
 					</Col>

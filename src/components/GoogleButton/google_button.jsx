@@ -3,10 +3,10 @@ import Image from 'next/image';
 import googleicon from '@/assets/icons/google.png'
 import Link from 'next/link';
 
-const Google_button = ({className, signup}) => {
+const Google_button = ({className, signup, onClick}) => {
           return (
-                    <Link href={"http://localhost:3000/auth/google"} >
-                              <div className={styles.btnWrapper + ' ' + className}>
+                    // <Link href={"http://localhost:3000/auth/google"} >
+                              <div onClick={onClick} className={styles.btnWrapper + ' ' + className}>
                                         <Image 
                                                   className='mx-2'
                                                   src={googleicon}
@@ -16,7 +16,7 @@ const Google_button = ({className, signup}) => {
                                         />
                                         <b className='mx-2' >{signup ? 'Sign up with Google' : 'Sign in with Google'}</b>
                               </div>
-                    </Link>
+                    // </Link>
           )
 }
 
