@@ -8,10 +8,11 @@ import useBoundStore from '@/store';
 import ProfileSlideDown from '../ProfileSlideDown/ProfileSlideDown';
 
 const Navbar = ({ screen }) => {
-      const {toggleDrawer, menuCollapsed, toggleMenu} = useBoundStore((state) => ({
+      const {toggleDrawer, menuCollapsed, toggleMenu, userInfo} = useBoundStore((state) => ({
             toggleDrawer : state.toggleDrawer,
             menuCollapsed : state.menuCollapsed,
-            toggleMenu : state.toggleMenu
+            toggleMenu : state.toggleMenu,
+            userInfo : state.userInfo
       }))
 
       function onMenuClick(){
@@ -41,14 +42,14 @@ const Navbar = ({ screen }) => {
                         <div>
                               <div role="button" className='d-flex justify-content-between align-items-center'>
                                     <div className='text-end pe-2 pe-md-3 ' >
-                                          <p className={styles.name} >Udesh arlekar</p>
+                                          <p className={styles.name} >{userInfo?.firstName + " " + userInfo?.lastName}</p>
                                           <p className={styles.role} >Admin</p>
                                     </div>
                                     <div>
                                           <img className='profile_image' src="https://images.unsplash.com/photo-1615109398623-88346a601842?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTd8fG1hbnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60" alt="user" />
                                     </div>
                               </div>
-                              <ProfileSlideDown />
+                              {/* <ProfileSlideDown /> */}
                         </div>
                         
                   </div>

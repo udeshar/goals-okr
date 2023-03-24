@@ -27,15 +27,6 @@ export default function middleware(req){
                               return NextResponse.rewrite(new URL('/', req.url))
                     }
           }
-          // if(){
-          //           if(verify == undefined){
-          //                     return NextResponse.redirect('http://localhost:3000/login')
-          //           } else{
-          //                     console.log(verify)
-          //                     // return NextResponse.next();
-          //           }
-          // }
-          // return NextResponse.next();
 }
 
 export const config = {
