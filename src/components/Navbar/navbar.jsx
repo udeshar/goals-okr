@@ -9,10 +9,10 @@ import ProfileSlideDown from '../ProfileSlideDown/ProfileSlideDown';
 
 const Navbar = ({ screen }) => {
       const {toggleDrawer, menuCollapsed, toggleMenu, userInfo} = useBoundStore((state) => ({
-            toggleDrawer : state.toggleDrawer,
-            menuCollapsed : state.menuCollapsed,
-            toggleMenu : state.toggleMenu,
-            userInfo : state.userInfo
+            toggleDrawer : state.toggleDrawer || {},
+            menuCollapsed : state.menuCollapsed || {},
+            toggleMenu : state.toggleMenu || {},
+            userInfo : state.userInfo || {}
       }))
 
       function onMenuClick(){
