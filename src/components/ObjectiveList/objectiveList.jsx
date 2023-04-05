@@ -8,6 +8,8 @@ import OkrModal from '../Modals/okrModal';
 import { BsThreeDotsVertical } from 'react-icons/bs'
 import { ContextMenu, MenuItem, ContextMenuTrigger } from "react-contextmenu";
 import CreateObjective from '@/components/Modals/CeateObjective'
+import { useQuery } from 'react-query';
+import { deleteMyObjectives } from '@/services/api';
 
 const OKRs = [
           {
@@ -96,14 +98,21 @@ const OKRs = [
           }
 ];
 
-const SingleOkr = ({ onClick, item, onEditClick, index, screen }) => {
+const SingleOkr = ({ onClick, item, onEditClick, index, screen, cb }) => {
           const [isOpen, setIsOpen] = useState(false);
+
+          const { refetch } = useQuery('deleteObjective', () => deleteMyObjectives(item?.id), {
+		enabled: false,
+		cacheTime: 0,
+                    onSuccess : () => cb()
+	})
+
           return (
                     <div className={styles.overallOkrWrapper}>
                               <div className={clsx(styles.okrWrapper, isOpen ? ' my-3' : ' mt-3')} >
                                         <div className={styles.okrtitle} >
                                                   <BsChevronDown role={"button"} onClick={() => setIsOpen(!isOpen)} />
-                                                  <p className="ps-3" role="button" onClick={() => onClick(item)} >{item.objective}</p>
+                                                  <p className="ps-3" role="button" onClick={() => onClick(item)} >{item?.objective?.title}</p>
                                         </div>
                                         <div className='d-flex align-items-center' >
                                                   {
@@ -127,7 +136,7 @@ const SingleOkr = ({ onClick, item, onEditClick, index, screen }) => {
                                                                       <MenuItem data={{ foo: 'bar' }} onClick={() => onEditClick(item)}>
                                                                                 Edit Objective
                                                                       </MenuItem>
-                                                                      <MenuItem data={{ foo: 'bar' }} onClick={() => { }}>
+                                                                      <MenuItem data={{ foo: 'bar' }} onClick={() => refetch()}>
                                                                                 Delete Objective
                                                                       </MenuItem>
                                                             </ContextMenu>
@@ -138,7 +147,7 @@ const SingleOkr = ({ onClick, item, onEditClick, index, screen }) => {
                                         </div>
                               </div>
 
-                              <div className={clsx(styles.keyResult, !isOpen && styles.noHeight, 'mx-2 ms-md-5')}>
+                              {/* <div className={clsx(styles.keyResult, !isOpen && styles.noHeight, 'mx-2 ms-md-5')}>
                                         {
                                                   item?.keyResults.map((itemm, index) => (
                                                             <div className={styles.smallText + " ps-1 ps-md-4 py-2 d-flex justify-content-between align-items-md-center"}>
@@ -158,24 +167,25 @@ const SingleOkr = ({ onClick, item, onEditClick, index, screen }) => {
                                                             </div>
                                                   ))
                                         }
-                              </div>
+                              </div> */}
                     </div>
           )
 }
 
 
-const ObjectiveList = ({screen}) => {
+const ObjectiveList = ({screen, data, cb}) => {
           const [isModalOpen, setIsModalOpen] = useState(false);
           const [item, setItem] = useState({});
           const [show, setShow] = useState(false);
           return (
                     <div>
                               {
-                                        OKRs.map((item, index) => (
+                                        data?.map((item, index) => (
                                                   <SingleOkr 
                                                   item={item} 
                                                   index={index}
                                                   screen={screen}
+                                                  cb={cb}
                                                   onEditClick={(item)=>{
                                                             setItem(item);
                                                             setShow(true);
@@ -189,9 +199,9 @@ const ObjectiveList = ({screen}) => {
                               <OkrModal show={isModalOpen} setShow={(value) => setIsModalOpen(value)} data={item} screen={screen} />
                               <CreateObjective 
                               show={show} 
-                              setShow={(v)=>setShow(v)} 
+                              setShow={(v)=>{setShow(v); cb()}} 
                               edit 
-                              obj={item?.objective} 
+                              obj={item} 
                               screen={screen}  
                               />
                     </div>

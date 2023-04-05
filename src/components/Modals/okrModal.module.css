@@ -31,6 +31,10 @@
 .smallText{
           font-size: 14px;
 }
+.error{
+          font-size: 14px;
+          color: var(--red);
+}
 .keyResults input:focus{
           outline: 1px solid var(--accent);
 }

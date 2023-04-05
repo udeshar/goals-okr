@@ -1,4 +1,4 @@
-import React,{useState} from 'react'
+import React from 'react'
 import clsx from 'clsx';
 import styles from './navbar.module.css';
 import {CiBellOn} from 'react-icons/ci'
@@ -6,16 +6,18 @@ import Switch from '../Switch/switch';
 import { CiMenuFries } from 'react-icons/ci'
 import useBoundStore from '@/store';
 import ProfileSlideDown from '../ProfileSlideDown/ProfileSlideDown';
+import dynamic from 'next/dynamic';
 
 const Navbar = ({ screen }) => {
       const {toggleDrawer, menuCollapsed, toggleMenu, userInfo} = useBoundStore((state) => ({
-            toggleDrawer : state.toggleDrawer || {},
-            menuCollapsed : state.menuCollapsed || {},
-            toggleMenu : state.toggleMenu || {},
-            userInfo : state.userInfo || {}
+            toggleDrawer : state?.toggleDrawer,
+            menuCollapsed : state?.menuCollapsed,
+            toggleMenu : state?.toggleMenu,
+            userInfo : state?.userInfo
       }))
 
       function onMenuClick(){
+            console.log(menuCollapsed)
             if(menuCollapsed){
                   toggleMenu();
             } else{
@@ -26,7 +28,7 @@ const Navbar = ({ screen }) => {
       return (
             <div className={styles.nav_wrapper +' d-flex justify-content-between w-100 align-items-center'} >
                   <div className="d-flex align-items-center" >
-                        <CiMenuFries onClick={onMenuClick} className={clsx(styles.menu , menuCollapsed && "d-block"," me-3")} size={18} role="button" />
+                        <CiMenuFries onClick={onMenuClick} className={clsx(styles.menu , menuCollapsed && "d-block" ," me-3")} size={18} role="button" />
                         <p className={styles.screen_name} >{screen}</p>
                   </div>
                   <div className="d-flex align-items-center" >
@@ -58,4 +60,4 @@ const Navbar = ({ screen }) => {
       )
 }
 
-export default Navbar
+export default dynamic (()=>Promise.resolve(Navbar),{ssr : false}); 
