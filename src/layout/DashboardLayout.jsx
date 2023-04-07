@@ -3,30 +3,52 @@ import Navbar from "@/components/Navbar/navbar";
 import Footer from "@/components/Footer/footer";
 import styles from "./DashboardLayout.module.css"
 import Drawer from 'react-modern-drawer'
+import InviteStatusModal from "@/components/Modals/InviteStatusModal";
 import useBoundStore from "@/store";
+import { getMyInvites } from '@/services/api'
+import { useQuery } from 'react-query'
+// import { useState } from "react";
 
-const DashboardLayout = ({children, screen}) => {
-          const {drawerOpened,toggleDrawer} = useBoundStore((state) => ({
-                    drawerOpened : state.drawerOpened, 
-                    toggleDrawer : state.toggleDrawer
+const DashboardLayout = ({ children, screen }) => {
+          const { drawerOpened, toggleDrawer, setMyInvites } = useBoundStore((state) => ({
+                    drawerOpened: state.drawerOpened,
+                    toggleDrawer: state.toggleDrawer,
+                    setMyInvites: state.setMyInvites
           }))
-          return(
+          // const [show, setShow] = useState(true);
+
+          const { data: inviteData = [], isLoading: inviteLoading, refetch: getInviteRefetch } = useQuery('getMyInvites', () => getMyInvites(), {
+                    enabled: false,
+                    onSuccess: (data = []) => {
+                              setMyInvites(data)
+                    }
+          });
+
+          const setShowInviteModal = useBoundStore((state) => state.setShowInviteModal)
+          const showInviteModal = useBoundStore((state) => state.showInviteModal)
+          const myInvites = useBoundStore((state) => state.myInvites)
+
+          return (
                     <div className={styles.layout + ' d-flex'}>
-                              <Sidebar className={styles.sidbar} screen={screen}  />
+                              {
+                                        myInvites.length > 0 &&
+                                        <InviteStatusModal show={showInviteModal} setShow={setShowInviteModal} invtes={myInvites} cb={() => getInviteRefetch()} />
+                              }
+                              <Sidebar className={styles.sidbar} screen={screen} />
                               <Drawer
                                         open={drawerOpened}
-                                        onClose={()=>toggleDrawer()}
+                                        onClose={() => toggleDrawer()}
                                         direction='left'
                                         className='okr_drawer'
                               >
-                                        <Sidebar  screen={screen}  />
+                                        <Sidebar screen={screen} />
                               </Drawer>
                               <div className={styles.middle} >
                                         <div className={styles.middleContent} >
                                                   <Navbar screen={screen} />
-                                                            <div className={styles.content} >
-                                                                      {children}
-                                                            </div>
+                                                  <div className={styles.content} >
+                                                            {children}
+                                                  </div>
                                                   <Footer />
                                         </div>
                               </div>

@@ -54,6 +54,7 @@
   --lightGreyText: rgb(182, 182, 182);
   --greyText: rgb(164, 164, 164);
   --accent: rgb(71, 138, 206);
+  --lightaccent: #51a4f6;
   --accent_light: rgba(51, 102, 153, 0.092);
   --error: red;
   --light: #292929;
@@ -121,6 +122,10 @@ input.hide-controls {
   justify-content: center;
   flex-wrap: wrap;
 }
+.flexalingcenter{
+    display: flex;
+    align-items: center;
+}
 .form-check label{
   font-weight: 500;
   font-size: 15px;
@@ -166,6 +171,7 @@ input.hide-controls {
 .modal-content{
   color : var(--bs-body-color);
   background-color : var(--below-background-color);
+  border: 1px solid var(--border-color);
 }
 
 .modal{
@@ -196,6 +202,14 @@ textarea{
 }
 textarea:focus{
   outline: 1px solid var(--accent);
+}
+
+.error{
+  font-size: 14px;
+  color: var(--red);
+}
+.noRoundedInput{
+  border-radius: 5px !important;
 }
 
 @media only screen and (max-width : 668px){

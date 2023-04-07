@@ -7,9 +7,21 @@ import CustomButton from '@/components/CustomButton/customButton'
 import { MdAddTask } from 'react-icons/md'
 import ObjectiveList from '@/components/ObjectiveList/objectiveList'
 import CreateObjective from '@/components/Modals/CeateObjective'
+import { getAllMyObjectives } from '@/services/api'
+import { useQuery } from 'react-query'
+import {toast} from 'react-toastify'
+import Loader from '@/components/Loader/Loader'
+import NotFound from '@/components/NotFound/NotFound'
 
 const MyObjectives = () => {
       const [show, setShow] = useState(false);
+
+      const { isLoading, isError, data=[], error, refetch } = useQuery('getAllMyObjective', () => getAllMyObjectives())
+
+      if(data){
+            console.log(data)
+      }
+
       return (
             <>
                   <Head>
@@ -21,7 +33,7 @@ const MyObjectives = () => {
                   <main>
                         <DashboardLayout screen={"my objectives"}>
                               <div className={'d-flex align-items-center justify-content-between'} >
-                                    <CreateObjective show={show} setShow={(v)=>setShow(v)} screen={"myObjectives"} />
+                                    <CreateObjective show={show} setShow={(v)=>{setShow(v); refetch()}} screen={"myObjectives"} />
                                     <div className={'d-flex link align-items-center'} >
                                           {/* <MdAddTask /> */}
                                           <CustomButton text={"Add Objective"}  className={'px-4'} nofilled onClick={()=>setShow(true)} />
@@ -31,7 +43,20 @@ const MyObjectives = () => {
                                           <p>sort By</p>
                                     </div>
                               </div>
-                              <ObjectiveList screen={"myObjectives"} />
+                              {
+                                    isLoading && 
+                                    <Loader />
+                              }
+                              {
+                                    data.length == 0 && !isLoading &&
+                                    <NotFound 
+                                    title={"No Objectives found"} 
+                                    desc={"Click the button below to add your first objective"} 
+                                    btnText={"Add Objective"}
+                                    onClick={()=>setShow(true)}
+                                    />
+                              }
+                              <ObjectiveList screen={"myObjectives"} data={data || []} cb={()=> refetch()} />
                         </DashboardLayout>
                   </main>
             </>

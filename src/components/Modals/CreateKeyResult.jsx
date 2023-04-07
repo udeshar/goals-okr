@@ -23,20 +23,55 @@ const options = [
      }
 ]
 
-const CreateKeyResult = ({ show, setShow, kr, init, pr, tr, edit, screen }) => {
+const CreateKeyResult = ({ show, setShow, kr, init, pr, tr, dt, edit, screen, onClick, isLoading }) => {
      const [keyResult, setKeyResult] = useState(kr || '');
-     const [initial, setInitial] = useState(init || 0);
-     const [progress, setProgress] = useState(pr || 0);
-     const [target, setTarget] = useState(tr || 0);
-     const [dateTime, setDateTime] = useState('');
+     const [keyResultError, setKeyResultError] = useState('');
+     const [initial, setInitial] = useState(edit ? init : '');
+     const [initialError, setInitialError] = useState('');
+     const [progress, setProgress] = useState(edit ? pr : '');
+     const [progressError, setProgressError] = useState('');
+     const [target, setTarget] = useState(edit ? tr : '');
+     const [targetError, setTargetError] = useState('');
+     const [dateTime, setDateTime] = useState(edit ? dt : '');
+     const [dateTimeError, setDateTimeError] = useState('');
      const handleClose = () => setShow(false);
+
+     const submitData = ()=> {
+          let err = false;
+          if(keyResult == ''){
+               err = true;
+               setKeyResultError('Required')
+          } if(initial == undefined || initial == ''){
+               err = true;
+               setInitialError('Required')
+          } if(progress == undefined || progress == ''){
+               err = true;
+               setProgressError('Required')
+          } if(target == 0){
+               err = true;
+               setTargetError('cannot be 0 or empty')
+          } if(dateTime == ''){
+               err = true;
+               setDateTimeError('Due Date is Required')
+          } 
+          if(!err){
+               onClick({
+                    title : keyResult,
+                    initialProgress : initial,
+                    currentProgress : progress,
+                    totalProgress : target,
+                    dueDate : new Date(dateTime).toISOString()
+               })
+          }
+     }
+
      return (
           <ModalWrapper size={'lg'} show={show} setShow={setShow} >
                <div className={styles.closeButton} >
                     <AiOutlineClose size={25} role={"button"} onClick={handleClose} />
                </div>
                <div className="px-2 px-md-4 py-4" >
-                    <h4 className='mb-3' >Add Key Result</h4>
+                    <h4 className='mb-3' >{edit ? 'Edit' : 'Add'} Key Result</h4>
 
                     <label htmlFor="textarea" style={{ fontWeight: 500, fontSize: 15 }} >Enter the key result</label>
                     <textarea
@@ -45,22 +80,38 @@ const CreateKeyResult = ({ show, setShow, kr, init, pr, tr, edit, screen }) => {
                          id="textarea"
                          rows="3"
                          value={keyResult}
-                         onChange={(e) => setKeyResult(e.target.value)}
+                         onChange={(e) => { setKeyResultError(''); setKeyResult(e.target.value)}}
                     ></textarea>
+                    {
+                         keyResultError &&
+                         <p className="error" >{keyResultError}</p>
+                    }
 
                     <div className={styles.keyResults} >
                          <div className="d-flex my-3" >
                               <div className="me-4" >
                                    <label htmlFor={"start"}>Initial</label>
-                                   <input value={initial} onChange={(e) => setInitial(e.target.value)} type="number" name={"start"} id={"start"} />
+                                   <input value={initial} onChange={(e) => {setInitialError(''); setInitial(e.target.value)}} type="number" name={"start"} id={"start"} />
+                                   {
+                                        initialError &&
+                                        <p className="error" >{initialError}</p>
+                                   }
                               </div>
                               <div className="me-4">
                                    <label htmlFor={"progress"}>Progress</label>
-                                   <input value={progress} onChange={(e) => setProgress(e.target.value)} type="number" name={"progress"} id={"progress"} />
+                                   <input value={progress} onChange={(e) => {setProgressError(''); setProgress(e.target.value)}} type="number" name={"progress"} id={"progress"} />
+                                   {
+                                        progressError &&
+                                        <p className="error" >{progressError}</p>
+                                   }
                               </div>
                               <div className="me-4">
                                    <label htmlFor={"target"}>Target</label>
-                                   <input value={target} onChange={(e) => setTarget(e.target.value)} type="number" name={"target"} id={"target"} />
+                                   <input value={target} onChange={(e) => {setTargetError(''); setTarget(e.target.value)}} type="number" name={"target"} id={"target"} />
+                                   {
+                                        targetError &&
+                                        <p className="error" >{targetError}</p>
+                                   }
                               </div>
                          </div>
                     </div>
@@ -85,8 +136,8 @@ const CreateKeyResult = ({ show, setShow, kr, init, pr, tr, edit, screen }) => {
                               <Custom_input 
                               type={"datetime-local"}  
                               title="Select Due Date" 
-                              error={''} 
-                              setError={()=>{}}
+                              error={dateTimeError} 
+                              setError={setDateTimeError}
                               required
                               customClassName={styles.lessBorder}
                               placeholder={"Date and time"} 
@@ -101,7 +152,7 @@ const CreateKeyResult = ({ show, setShow, kr, init, pr, tr, edit, screen }) => {
                <Modal.Footer className={styles.footer} >
                     <div></div>
                     <div>
-                         <CustomButton className="px-5" text={"Save Key Result"} />
+                         <CustomButton className="px-5" text={"Save Key Result"} onClick={submitData} loading={isLoading} />
                     </div>
                </Modal.Footer>
           </ModalWrapper>

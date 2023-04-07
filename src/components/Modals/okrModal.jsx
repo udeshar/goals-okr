@@ -10,27 +10,67 @@ import CustomButton from '../CustomButton/customButton'
 import { ContextMenu, MenuItem, ContextMenuTrigger } from "react-contextmenu";
 import SingleKeyResult from '../SingleKeyResult/singleKeyResult'
 import CreateKeyResult from './CreateKeyResult'
+import { useQuery } from 'react-query'
+import { createKeyResult, getAllMyObjectives } from '@/services/api'
+import Loader from '../Loader/Loader'
+import NotFound from '../NotFound/NotFound'
 
-const OkrModal = ({ show, setShow, data, screen }) => {
+const OkrModal = ({ show, setShow, data, screen, cb }) => {
 
           const handleClose = () => setShow(false);
           const [item, setItem] = useState(data || {});
           const [krModal, setKrModal] = useState(false);
+          const [keyData, setKeyData] = useState({});
+
+          const { data: newKeyData, isLoading, error, refetch } = useQuery('createKeyResult', () => createKeyResult(keyData), {
+                    enabled: false,
+                    cacheTime: 0,
+                    onSuccess: () => {
+                              cb();
+                              setKrModal(false);
+                    }
+          })
+
           useEffect(() => {
                     setItem(data)
           }, [data])
 
+          useEffect(() => {
+                    if (keyData && keyData?.title != undefined) {
+                              console.log("this is running")
+                              console.log(keyData?.title)
+                              refetch();
+                    }
+          }, [keyData])
+
+
           return (
                     <>
-                              <CreateKeyResult show={krModal} setShow={(val) => setKrModal(val)} screen={screen} />
+                              <CreateKeyResult
+                                        show={krModal}
+                                        setShow={(val) => setKrModal(val)}
+                                        screen={screen}
+                                        isLoading={isLoading}
+                                        onClick={(e) => {
+                                                  e.objective = item?.objective?.id;
+                                                  setKeyData(e);
+                                        }} />
                               <ModalWrapper show={show} setShow={setShow} size={"xl"} >
+                                        {
+                                                  isLoading &&
+                                                  <Loader />
+                                        }
                                         <div className={styles.modalWrapper + ' px-2 px-md-4 pt-4'} >
+                                                  {
+                                                            !isLoading && item?.keys?.length == 0 &&
+                                                            <NotFound title={"No Key Result found"} desc={"Click the below button to create Key Result"} btnText={"Add Key Result"} onClick={() => setKrModal(true)} />
+                                                  }
                                                   <div className={styles.closeButton} >
                                                             <AiOutlineClose size={25} role={"button"} onClick={handleClose} />
                                                   </div>
                                                   <div className="d-flex justify-content-between" >
                                                             <div className="d-md-flex d-block align-items-center flex-wrap" >
-                                                                      <h4 className='m-0' >{item?.objective}</h4>
+                                                                      <h4 className='m-0' >{item?.objective?.title}</h4>
                                                                       {
                                                                                 screen != 'myObjectives' &&
                                                                                 <Link href="#" className={styles.singleTeam + ' align-items-center linkWithNoStyles d-flex ps-md-4'}>
@@ -45,8 +85,8 @@ const OkrModal = ({ show, setShow, data, screen }) => {
                                                   <p className='accentText mt-4' >Key Results</p>
                                                   <div className="pt-2" >
                                                             {
-                                                                      item?.keyResults?.map((itemm, index) => (
-                                                                                <SingleKeyResult item={itemm} index={index} key={"jhdch"+index} screen={screen} />
+                                                                      item?.keys?.map((itemm, index) => (
+                                                                                <SingleKeyResult item={itemm} index={index} key={"jhdch" + index} screen={screen} cb={cb} />
                                                                       ))
                                                             }
                                                   </div>
