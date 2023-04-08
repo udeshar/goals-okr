@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 import Head from 'next/head'
 import DashboardLayout from '@/layout/DashboardLayout'
 import styles from '@/styles/Objectives.module.css'
@@ -7,9 +7,13 @@ import CustomButton from '@/components/CustomButton/customButton'
 import { MdAddTask } from 'react-icons/md'
 import ObjectiveList from '@/components/ObjectiveList/objectiveList'
 import CreateObjective from '@/components/Modals/CeateObjective'
+import NotFound from '@/components/NotFound/NotFound'
+import { useRouter } from 'next/router'
 
 const Objectives = () => {
       const [show, setShow] = useState(false);
+      const [isOrgJoined, setIsOrgJoined] = useState(false);
+      const router = useRouter();
       return (
             <>
                   <Head>
@@ -20,18 +24,30 @@ const Objectives = () => {
                   </Head>
                   <main>
                         <DashboardLayout screen={"objectives"}>
-                              <div className={'d-flex align-items-center justify-content-between'} >
-                                    <CreateObjective show={show} setShow={(v)=>setShow(v)}  />
-                                    <div className={'d-flex link align-items-center'} >
-                                          {/* <MdAddTask /> */}
-                                          <CustomButton text={"Add Objective"}  className={'px-4'} nofilled onClick={()=>setShow(true)} />
-                                          {/* <p ></p> */}
-                                    </div>
-                                    <div>
-                                          <p>sort By</p>
-                                    </div>
-                              </div>
-                              <ObjectiveList />
+                              {
+                                    isOrgJoined &&
+                                    <>
+                                          <div className={'d-flex align-items-center justify-content-between'} >
+                                                <CreateObjective show={show} setShow={(v) => setShow(v)} />
+                                                <div className={'d-flex link align-items-center'} >
+                                                      {/* <MdAddTask /> */}
+                                                      <CustomButton text={"Add Objective"} className={'px-4'} nofilled onClick={() => setShow(true)} />
+                                                      {/* <p ></p> */}
+                                                </div>
+                                                <div>
+                                                      <p>sort By</p>
+                                                </div>
+                                          </div>
+                                          <ObjectiveList />
+                                    </> ||
+                                    <NotFound
+                                          title={"No Active Organization Found"}
+                                          desc={"You are not part of any organazation to access this featue. Ask your manager to invite you or create your own organization."}
+                                          btnText={"Create Organization"}
+                                          onClick={() => router.push('/organization')}
+                                    />
+                              }
+
                         </DashboardLayout>
                   </main>
             </>

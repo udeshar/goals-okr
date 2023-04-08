@@ -20,12 +20,12 @@ const Custom_dropdown = ({value, setValue, placeholder, className, title, requir
                                                   borderColor: state.isFocused ? "var(--accent)" : error ? 'var(--error)' : 'var(--border-color)',
                                                   borderWidth : '0.5px',
                                                   height: '50px',
-                                                  borderRadius : '30px',
                                                   padding : '0px 30px',
                                                   fontSize : 15,
                                                   outline : 'none',
                                                   color : 'var(--bs-body-color)',
                                                   boxShadow : 'none',
+                                                  borderRadius : '30px',
                                                   ...styleInside,
                                         }),
                                         valueContainer : (baseStyles, state) => ({

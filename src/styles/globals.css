@@ -121,6 +121,10 @@ input.hide-controls {
   justify-content: center;
   flex-wrap: wrap;
 }
+.flexalingcenter{
+    display: flex;
+    align-items: center;
+}
 .form-check label{
   font-weight: 500;
   font-size: 15px;
@@ -201,6 +205,9 @@ textarea:focus{
 .error{
   font-size: 14px;
   color: var(--red);
+}
+.noRoundedInput{
+  border-radius: 5px !important;
 }
 
 @media only screen and (max-width : 668px){
