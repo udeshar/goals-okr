@@ -10,11 +10,13 @@ import CreateObjective from '@/components/Modals/CeateObjective'
 import { getAllMyObjectives } from '@/services/api'
 import { useQuery } from 'react-query'
 import {toast} from 'react-toastify'
+import Loader from '@/components/Loader/Loader'
+import NotFound from '@/components/NotFound/NotFound'
 
 const MyObjectives = () => {
       const [show, setShow] = useState(false);
 
-      const { isLoading, isError, data, error, refetch } = useQuery('getAllMyObjective', () => getAllMyObjectives())
+      const { isLoading, isError, data=[], error, refetch } = useQuery('getAllMyObjective', () => getAllMyObjectives())
 
       if(data){
             console.log(data)
@@ -41,6 +43,19 @@ const MyObjectives = () => {
                                           <p>sort By</p>
                                     </div>
                               </div>
+                              {
+                                    isLoading && 
+                                    <Loader />
+                              }
+                              {
+                                    data.length == 0 && !isLoading &&
+                                    <NotFound 
+                                    title={"No Objectives found"} 
+                                    desc={"Click the button below to add your first objective"} 
+                                    btnText={"Add Objective"}
+                                    onClick={()=>setShow(true)}
+                                    />
+                              }
                               <ObjectiveList screen={"myObjectives"} data={data || []} cb={()=> refetch()} />
                         </DashboardLayout>
                   </main>

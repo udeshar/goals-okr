@@ -24,7 +24,7 @@ const options = [
      }
 ]
 
-const CreateObjective = ({ show, setShow, obj, edit, screen }) => {
+const CreateObjective = ({ show, setShow, obj, edit, screen, cb }) => {
      const [ojective, setObjective] = useState(obj?.objective?.title || '');
      const handleClose = () => setShow(false);
      // const callback = () => cb();
@@ -60,13 +60,14 @@ const CreateObjective = ({ show, setShow, obj, edit, screen }) => {
      useEffect(() => {
           if (data) {
                toast.success('Objective Successfully created')
+               // cb();
                handleClose();
           }
      }, [data])
 
      useEffect(() => {
           if(e_data){
-               toast.success('Objective Updated created')
+               toast.success('Objective Updated')
                handleClose();
           }
      }, [e_data])

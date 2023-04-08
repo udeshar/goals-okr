@@ -102,4 +102,36 @@ export async function updateMyObjectives(id, data){
 	return response.data;
 }
 
+// Key Results  Related Api calls
+
+export async function createKeyResult(data){
+	const token = getToken();
+	const response = await api.post('/keyResults/createKeyResult', data, {
+		headers : {
+			Authorization : `Bearer ${token}`
+		}
+	})
+	return response.data;
+}
+
+export async function deleteKeyResult(id){
+	const token = getToken();
+	const response = await api.delete('/keyResults/'+id, {
+		headers : {
+			Authorization : `Bearer ${token}`
+		}
+	})
+	return response.data;
+}
+
+export async function updateKeyResult(id, data){
+	const token = getToken();
+	const response = await api.patch('/keyResults/'+id, data ,{
+		headers : {
+			Authorization : `Bearer ${token}`
+		}
+	})
+	return response.data;
+}
+
 export default api

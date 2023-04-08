@@ -1,5 +1,6 @@
 .modalWrapper{
           min-height: 80vh;
+          position: relative;
 }
 .closeButton{
           top: 10px;
