@@ -34,20 +34,20 @@ const options = [
           },
      ]
 
-const CreateOrganization = ({ show, setShow, edit }) => {
+const CreateOrganization = ({ show, setShow, edit, onSubmit, loading, item }) => {
           const handleClose = () => setShow(false);
 
-          const [name, setName] = useState('');
+          const [name, setName] = useState(edit ? item?.organization?.name :'');
           const [nameError, setNameError] = useState('')
-          const [type, setType] = useState('');
+          const [type, setType] = useState(edit ? options.map((it)=> it.value == item?.organization?.type ) :'');
           const [typeError, setTypeError] = useState('')
-          const [city, setCity] = useState('');
+          const [city, setCity] = useState(edit ? item?.organization?.city :'');
           const [cityError, setCityError] = useState('')
-          const [state, setState] = useState('');
+          const [state, setState] = useState(edit ? item?.organization?.state :'');
           const [stateError, setStateError] = useState('')
-          const [country, setCountry] = useState('');
+          const [country, setCountry] = useState(edit ? item?.organization?.country :'');
           const [countryError, setCountryError] = useState('')
-          const [website, setWebsite] = useState('');
+          const [website, setWebsite] = useState(edit ? item?.organization?.website :'');
           const [websiteError, setWebsiteError] = useState('')
 
           const submitData = () => {
@@ -66,14 +66,21 @@ const CreateOrganization = ({ show, setShow, edit }) => {
                     }
                     if(!state){
                               error = true;
-                              setStateError('State cannot be empty');
+                              setStateError('State cannot be empty');s
                     }
                     if(!country){
                               error = true;
                               setCountryError('Country cannot be empty');
                     }
                     if(!error){
-                              console.log("Success")
+                         onSubmit({
+                              name,
+                              type : type?.value,
+                              city,
+                              state,
+                              country,
+                              website
+                         })
                     }
           }
 
@@ -173,7 +180,7 @@ const CreateOrganization = ({ show, setShow, edit }) => {
                               </div>
                               <Modal.Footer className={styles.footer} >
                                         <div>
-                                                  <CustomButton className="px-5" text={"Save Organization"} onClick={() => submitData()} loading={false} />
+                                                  <CustomButton className="px-5" text={"Save Organization"} onClick={() => submitData()} loading={loading} />
                                         </div>
                                         <div></div>
                               </Modal.Footer>

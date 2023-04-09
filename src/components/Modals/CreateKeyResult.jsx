@@ -23,7 +23,7 @@ const options = [
      }
 ]
 
-const CreateKeyResult = ({ show, setShow, kr, init, pr, tr, edit, screen, onClick, isLoading }) => {
+const CreateKeyResult = ({ show, setShow, kr, init, pr, tr, dt, edit, screen, onClick, isLoading }) => {
      const [keyResult, setKeyResult] = useState(kr || '');
      const [keyResultError, setKeyResultError] = useState('');
      const [initial, setInitial] = useState(edit ? init : '');
@@ -32,7 +32,8 @@ const CreateKeyResult = ({ show, setShow, kr, init, pr, tr, edit, screen, onClic
      const [progressError, setProgressError] = useState('');
      const [target, setTarget] = useState(edit ? tr : '');
      const [targetError, setTargetError] = useState('');
-     const [dateTime, setDateTime] = useState('');
+     const [dateTime, setDateTime] = useState(edit ? dt : '');
+     const [dateTimeError, setDateTimeError] = useState('');
      const handleClose = () => setShow(false);
 
      const submitData = ()=> {
@@ -49,13 +50,17 @@ const CreateKeyResult = ({ show, setShow, kr, init, pr, tr, edit, screen, onClic
           } if(target == 0){
                err = true;
                setTargetError('cannot be 0 or empty')
-          }
+          } if(dateTime == ''){
+               err = true;
+               setDateTimeError('Due Date is Required')
+          } 
           if(!err){
                onClick({
                     title : keyResult,
                     initialProgress : initial,
                     currentProgress : progress,
-                    totalProgress : target
+                    totalProgress : target,
+                    dueDate : new Date(dateTime).toISOString()
                })
           }
      }
@@ -131,8 +136,8 @@ const CreateKeyResult = ({ show, setShow, kr, init, pr, tr, edit, screen, onClic
                               <Custom_input 
                               type={"datetime-local"}  
                               title="Select Due Date" 
-                              error={''} 
-                              setError={()=>{}}
+                              error={dateTimeError} 
+                              setError={setDateTimeError}
                               required
                               customClassName={styles.lessBorder}
                               placeholder={"Date and time"} 

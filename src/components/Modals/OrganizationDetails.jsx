@@ -8,19 +8,56 @@ import { Row, Col } from 'react-bootstrap'
 import { BsFillBuildingsFill } from 'react-icons/bs'
 import Link from 'next/link'
 import CreateOrganization from './CreateOrganization'
+import { deleteOrganization, editOrganization, changeOrgStatus } from '@/services/api'
+import { useQuery } from 'react-query'
 
-const OrganizationDetails = ({ show, setShow }) => {
+const OrganizationDetails = ({ show, setShow, item, cb }) => {
           const handleClose = () => setShow(false);
           const [showEditModal, setShowEditModal] = useState(false);
+          const [editData, setEditData] = useState({});
+
+          const {data : deletedata, refetch : deleteRefetch, isLoading : deleteLoading} = useQuery('deleteOrganization', ()=>deleteOrganization(item?.id),{
+                    enabled : false,
+                    cacheTime : 0,
+                    onSuccess : ()=>{
+                              cb();
+                              handleClose()
+                    }
+          })
+
+          const {data : editdata, refetch : editRefetch, isLoading : editLoading} = useQuery('editOrganization', ()=>editOrganization(item?.id, editData),{
+                    enabled : false,
+                    cacheTime : 0,
+                    onSuccess : ()=>{
+                              cb();
+                              setShowEditModal()
+                    }
+          })
+
+          const {data : statusdata, refetch : statusRefetch, isLoading : statusLoading} = useQuery('updateOrgStatus', ()=>changeOrgStatus(item?.id),{
+                    enabled : false,
+                    cacheTime : 0,
+                    onSuccess : ()=>{
+                              cb();
+                              handleClose()
+                    }
+          })
+
+          useEffect(() => {
+            if(editData && editData?.name != undefined){
+                    editRefetch();
+            }
+          }, [editData])
+          
 
           return (
                     <ModalWrapper size={'lg'} show={show} setShow={setShow} >
-                              <CreateOrganization show={showEditModal} setShow={(e)=>setShowEditModal(e)} edit />
+                              <CreateOrganization show={showEditModal} setShow={(e)=>setShowEditModal(e)} edit item={item} onSubmit={(e)=>setEditData(e)} />
                               <div className={styles.closeButton} >
                                         <AiOutlineClose size={25} role={"button"} onClick={handleClose} />
                               </div>
                               <ModalBody className="px-2 px-md-4 py-4" >
-                                        <h4 className='mb-3' >Organization Name</h4>
+                                        <h4 className='mb-3' >{item?.organization?.name}</h4>
 
                                         <Row className="my-2" >
                                                   <Col lg={4} className="my-2" >
@@ -31,32 +68,32 @@ const OrganizationDetails = ({ show, setShow }) => {
                                                   <Col lg={8} className="my-2" >
                                                             <div className='infoBox' >
                                                                       <p>Type</p>
-                                                                      <p>Technology</p>
+                                                                      <p>{item?.organization?.type}</p>
                                                             </div>
                                                             <div className="d-flex mt-4">
                                                                       <div className='infoBox' >
                                                                                 <p>City</p>
-                                                                                <p>Taligao, Panaji</p>
+                                                                                <p>{item?.organization?.city}</p>
                                                                       </div>
                                                                       <div className='infoBox' >
                                                                                 <p>State</p>
-                                                                                <p>Goa</p>
+                                                                                <p>{item?.organization?.state}</p>
                                                                       </div>
                                                                       <div className='infoBox' >
                                                                                 <p>Country</p>
-                                                                                <p>India</p>
+                                                                                <p>{item?.organization?.country}</p>
                                                                       </div>
                                                             </div>
                                                             <div className='infoBox mt-4' >
-                                                                      <p>Type</p>
-                                                                      <p>Technology</p>
+                                                                      <p>website</p>
+                                                                      <p>{item?.organization?.website || '-'}</p>
                                                             </div>
                                                             <div className="d-flex mt-4" >
-                                                                      <CustomButton text={"Edit"} className={"noRoundedInput w-25 me-2"} onClick={() => setShowEditModal(true)} loading={false} nofilled />
-                                                                      <CustomButton text={"Delete"} className={"noRoundedInput w-25"} onClick={() => {}} loading={false} nofilled />
+                                                                      <CustomButton text={"Edit"} className={"noRoundedInput w-25 me-2"} onClick={(e) => setShowEditModal(true)} loading={editLoading} nofilled />
+                                                                      <CustomButton text={"Delete"} className={"noRoundedInput w-25"} onClick={() => deleteRefetch()} loading={deleteLoading} nofilled />
                                                             </div>
                                                             <div className="d-flex mt-4"><p>To Invite or manage people </p><Link  href="/people" >Click Here</Link></div>
-                                                            <CustomButton className="mt-4 px-5" text={"Set As Active"} onClick={() => {}} loading={false} />
+                                                            <CustomButton className="mt-4 px-5" text={"Set As Active"} onClick={() => statusRefetch()} loading={statusLoading} />
                                                   </Col>
                                         </Row>
 

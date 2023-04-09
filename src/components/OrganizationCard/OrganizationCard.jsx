@@ -4,12 +4,12 @@ import Image from 'next/image'
 import { BsFillBuildingsFill } from 'react-icons/bs'
 import OrganizationDetails from '../Modals/OrganizationDetails'
 
-const OrganizationCard = () => {
+const OrganizationCard = ({item, cb}) => {
           const [show, setShow] = useState(false);
           return (
                     <>
-                              <OrganizationDetails show={show} setShow={setShow} />
-                              <OrganizationCardWrapper onClick={() => setShow(true)} role="button" >
+                              <OrganizationDetails show={show} setShow={setShow} item={item} cb={cb} />
+                              <OrganizationCardWrapper onClick={() => setShow(true)} role="button" className={item?.status ? 'activeOrg' : ''}  >
                                         <div className="flexalingcenter half2" >
                                                   <div className="me-4" >
                                                             <div className='orgIconWrap' >
@@ -17,7 +17,7 @@ const OrganizationCard = () => {
                                                             </div>
                                                   </div>
                                                   <div >
-                                                            <h5 className="orgName">Organization Name</h5>
+                                                            <h5 className="orgName">{item?.organization?.name}</h5>
                                                             <div className="d-flex"><p className='members me-1' >Number of members </p><b>30</b></div>
                                                   </div>
                                         </div>
@@ -52,6 +52,10 @@ const OrganizationCardWrapper = styled.div`
           background-color : var(--background-color);
           padding : 10px;
           margin : 20px 0px;
+
+          &.activeOrg{
+                    border : 1px solid var(--green);
+          }
 
           .orgName{
                     font-family : var(--poppins);

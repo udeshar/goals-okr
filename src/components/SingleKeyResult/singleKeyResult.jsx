@@ -7,6 +7,7 @@ import { ContextMenu, MenuItem, ContextMenuTrigger } from "react-contextmenu";
 import CreateKeyResult from '../Modals/CreateKeyResult';
 import { useQuery } from 'react-query'
 import { deleteKeyResult, updateKeyResult } from '@/services/api'
+import moment from 'moment'
 
 const SingleKeyResult = ({ item, index, key, screen, cb }) => {
           // const [initial, setInitial] = useState(item?.initialProgress);
@@ -49,6 +50,7 @@ const SingleKeyResult = ({ item, index, key, screen, cb }) => {
                                         init={item?.initialProgress}
                                         pr={item?.currentProgress}
                                         tr={item?.totalProgress}
+                                        dt={moment(item?.dueDate).format('YYYY-MM-DDThh:mm')}
                                         screen={screen}
                                         isLoading = {isLoading}
                                         onClick={(e)=>{
@@ -61,7 +63,7 @@ const SingleKeyResult = ({ item, index, key, screen, cb }) => {
                                         <div className={styles.rightSection + " d-flex align-items-center"} >
                                                   <div className={styles.duedata + " me-4 d-none d-lg-flex"} style={{backgroundColor : 'var(--green)'}}  >
                                                             <BiTimeFive className="me-1" size={16} />
-                                                            <p>12/10/2022</p>
+                                                            <p>{moment(item?.dueDate).format('DD/MM/YYYY h:mm:ss a')}</p>
                                                   </div>
                                                   {
                                                             screen != 'myObjectives' &&
