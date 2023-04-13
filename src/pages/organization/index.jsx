@@ -9,12 +9,14 @@ import OrganizationCard from '@/components/OrganizationCard/OrganizationCard'
 import { useQuery } from 'react-query'
 import { getOrganization, createOrganization } from '@/services/api'
 import Loader from '@/components/Loader/Loader'
+import useBoundStore from '@/store';
 
 const Organization = () => {
 
       const [show, setShow] = useState(false);
       const [orgData, setOrgData] = useState({})
 
+      const setActiveOrganization = useBoundStore((state) => state.setActiveOrganization)
 
       const { data = [], isLoading, refetch : getOrgRefetch } = useQuery('getOrganization', () => getOrganization());
       const { isLoading : createLoading, refetch } = useQuery('createOrganization', () => createOrganization(orgData),{
@@ -31,6 +33,12 @@ const Organization = () => {
             refetch()
         }
       }, [orgData])
+
+      useEffect(() => {
+            if(data && data?.length > 0){
+                  setActiveOrganization(data.filter((item)=>item.status)[0])
+            }
+      }, [data])
       
 
       return (

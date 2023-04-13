@@ -170,6 +170,7 @@ input.hide-controls {
 .modal-content{
   color : var(--bs-body-color);
   background-color : var(--below-background-color);
+  border: 1px solid var(--border-color);
 }
 
 .modal{

@@ -8,11 +8,12 @@ import { MdAddTask } from 'react-icons/md'
 import ObjectiveList from '@/components/ObjectiveList/objectiveList'
 import CreateObjective from '@/components/Modals/CeateObjective'
 import NotFound from '@/components/NotFound/NotFound'
+import useBoundStore from '@/store';
 import { useRouter } from 'next/router'
 
 const Objectives = () => {
       const [show, setShow] = useState(false);
-      const [isOrgJoined, setIsOrgJoined] = useState(false);
+      const activeOrganization = useBoundStore((state) => state.activeOrganization)
       const router = useRouter();
       return (
             <>
@@ -25,7 +26,7 @@ const Objectives = () => {
                   <main>
                         <DashboardLayout screen={"objectives"}>
                               {
-                                    isOrgJoined &&
+                                    Object.keys(activeOrganization).length > 0 &&
                                     <>
                                           <div className={'d-flex align-items-center justify-content-between'} >
                                                 <CreateObjective show={show} setShow={(v) => setShow(v)} />

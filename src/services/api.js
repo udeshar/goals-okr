@@ -186,4 +186,35 @@ export async function changeOrgStatus(id){
 	return response.data;
 }
 
+export async function getPeople(id){
+	const token = getToken();
+	const response = await api.get('/organization/getPeople/'+id , {
+		headers : {
+			Authorization : `Bearer ${token}`
+		}
+	})
+	return response.data;
+}
+
+// Invite related api calls
+export async function invitePeople(data){
+	const token = getToken();
+	const response = await api.post('/invite' ,data, {
+		headers : {
+			Authorization : `Bearer ${token}`
+		}
+	})
+	return response.data;
+}
+
+export async function getInvitedPeople(orgid){
+	const token = getToken();
+	const response = await api.get('/invite/'+orgid , {
+		headers : {
+			Authorization : `Bearer ${token}`
+		}
+	})
+	return response.data;
+}
+
 export default api

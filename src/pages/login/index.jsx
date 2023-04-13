@@ -7,7 +7,7 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import CustomButton from '@/components/CustomButton/customButton'
 import { useQuery } from 'react-query'
-import { signin, googleSignin } from '@/services/api'
+import { signin, googleSignin, getOrganization } from '@/services/api'
 import { useRouter } from 'next/router'
 import useBoundStore from '@/store';
 import SocialLogin from '@/components/GoogleButton/social-login'
@@ -24,29 +24,53 @@ export function HrWithText({ text, className }) {
 export default function Login() {
 
 	const setUserInfo = useBoundStore((state) => state.setUserInfo)
+	const setActiveOrganization = useBoundStore((state) => state.setActiveOrganization)
 	const router = useRouter();
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [emailError, setEmailError] = useState('');
 	const [passwordError, setPasswordError] = useState('');
-	const [token , setToken] = useState('');
+	const [token, setToken] = useState('');
 
 	const { isLoading, isError, data, error, refetch } = useQuery('signin', () => signin({ email, password }), {
 		enabled: false,
-		cacheTime: 0
+		cacheTime: 0,
+		onSuccess : (data) => {
+			console.log(data)
+			setUserInfo(data)
+			Cookies.set('accessToken', data?.accessToken)
+			getOrgRefetch();
+		}
 	})
 
-	const { isLoading : g_isLoading, isError : g_isError, data : g_data, error : g_error, refetch : g_refetch } = useQuery('googlesignup', () => googleSignin({token }),{
-		enabled : false,
-		cacheTime : 0
+	const { isLoading: g_isLoading, isError: g_isError, data: g_data, error: g_error, refetch: g_refetch } = useQuery('googlesignup', () => googleSignin({ token }), {
+		enabled: false,
+		cacheTime: 0,
+		onSuccess : (g_data) => {
+			console.log(g_data)
+			setUserInfo(g_data)
+			Cookies.set('accessToken', g_data?.accessToken)
+			getOrgRefetch();
+		}
 	})
 
-	if (data || g_data) {
-		console.log(data || g_data)
-		setUserInfo(data || g_data)
-		Cookies.set('accessToken', data?.accessToken || g_data?.accessToken )
-		router.push('/')
-	}
+	const { data: orgData = [], isLoading: orgLoading, refetch: getOrgRefetch } = useQuery('getOrganization', () => getOrganization(), {
+		enabled: false,
+		onSuccess: (data) => {
+			if (data?.length > 0) {
+				console.log("This is running")
+				setActiveOrganization(data.filter((item) => item.status)[0] || {})
+			}
+			router.push('/')
+		}
+	});
+
+	// if (data || g_data) {
+	// 	console.log(data || g_data)
+	// 	setUserInfo(data || g_data)
+	// 	Cookies.set('accessToken', data?.accessToken || g_data?.accessToken)
+	// 	getOrgRefetch();
+	// }
 	if (error?.response?.data?.message == 'email not verified') {
 		router.push({
 			pathname: '/confirm-otp',
@@ -55,7 +79,7 @@ export default function Login() {
 	}
 
 	useEffect(() => {
-		if(token){
+		if (token) {
 			g_refetch()
 		}
 	}, [token])
@@ -88,12 +112,12 @@ export default function Login() {
 							<h1>Login</h1>
 							<p>See your growth and get consulting support</p>
 							{/* <Google_button className={'allcenter mt-5'} /> */}
-							<SocialLogin 
-							text={'signin_with'}
-							className={'mt-4 pt-2'}  onSuccess={(tok)=>{
-								console.log(tok)
-								setToken(tok?.credential)
-							}} />
+							<SocialLogin
+								text={'signin_with'}
+								className={'mt-4 pt-2'} onSuccess={(tok) => {
+									console.log(tok)
+									setToken(tok?.credential)
+								}} />
 							<HrWithText className={'my-5'} text={"or sign in with email"} />
 							<Custom_input id="email" required type={'email'} placeholder={'Email'} value={email} setValue={setEmail} className={'mb-3'} title={'Email'} error={emailError} setError={setEmailError} />
 							<Custom_input id="password" required type={'password'} placeholder={'Password'} value={password} setValue={setPassword} className={'mb-3'} title={'Password'} error={passwordError} setError={setPasswordError} />
@@ -102,7 +126,7 @@ export default function Login() {
 								<Link className="link" href="/forgot-password">Forgot password?</Link>
 							</div>
 							{
-								(isError || g_isError ) && <p className="text-center my-3 text-danger" >{error?.response?.data?.message || g_error?.response?.data?.message}</p>
+								(isError || g_isError) && <p className="text-center my-3 text-danger" >{error?.response?.data?.message || g_error?.response?.data?.message}</p>
 							}
 							<CustomButton text={"Login"} onClick={() => submitForm()} className={"my-4"} loading={isLoading || g_isLoading} />
 							<p className={styles.createAccount} >Not Registered Yet? <Link className="link" href="/signup">Create An Account Here</Link></p>

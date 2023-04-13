@@ -1,10 +1,16 @@
 import { persist } from 'zustand/middleware'
+import { setInLocalStorage, getFromLocalStorage } from './appStore'
 
 export const useUserStore = ((set)=>({
 
-                    userInfo : {},
+                    userInfo : getFromLocalStorage('userInfo') || {},
                     // Functions
-                    setUserInfo: (data) => set(()=>({ userInfo: data})),
+                    setUserInfo: (data) => { 
+                              return set((state)=>{ 
+                                        setInLocalStorage('userInfo' , data)
+                                        return { userInfo: data }
+                              })
+                    }
           })
 )
 
