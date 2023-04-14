@@ -70,7 +70,7 @@ const SingleTr = ({ item, index, orgid, cb, roles }) => {
                               {item?.role != "Owner" && roles == "Owner" &&
                                         <td><IconButton Icon={MdDelete} onClick={() => deleteRefetch()} className={"redBtn"} /></td>
                               }
-                              {item?.role == "Owner" && <td> - </td> }
+                              {item?.role == "Owner" && roles == "Owner" && <td> - </td> }
                     </tr>
           )
 }
@@ -81,9 +81,12 @@ const PeoplesTable = ({ peoples, cb, invitedPeople, role, orgid }) => {
           return (
                     <PeopleWrapper className="mt-2" >
                               <InvitePeopleModal show={show} setShow={setShow} cb={cb} />
-                              <div className="d-flex top-heading justify-content-between">
-                                        <p className={styles.heading}>List of people working in your organization</p>
-                                        <CustomButton className={"cb px-5"} text={"Invite People"} nofilled onClick={() => setShow(true)} />
+                              <div className="d-flex top-heading justify-content-between align-items-center">
+                                        <p className={styles.heading}>People in organization</p>
+                                        {
+                                                  role == "Owner" &&
+                                                  <CustomButton className={"cb px-5"} text={"Invite People"} nofilled onClick={() => setShow(true)} />
+                                        }
                               </div>
                               <div style={{ overflow: 'auto' }} >
                                         <table className={clsx(styles.tableWrapper, 'mt-3')} >
