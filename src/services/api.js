@@ -156,9 +156,29 @@ export async function createOrganization(data){
 	return response.data;
 }
 
-export async function deleteOrganization(id){
+export async function leaveOrganization(id){
 	const token = getToken();
 	const response = await api.delete('/organization/'+id ,{
+		headers : {
+			Authorization : `Bearer ${token}`
+		}
+	})
+	return response.data;
+}
+
+export async function deleteUser(id, data){
+	const token = getToken();
+	const response = await api.delete('/organization/deleteUser/'+id, data ,{
+		headers : {
+			Authorization : `Bearer ${token}`
+		}
+	})
+	return response.data;
+}
+
+export async function deleteOrganization(id){
+	const token = getToken();
+	const response = await api.delete('/organization/delete/'+id ,{
 		headers : {
 			Authorization : `Bearer ${token}`
 		}

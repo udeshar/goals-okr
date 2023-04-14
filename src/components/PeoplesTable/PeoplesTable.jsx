@@ -9,14 +9,24 @@ import CustomButton from '../CustomButton/customButton';
 import moment from 'moment';
 import styled from '@emotion/styled';
 import InvitePeopleModal from '../Modals/InvitePeopleModal';
-import { changeRole } from '@/services/api';
+import { changeRole, deleteUser } from '@/services/api';
 import { useQuery } from 'react-query';
 
 const SingleTr = ({ item, index, orgid, cb, roles }) => {
 
           const [role, setRole] = useState('');
 
+          console.log(orgid)
+
           const { data: roleData, isLoading: roleLoading, refetch: roleRefetch } = useQuery('changeRole', () => changeRole(item?.id, { role, orgid }), {
+                    enabled: false,
+                    cacheTime: 0,
+                    onSuccess: () => {
+                              cb()
+                    }
+          })
+
+          const { data: deleteData, isLoading: deleteLoading, refetch: deleteRefetch } = useQuery('deleteUser', () => deleteUser(item?.user?.id, { orgid }), {
                     enabled: false,
                     cacheTime: 0,
                     onSuccess: () => {
@@ -35,10 +45,10 @@ const SingleTr = ({ item, index, orgid, cb, roles }) => {
                     <tr className={styles.tbodyTrWrapper}>
                               <td>{item?.user?.firstName} {item?.user?.lastName}</td>
                               <td>{moment(item?.createdAt).format('DD/MM/YYYY')}</td>
-                              <td>Marketing</td>
+                              <td>{item?.user?.email}</td>
                               <td>{item?.role}
                                         {
-                                                  roles == "Owner" &&
+                                                  item?.role != "Owner" && roles == "Owner" &&
                                                   <>
                                                             <ContextMenuTrigger id={"role" + index} mouseButton={0}>
                                                                       {/* id should be unique */}
@@ -57,9 +67,10 @@ const SingleTr = ({ item, index, orgid, cb, roles }) => {
 
                                         }
                               </td>
-                              {roles == "Owner" &&
-                                        <td><IconButton Icon={MdDelete} onClick={() => { }} className={"redBtn"} /></td>
+                              {item?.role != "Owner" && roles == "Owner" &&
+                                        <td><IconButton Icon={MdDelete} onClick={() => deleteRefetch()} className={"redBtn"} /></td>
                               }
+                              {item?.role == "Owner" && <td> - </td> }
                     </tr>
           )
 }
@@ -80,7 +91,7 @@ const PeoplesTable = ({ peoples, cb, invitedPeople, role, orgid }) => {
                                                             <tr className={styles.theadTrWrapper}>
                                                                       <th>Name</th>
                                                                       <th>Date of join</th>
-                                                                      <th>Team</th>
+                                                                      <th>Email</th>
                                                                       <th>Role</th>
                                                                       {
                                                                                 role == "Owner" &&

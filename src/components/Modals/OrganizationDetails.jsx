@@ -8,7 +8,7 @@ import { Row, Col } from 'react-bootstrap'
 import { BsFillBuildingsFill } from 'react-icons/bs'
 import Link from 'next/link'
 import CreateOrganization from './CreateOrganization'
-import { deleteOrganization, editOrganization, changeOrgStatus } from '@/services/api'
+import { leaveOrganization, editOrganization, changeOrgStatus, deleteOrganization } from '@/services/api'
 import { useQuery } from 'react-query'
 
 const OrganizationDetails = ({ show, setShow, item, cb }) => {
@@ -16,7 +16,16 @@ const OrganizationDetails = ({ show, setShow, item, cb }) => {
       const [showEditModal, setShowEditModal] = useState(false);
       const [editData, setEditData] = useState({});
 
-      const { data: deletedata, refetch: deleteRefetch, isLoading: deleteLoading } = useQuery('deleteOrganization', () => deleteOrganization(item?.id), {
+      const { data: leavedata, refetch: leaveRefetch, isLoading: leaveLoading } = useQuery('leaveOrganization', () => leaveOrganization(item?.id), {
+            enabled: false,
+            cacheTime: 0,
+            onSuccess: () => {
+                  cb();
+                  handleClose()
+            }
+      })
+
+      const { data: deletedata, refetch: deleteRefetch, isLoading: deleteLoading } = useQuery('deleteOrganization', () => deleteOrganization(item?.organization?.id), {
             enabled: false,
             cacheTime: 0,
             onSuccess: () => {
@@ -94,7 +103,7 @@ const OrganizationDetails = ({ show, setShow, item, cb }) => {
                                                 <>
                                                       <CustomButton text={"Edit"} className={"noRoundedInput w-25 me-2"} onClick={(e) => setShowEditModal(true)} loading={editLoading} nofilled />
                                                       <CustomButton text={"Delete"} className={"noRoundedInput w-25"} onClick={() => deleteRefetch()} loading={deleteLoading} nofilled />
-                                                </> || <CustomButton text={"Leave"} className={"noRoundedInput w-25"} onClick={() => deleteRefetch()} loading={deleteLoading} nofilled />
+                                                </> || <CustomButton text={"Leave"} className={"noRoundedInput w-25"} onClick={() => leaveRefetch()} loading={leaveLoading} nofilled />
                                           }
 
                                     </div>

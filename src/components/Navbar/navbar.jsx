@@ -23,6 +23,8 @@ const Navbar = ({ screen }) => {
       useEffect(() => {
             if (activeOrganization && Object.keys(activeOrganization).length > 0) {
                   setActOrg(activeOrganization)
+            } else{
+                  setActOrg({});
             }
       }, [activeOrganization])
 
