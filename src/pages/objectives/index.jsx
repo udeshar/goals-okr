@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Head from 'next/head'
 import DashboardLayout from '@/layout/DashboardLayout'
 import styles from '@/styles/Objectives.module.css'
@@ -14,6 +14,14 @@ import { useRouter } from 'next/router'
 const Objectives = () => {
       const [show, setShow] = useState(false);
       const activeOrganization = useBoundStore((state) => state.activeOrganization)
+      const [actOrg, setActOrg] = useState(false);
+
+      useEffect(() => {
+            if(activeOrganization && Object.keys(activeOrganization).length > 0){
+                  setActOrg(activeOrganization)
+            }
+      }, [activeOrganization])
+
       const router = useRouter();
       return (
             <>
@@ -26,7 +34,7 @@ const Objectives = () => {
                   <main>
                         <DashboardLayout screen={"objectives"}>
                               {
-                                    Object.keys(activeOrganization).length > 0 &&
+                                    actOrg && Object.keys(actOrg).length > 0 &&
                                     <>
                                           <div className={'d-flex align-items-center justify-content-between'} >
                                                 <CreateObjective show={show} setShow={(v) => setShow(v)} />

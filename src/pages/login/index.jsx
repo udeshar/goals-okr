@@ -7,7 +7,7 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import CustomButton from '@/components/CustomButton/customButton'
 import { useQuery } from 'react-query'
-import { signin, googleSignin, getOrganization } from '@/services/api'
+import { signin, googleSignin, getOrganization, getMyInvites } from '@/services/api'
 import { useRouter } from 'next/router'
 import useBoundStore from '@/store';
 import SocialLogin from '@/components/GoogleButton/social-login'
@@ -25,6 +25,8 @@ export default function Login() {
 
 	const setUserInfo = useBoundStore((state) => state.setUserInfo)
 	const setActiveOrganization = useBoundStore((state) => state.setActiveOrganization)
+	const setMyInvites = useBoundStore((state) => state.setMyInvites)
+
 	const router = useRouter();
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
@@ -36,7 +38,6 @@ export default function Login() {
 		enabled: false,
 		cacheTime: 0,
 		onSuccess : (data) => {
-			console.log(data)
 			setUserInfo(data)
 			Cookies.set('accessToken', data?.accessToken)
 			getOrgRefetch();
@@ -47,7 +48,6 @@ export default function Login() {
 		enabled: false,
 		cacheTime: 0,
 		onSuccess : (g_data) => {
-			console.log(g_data)
 			setUserInfo(g_data)
 			Cookies.set('accessToken', g_data?.accessToken)
 			getOrgRefetch();
@@ -56,21 +56,22 @@ export default function Login() {
 
 	const { data: orgData = [], isLoading: orgLoading, refetch: getOrgRefetch } = useQuery('getOrganization', () => getOrganization(), {
 		enabled: false,
-		onSuccess: (data) => {
+		onSuccess: (data=[]) => {
 			if (data?.length > 0) {
-				console.log("This is running")
 				setActiveOrganization(data.filter((item) => item.status)[0] || {})
 			}
+			getInviteRefetch()
+		}
+	});
+
+	const { data: inviteData = [], isLoading: inviteLoading, refetch: getInviteRefetch } = useQuery('getMyInvites', () => getMyInvites(), {
+		enabled: false,
+		onSuccess: (data=[]) => {
+			setMyInvites(data)
 			router.push('/')
 		}
 	});
 
-	// if (data || g_data) {
-	// 	console.log(data || g_data)
-	// 	setUserInfo(data || g_data)
-	// 	Cookies.set('accessToken', data?.accessToken || g_data?.accessToken)
-	// 	getOrgRefetch();
-	// }
 	if (error?.response?.data?.message == 'email not verified') {
 		router.push({
 			pathname: '/confirm-otp',

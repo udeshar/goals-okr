@@ -196,6 +196,16 @@ export async function getPeople(id){
 	return response.data;
 }
 
+export async function changeRole(id, data){
+	const token = getToken();
+	const response = await api.post('/organization/changeRole/' + id , data, {
+		headers : {
+			Authorization : `Bearer ${token}`
+		}
+	})
+	return response.data;
+}
+
 // Invite related api calls
 export async function invitePeople(data){
 	const token = getToken();
@@ -210,6 +220,36 @@ export async function invitePeople(data){
 export async function getInvitedPeople(orgid){
 	const token = getToken();
 	const response = await api.get('/invite/'+orgid , {
+		headers : {
+			Authorization : `Bearer ${token}`
+		}
+	})
+	return response.data;
+}
+
+export async function getMyInvites(){
+	const token = getToken();
+	const response = await api.get('/invite' , {
+		headers : {
+			Authorization : `Bearer ${token}`
+		}
+	})
+	return response.data;
+}
+
+export async function acceptInvitations(data){
+	const token = getToken();
+	const response = await api.post('/invite/acceptInvitation' , data, {
+		headers : {
+			Authorization : `Bearer ${token}`
+		}
+	})
+	return response.data;
+}
+
+export async function rejectInvitations(data){
+	const token = getToken();
+	const response = await api.post('/invite/rejectInvitation' , data, {
 		headers : {
 			Authorization : `Bearer ${token}`
 		}
