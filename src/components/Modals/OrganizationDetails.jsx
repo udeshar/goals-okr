@@ -43,7 +43,7 @@ const OrganizationDetails = ({ show, setShow, item, cb }) => {
             }
       })
 
-      const { data: statusdata, refetch: statusRefetch, isLoading: statusLoading } = useQuery('updateOrgStatus', () => changeOrgStatus(item?.id), {
+      const { data: statusdata, refetch: statusRefetch, isLoading: statusLoading } = useQuery('updateOrgStatus', () => changeOrgStatus(item?.id, {status : !item?.status}), {
             enabled: false,
             cacheTime: 0,
             onSuccess: () => {

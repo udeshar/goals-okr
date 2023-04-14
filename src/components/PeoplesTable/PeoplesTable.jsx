@@ -18,7 +18,7 @@ const SingleTr = ({ item, index, orgid, cb, roles }) => {
 
           console.log(orgid)
 
-          const { data: roleData, isLoading: roleLoading, refetch: roleRefetch } = useQuery('changeRole', () => changeRole(item?.id, { role, orgid }), {
+          const { data: roleData, isLoading: roleLoading, refetch: roleRefetch } = useQuery('changeRole', () => changeRole(item?.user?.id, { role, orgid }), {
                     enabled: false,
                     cacheTime: 0,
                     onSuccess: () => {
@@ -26,7 +26,7 @@ const SingleTr = ({ item, index, orgid, cb, roles }) => {
                     }
           })
 
-          const { data: deleteData, isLoading: deleteLoading, refetch: deleteRefetch } = useQuery('deleteUser', () => deleteUser(item?.user?.id, { orgid }), {
+          const { data: deleteData, isLoading: deleteLoading, refetch: deleteRefetch } = useQuery('deleteUser', () => deleteUser( orgid, { id : item?.user?.id }), {
                     enabled: false,
                     cacheTime: 0,
                     onSuccess: () => {

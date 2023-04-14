@@ -196,9 +196,9 @@ export async function editOrganization(id, data){
 	return response.data;
 }
 
-export async function changeOrgStatus(id){
+export async function changeOrgStatus(id, data){
 	const token = getToken();
-	const response = await api.patch('/organization/updateOrgStatus/'+id , {}, {
+	const response = await api.patch('/organization/updateOrgStatus/'+id , data, {
 		headers : {
 			Authorization : `Bearer ${token}`
 		}

@@ -37,6 +37,8 @@ const Organization = () => {
       useEffect(() => {
             if(data && data?.length > 0){
                   setActiveOrganization(data.filter((item)=>item.status)[0])
+            } else{
+                  setActiveOrganization({})
             }
       }, [data])
       
