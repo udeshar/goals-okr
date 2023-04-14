@@ -26,7 +26,7 @@ const SingleTr = ({ item, index, orgid, cb, roles }) => {
                     }
           })
 
-          const { data: deleteData, isLoading: deleteLoading, refetch: deleteRefetch } = useQuery('deleteUser', () => deleteUser( orgid, { id : item?.user?.id }), {
+          const { data: deleteData, isLoading: deleteLoading, refetch: deleteRefetch } = useQuery('deleteUser', () => deleteUser( orgid, item?.user?.id), {
                     enabled: false,
                     cacheTime: 0,
                     onSuccess: () => {

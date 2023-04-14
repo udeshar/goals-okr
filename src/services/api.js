@@ -166,9 +166,9 @@ export async function leaveOrganization(id){
 	return response.data;
 }
 
-export async function deleteUser(id, data){
+export async function deleteUser(orgid,userid){
 	const token = getToken();
-	const response = await api.delete('/organization/deleteUser/'+id, data ,{
+	const response = await api.delete('/organization/deleteUser/'+orgid+'?userid=' + userid, {
 		headers : {
 			Authorization : `Bearer ${token}`
 		}
