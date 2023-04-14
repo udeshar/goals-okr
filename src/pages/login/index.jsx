@@ -34,7 +34,7 @@ export default function Login() {
 	const [passwordError, setPasswordError] = useState('');
 	const [token, setToken] = useState('');
 
-	const { isLoading, isError, data, error, refetch } = useQuery('signin', () => signin({ email, password }), {
+	const { isLoading, isError, data, error, refetch } = useQuery('signin', () => signin({ email : email.toLowerCase(), password }), {
 		enabled: false,
 		cacheTime: 0,
 		onSuccess : (data) => {

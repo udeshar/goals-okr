@@ -34,7 +34,7 @@ export default function ProfileInfo() {
 	const { email } = router.query //type can be verifyEmail or forgotPassword
 
 	const { isLoading, isError, data, error, refetch } = useQuery('userInfo', () => userInfo({
-		email, 
+		email : email.toLowerCase(), 
 		firstName : fname,
 		lastName : lname,
 		gender : gender.value,

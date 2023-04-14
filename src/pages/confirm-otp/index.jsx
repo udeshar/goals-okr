@@ -16,7 +16,7 @@ export default function ConfirmOtp() {
 	const router = useRouter();
 	const { email, type, id } = router.query //type can be verifyEmail or forgotPassword
 
-	const { isLoading, isError, data, error, refetch } = useQuery('verifyOtp', () => verifyOtp({email, otp, id, type : 'verifyEmail'}),{
+	const { isLoading, isError, data, error, refetch } = useQuery('verifyOtp', () => verifyOtp({email : email.toLowerCase() , otp, id, type : 'verifyEmail'}),{
 		enabled : false,
 		cacheTime : 0
 	})

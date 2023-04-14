@@ -15,7 +15,7 @@ export default function ForgotPassword() {
 	const [emailError, setEmailError] = useState('');
           const router = useRouter();
 
-	const { isLoading, isError, data, error, refetch } = useQuery('forgotpassword', () => forgotPassword({email}),{
+	const { isLoading, isError, data, error, refetch } = useQuery('forgotpassword', () => forgotPassword({email : email.toLowerCase()}),{
 		enabled : false,
 		cacheTime : 0
 	})

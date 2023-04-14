@@ -17,7 +17,7 @@ const InvitePeopleModal = ({ show, setShow, cb }) => {
 
           const handleClose = () => setShow(false);
 
-          const {data, isLoading, refetch} = useQuery('invitePeople', ()=>invitePeople({email, orgid : activeOrganization.organization.id}),{
+          const {data, isLoading, isError, error,  refetch} = useQuery('invitePeople', ()=>invitePeople({email : email.toLowerCase(), orgid : activeOrganization.organization.id}),{
                     enabled : false,
                     cacheTime : 0,
                     onSuccess : ()=>{
@@ -34,12 +34,16 @@ const InvitePeopleModal = ({ show, setShow, cb }) => {
                     }
           }
 
+          if(isError){
+                    console.log(error)
+          }
+
           return (
                     <ModalWrapper size={'lg'} show={show} setShow={setShow} >
                               <div className={styles.closeButton} >
                                         <AiOutlineClose size={25} role={"button"} onClick={handleClose} />
                               </div>
-                              <div className="px-2 px-md-4 py-4" >
+                              <div className="px-2 px-md-4 py-4 pb-2" >
                                         <h5>Invite People</h5>
                                         <Custom_input
                                                   value={email}
@@ -52,6 +56,10 @@ const InvitePeopleModal = ({ show, setShow, cb }) => {
                                                   error={emailError}
                                                   type={"email"}
                                         />
+                                        {
+                                                  isError &&
+                                                  <p className="error mb-0 mt-2" >{error?.response?.data?.message}</p>
+                                        }
                               </div>
                               <Modal.Footer className={styles.footer} >
                                         <div>

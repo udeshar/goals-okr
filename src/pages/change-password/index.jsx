@@ -18,7 +18,7 @@ export default function ConfirmPassword() {
           const router = useRouter();
 	const { email, otp } = router.query;
 
-	const { isLoading, isError, data, error, refetch } = useQuery('changePassword', () => changePassword({email, otp, password}),{
+	const { isLoading, isError, data, error, refetch } = useQuery('changePassword', () => changePassword({email : email.toLowerCase(), otp, password}),{
 		enabled : false,
 		cacheTime : 0
 	})

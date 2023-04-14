@@ -26,7 +26,7 @@ export default function Signup() {
 	const [token , setToken] = useState('');
 	const router = useRouter();
 
-	const { isLoading, isError, data, error, refetch } = useQuery('signup', () => signup({email, password}),{
+	const { isLoading, isError, data, error, refetch } = useQuery('signup', () => signup({email : email.toLowerCase(), password}),{
 		enabled : false,
 		cacheTime : 0
 	})
