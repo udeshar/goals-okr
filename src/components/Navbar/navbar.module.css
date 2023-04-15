@@ -27,7 +27,7 @@
 .screen_name{
           font-family: var(--poppins);
           font-weight: 500;
-          font-size: 25px;
+          font-size: 20px;
           text-transform: capitalize;
 }
 .noti{
