@@ -58,9 +58,9 @@ const CreateKeyResult = ({ show, setShow, kr, init, pr, tr, dt, edit, screen, on
           if(!err){
                onClick({
                     title : keyResult,
-                    initialProgress : initial,
-                    currentProgress : progress,
-                    totalProgress : target,
+                    initialProgress : parseInt(initial),
+                    currentProgress : parseInt(progress),
+                    totalProgress : parseInt(target),
                     dueDate : new Date(dateTime).toISOString()
                })
           }
