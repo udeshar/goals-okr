@@ -319,4 +319,24 @@ export async function getTeams(orgid){
 	return response.data;
 }
 
+export async function getTeamByTeamId(teamid){
+	const token = getToken();
+	const response = await api.get('/team/' + teamid , {
+		headers : {
+			Authorization : `Bearer ${token}`
+		}
+	})
+	return response.data;
+}
+
+export async function addPeople(teamid, orgid, data){
+	const token = getToken();
+	const response = await api.post('/team/adduser/' + teamid + '?orgid=' + orgid , data, {
+		headers : {
+			Authorization : `Bearer ${token}`
+		}
+	})
+	return response.data;
+}
+
 export default api

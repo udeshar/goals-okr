@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import styled from '@emotion/styled'
+import Link from 'next/link';
 import { BsThreeDotsVertical } from 'react-icons/bs'
 import { ContextMenu, MenuItem, ContextMenuTrigger } from "react-contextmenu";
 import CreateTeam from '../Modals/CreateTeam';
@@ -45,7 +46,7 @@ const TeamCard = ({ item, index, orgid, cb, role }) => {
                               </div>
                               <div className="overlay" />
                               <div>
-                                        <p className="noof mt-1" role="button" >View Team  </p>
+                                        <Link href={"/teams/"+item?.id}  ><p className="noof mt-1" role="button" >View Team  </p></Link>
                               </div>
                     </TeamCardWrapper>
           )
@@ -80,6 +81,9 @@ const TeamCardWrapper = styled.div`
           .heading{
                     font-size : 15px;
                     color : #fff;
+          }
+          a{
+                    text-decoration : none;
           }
           .noof{
                     font-size : 13px; 
