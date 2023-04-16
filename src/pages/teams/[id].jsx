@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Head from 'next/head'
 import DashboardLayout from '@/layout/DashboardLayout'
 import { useQuery } from 'react-query'
-import { getTeamByTeamId, deletePeople } from '@/services/api'
+import { getTeamByTeamId, deletePeople, getAvailablePeople } from '@/services/api'
 import { useRouter } from 'next/router';
 import Loader from '@/components/Loader/Loader'
 import styled from '@emotion/styled'
@@ -19,17 +19,33 @@ const TeamInfo = () => {
           const [actOrg, setActOrg] = useState(false);
           const [show, setShow] = useState(false);
           const [userid, setUserid] = useState('');
+          const [options, setOptions] = useState([]);
 
-          const { isLoading, data, refetch } = useQuery('team' + id, () => getTeamByTeamId(id),{
-                    onSuccess : ()=>{
+          const { data: people = [], isLoading: peopleLoading, refetch: peopleRefetch } = useQuery('getAvailablePeople', () => getAvailablePeople(actOrg?.organization?.id), {
+                    enabled: false,
+                    onSuccess: (data) => {
+                              console.log(data)
+                              const opt = data.map((item, index) => {
+                                        return {
+                                                  label: `${item?.user?.id} ${item?.user?.firstName} ${item?.user?.lastName}`,
+                                                  value: item?.user?.id
+                                        }
+                              })
+                              setOptions(opt)
+                    }
+          })
+
+          const { isLoading, data, refetch } = useQuery('team' + id, () => getTeamByTeamId(id), {
+                    onSuccess: () => {
                               setShow(false)
                     }
           })
 
-          const { isLoading : deleteLoading, refetch : deleteRefetch } = useQuery('deletePeople', () => deletePeople(id, actOrg?.organization?.id, userid),{
-                    enabled : false,
-                    onSuccess : ()=>{
+          const { isLoading: deleteLoading, refetch: deleteRefetch } = useQuery('deletePeople', () => deletePeople(id, actOrg?.organization?.id, userid), {
+                    enabled: false,
+                    onSuccess: () => {
                               refetch()
+                              peopleRefetch()
                     }
           })
 
@@ -42,6 +58,7 @@ const TeamInfo = () => {
           useEffect(() => {
                     if (actOrg && Object.keys(actOrg).length > 0) {
                               refetch();
+                              peopleRefetch();
                     }
           }, [actOrg])
 
@@ -61,7 +78,7 @@ const TeamInfo = () => {
                               </Head>
                               <main>
                                         <DashboardLayout screen={"teams"}>
-                                                  <AddPeople show={show} setShow={setShow} cb={()=> refetch()} orgid={actOrg?.organization?.id} teamid={id} />
+                                                  <AddPeople show={show} setShow={setShow} cb={() => refetch()} orgid={actOrg?.organization?.id} teamid={id} options={options} />
                                                   {
                                                             isLoading &&
                                                             <Loader />
@@ -108,7 +125,7 @@ const TeamInfo = () => {
                                                                                                                                   <td>{item?.user?.lastName}</td>
                                                                                                                                   <td>{item?.user?.email}</td>
                                                                                                                                   <td>
-                                                                                                                                            <p onClick={()=>setUserid(item?.user?.id)} className="error" role="button" >Delete</p>
+                                                                                                                                            <p onClick={() => setUserid(item?.user?.id)} className="error" role="button" >Delete</p>
                                                                                                                                   </td>
                                                                                                                         </tr>
                                                                                                               ))

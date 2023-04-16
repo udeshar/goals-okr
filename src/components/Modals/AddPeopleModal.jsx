@@ -10,11 +10,11 @@ import { Row, Col } from 'react-bootstrap'
 import { getAvailablePeople, addPeople, getPeople } from '@/services/api'
 import { useQuery } from 'react-query'
 
-const AddPeople = ({ show, setShow, edit, orgid, cb, item, teamid }) => {
+const AddPeople = ({ show, setShow, edit, orgid, cb, item, teamid, options }) => {
 
      const [name, setName] = useState(edit ? item?.name : '');
      const [nameError, setNameError] = useState('');
-     const [options, setOptions] = useState([]);
+     // const [options, setOptions] = useState([]);
 
      const handleClose = () => setShow(false);
 
@@ -40,25 +40,25 @@ const AddPeople = ({ show, setShow, edit, orgid, cb, item, teamid }) => {
      //      }
      // })
 
-     const { data = [], isLoading, refetch } = useQuery('getAvailablePeople', () => getAvailablePeople(orgid), {
-          enabled: false,
-          onSuccess: (data) => {
-               console.log(data)
-               const opt = data.map((item, index) => {
-                    return {
-                         label: `${item?.user?.id} ${item?.user?.firstName} ${item?.user?.lastName}`,
-                         value: item?.user?.id
-                    }
-               })
-               setOptions(opt)
-          }
-     })
+     // const { data = [], isLoading, refetch } = useQuery('getAvailablePeople', () => getAvailablePeople(orgid), {
+     //      enabled: false,
+     //      onSuccess: (data) => {
+     //           console.log(data)
+     //           const opt = data.map((item, index) => {
+     //                return {
+     //                     label: `${item?.user?.id} ${item?.user?.firstName} ${item?.user?.lastName}`,
+     //                     value: item?.user?.id
+     //                }
+     //           })
+     //           setOptions(opt)
+     //      }
+     // })
 
-     useEffect(() => {
-          if (orgid) {
-               refetch()
-          }
-     }, [orgid])
+     // useEffect(() => {
+     //      if (orgid) {
+     //           refetch()
+     //      }
+     // }, [orgid])
 
      return (
           <ModalWrapper size={'lg'} show={show} setShow={setShow} >

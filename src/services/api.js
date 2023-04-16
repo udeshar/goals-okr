@@ -331,7 +331,7 @@ export async function getTeamByTeamId(teamid){
 
 export async function getAvailablePeople(teamid){
 	const token = getToken();
-	const response = await api.get('/team/availablepeople/' + teamid , {
+	const response = await api.get('/organization/availablepeople/' + teamid , {
 		headers : {
 			Authorization : `Bearer ${token}`
 		}
