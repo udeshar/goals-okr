@@ -22,7 +22,7 @@ const OkrModal = ({ show, setShow, data, screen, cb }) => {
           const [krModal, setKrModal] = useState(false);
           const [keyData, setKeyData] = useState({});
 
-          const { data: newKeyData, isLoading, error, refetch } = useQuery('createKeyResult', () => createKeyResult(keyData), {
+          const { data: newKeyData, isLoading, isError, error, refetch } = useQuery('createKeyResult', () => createKeyResult(keyData), {
                     enabled: false,
                     cacheTime: 0,
                     onSuccess: () => {
@@ -43,6 +43,8 @@ const OkrModal = ({ show, setShow, data, screen, cb }) => {
                     }
           }, [keyData])
 
+          console.log(error)
+
 
           return (
                     <>
@@ -54,7 +56,9 @@ const OkrModal = ({ show, setShow, data, screen, cb }) => {
                                         onClick={(e) => {
                                                   e.objective = item?.objective?.id;
                                                   setKeyData(e);
-                                        }} />
+                                        }} 
+                                        isError={isError}
+                                        error={error} />
                               <ModalWrapper show={show} setShow={setShow} size={"xl"} >
                                         {
                                                   isLoading &&

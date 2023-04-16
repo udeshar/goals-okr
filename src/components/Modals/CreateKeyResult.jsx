@@ -23,7 +23,7 @@ const options = [
      }
 ]
 
-const CreateKeyResult = ({ show, setShow, kr, init, pr, tr, dt, edit, screen, onClick, isLoading }) => {
+const CreateKeyResult = ({ show, setShow, kr, init, pr, tr, dt, edit, screen, onClick, isLoading, error, isError }) => {
      const [keyResult, setKeyResult] = useState(kr || '');
      const [keyResultError, setKeyResultError] = useState('');
      const [initial, setInitial] = useState(edit ? init : '');
@@ -50,7 +50,8 @@ const CreateKeyResult = ({ show, setShow, kr, init, pr, tr, dt, edit, screen, on
           } if(target == 0){
                err = true;
                setTargetError('cannot be 0 or empty')
-          } if(dateTime == ''){
+          } 
+          if(dateTime == ''){
                err = true;
                setDateTimeError('Due Date is Required')
           } 
@@ -144,6 +145,10 @@ const CreateKeyResult = ({ show, setShow, kr, init, pr, tr, dt, edit, screen, on
                               value={dateTime}
                               setValue={setDateTime}
                               />
+                              {
+                                   (isError) &&
+                                   <p className="error mt-2" >{error?.response?.data?.message}</p>
+                              }
                          </Col>
                     </Row>
 

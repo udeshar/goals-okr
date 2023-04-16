@@ -7,31 +7,8 @@ import Custom_dropdown from '../CustomInput/custom_dropdown'
 import CustomButton from '../CustomButton/customButton'
 import Custom_input from '../CustomInput/custom_input'
 import { Row, Col } from 'react-bootstrap'
-import { createTeam, addPeople, getPeople } from '@/services/api'
+import { getAvailablePeople, addPeople, getPeople } from '@/services/api'
 import { useQuery } from 'react-query'
-
-// const options = [
-//      {
-//           label: "red",
-//           value: "red"
-//      },
-//      {
-//           label: "green",
-//           value: "green"
-//      },
-//      {
-//           label: "blue",
-//           value: "blue"
-//      },
-//      {
-//           label: "purple",
-//           value: "purple"
-//      },
-//      {
-//           label: "orange",
-//           value: "orange"
-//      }
-// ]
 
 const AddPeople = ({ show, setShow, edit, orgid, cb, item, teamid }) => {
 
@@ -41,14 +18,6 @@ const AddPeople = ({ show, setShow, edit, orgid, cb, item, teamid }) => {
 
      const handleClose = () => setShow(false);
 
-     //      const {isLoading, refetch} = useQuery('createTeam', ()=>createTeam(orgid, {name, description, color : color.value}),{
-     //           enabled : false,
-     //           cacheTime : 0,
-     //           onSuccess : () => {
-     //                cb();
-     //           }
-     //      })
-
      const { isLoading: addLoading, refetch: addRefetch } = useQuery('addPeople', () => addPeople(teamid, orgid, { userid : name?.map((item)=>item?.value) }), {
           enabled: false,
           cacheTime: 0,
@@ -57,7 +26,21 @@ const AddPeople = ({ show, setShow, edit, orgid, cb, item, teamid }) => {
           }
      })
 
-     const { data = [], isLoading, refetch } = useQuery('getPeople', () => getPeople(orgid), {
+     // const { data = [], isLoading, refetch } = useQuery('getPeople', () => getPeople(orgid), {
+     //      enabled: false,
+     //      onSuccess: (data) => {
+     //           console.log(data)
+     //           const opt = data.map((item, index) => {
+     //                return {
+     //                     label: `${item?.user?.id} ${item?.user?.firstName} ${item?.user?.lastName}`,
+     //                     value: item?.user?.id
+     //                }
+     //           })
+     //           setOptions(opt)
+     //      }
+     // })
+
+     const { data = [], isLoading, refetch } = useQuery('getAvailablePeople', () => getAvailablePeople(orgid), {
           enabled: false,
           onSuccess: (data) => {
                console.log(data)

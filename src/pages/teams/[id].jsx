@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Head from 'next/head'
 import DashboardLayout from '@/layout/DashboardLayout'
 import { useQuery } from 'react-query'
-import { getTeamByTeamId } from '@/services/api'
+import { getTeamByTeamId, deletePeople } from '@/services/api'
 import { useRouter } from 'next/router';
 import Loader from '@/components/Loader/Loader'
 import styled from '@emotion/styled'
@@ -18,10 +18,18 @@ const TeamInfo = () => {
           const activeOrganization = useBoundStore((state) => state.activeOrganization)
           const [actOrg, setActOrg] = useState(false);
           const [show, setShow] = useState(false);
+          const [userid, setUserid] = useState('');
 
           const { isLoading, data, refetch } = useQuery('team' + id, () => getTeamByTeamId(id),{
                     onSuccess : ()=>{
                               setShow(false)
+                    }
+          })
+
+          const { isLoading : deleteLoading, refetch : deleteRefetch } = useQuery('deletePeople', () => deletePeople(id, actOrg?.organization?.id, userid),{
+                    enabled : false,
+                    onSuccess : ()=>{
+                              refetch()
                     }
           })
 
@@ -36,6 +44,12 @@ const TeamInfo = () => {
                               refetch();
                     }
           }, [actOrg])
+
+          useEffect(() => {
+                    if (userid != '') {
+                              deleteRefetch();
+                    }
+          }, [userid])
 
           return (
                     <>
@@ -93,7 +107,9 @@ const TeamInfo = () => {
                                                                                                                                   <td>{item?.user?.firstName}</td>
                                                                                                                                   <td>{item?.user?.lastName}</td>
                                                                                                                                   <td>{item?.user?.email}</td>
-                                                                                                                                  <td><p className="error" role="button" >Delete</p></td>
+                                                                                                                                  <td>
+                                                                                                                                            <p onClick={()=>setUserid(item?.user?.id)} className="error" role="button" >Delete</p>
+                                                                                                                                  </td>
                                                                                                                         </tr>
                                                                                                               ))
                                                                                                     }

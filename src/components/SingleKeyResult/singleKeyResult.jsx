@@ -22,7 +22,7 @@ const SingleKeyResult = ({ item, index, key, screen, cb }) => {
                     onSuccess : ()=> cb()
           })
 
-          const { data : data2, isLoading, refetch: refetch2 } = useQuery('updateKeyResult', ()=> updateKeyResult(item?.id, finalData),{
+          const { data : data2, isLoading, isError, error, refetch: refetch2 } = useQuery('updateKeyResult', ()=> updateKeyResult(item?.id, finalData),{
                     enabled : false,
                     cacheTime : 0,
                     onSuccess : ()=> {
@@ -53,6 +53,8 @@ const SingleKeyResult = ({ item, index, key, screen, cb }) => {
                                         dt={moment(item?.dueDate).format('YYYY-MM-DDThh:mm')}
                                         screen={screen}
                                         isLoading = {isLoading}
+                                        isError={isError}
+                                        error={error} 
                                         onClick={(e)=>{
                                                   setFinalData(e);
                                         }}

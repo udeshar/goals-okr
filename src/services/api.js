@@ -329,9 +329,29 @@ export async function getTeamByTeamId(teamid){
 	return response.data;
 }
 
+export async function getAvailablePeople(teamid){
+	const token = getToken();
+	const response = await api.get('/team/availablepeople/' + teamid , {
+		headers : {
+			Authorization : `Bearer ${token}`
+		}
+	})
+	return response.data;
+}
+
 export async function addPeople(teamid, orgid, data){
 	const token = getToken();
 	const response = await api.post('/team/adduser/' + teamid + '?orgid=' + orgid , data, {
+		headers : {
+			Authorization : `Bearer ${token}`
+		}
+	})
+	return response.data;
+}
+
+export async function deletePeople(teamid, orgid, userid){
+	const token = getToken();
+	const response = await api.delete('/team/removeuser/' + teamid + '?orgid=' + orgid + '&userid=' + userid , {
 		headers : {
 			Authorization : `Bearer ${token}`
 		}
