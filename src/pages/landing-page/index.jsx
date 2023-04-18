@@ -23,10 +23,10 @@ const mypage = () => {
                     </div>
                     <div className={styles.navright}>
                         <h4>
-                            <a className={'link'} href="#">About Us</a>
+                            <a className={styles.styllink} href="#">About Us</a>
                         </h4>
                         <h4>
-                            <a className={'link'} href="#">Need Help?</a>
+                            <a className={styles.styllink} href="#">Need Help?</a>
                         </h4>
                         <h4>
                             <CustomButton text={"Login"} onClick={() => submitForm()} className={styles.butn} />
@@ -35,6 +35,12 @@ const mypage = () => {
                 </navbar>
             </header>
             <main className={styles.maincontent}>
+            <div className={styles.maintitle}>
+            <h1 className={styles.h1tag}>
+                Managerial Optimization for your Company
+            </h1>
+
+            </div>
 
             </main>
             <footer>
