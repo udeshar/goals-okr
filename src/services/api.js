@@ -277,4 +277,86 @@ export async function rejectInvitations(data){
 	return response.data;
 }
 
+// Teams related api calls
+
+export async function createTeam(orgid, data){
+	const token = getToken();
+	const response = await api.post('/team?orgid=' + orgid , data, {
+		headers : {
+			Authorization : `Bearer ${token}`
+		}
+	})
+	return response.data;
+}
+
+export async function editTeam(teamid, orgid, data){
+	const token = getToken();
+	const response = await api.patch(`/team/${teamid}?orgid=${orgid}` , data, {
+		headers : {
+			Authorization : `Bearer ${token}`
+		}
+	})
+	return response.data;
+}
+
+export async function deleteTeam(teamid, orgid){
+	const token = getToken();
+	const response = await api.delete(`/team/${teamid}?orgid=${orgid}` , {
+		headers : {
+			Authorization : `Bearer ${token}`
+		}
+	})
+	return response.data;
+}
+
+export async function getTeams(orgid){
+	const token = getToken();
+	const response = await api.get('/team?orgid=' + orgid , {
+		headers : {
+			Authorization : `Bearer ${token}`
+		}
+	})
+	return response.data;
+}
+
+export async function getTeamByTeamId(teamid){
+	const token = getToken();
+	const response = await api.get('/team/' + teamid , {
+		headers : {
+			Authorization : `Bearer ${token}`
+		}
+	})
+	return response.data;
+}
+
+export async function getAvailablePeople(teamid){
+	const token = getToken();
+	const response = await api.get('/organization/availablepeople/' + teamid , {
+		headers : {
+			Authorization : `Bearer ${token}`
+		}
+	})
+	return response.data;
+}
+
+export async function addPeople(teamid, orgid, data){
+	const token = getToken();
+	const response = await api.post('/team/adduser/' + teamid + '?orgid=' + orgid , data, {
+		headers : {
+			Authorization : `Bearer ${token}`
+		}
+	})
+	return response.data;
+}
+
+export async function deletePeople(teamid, orgid, userid){
+	const token = getToken();
+	const response = await api.delete('/team/removeuser/' + teamid + '?orgid=' + orgid + '&userid=' + userid , {
+		headers : {
+			Authorization : `Bearer ${token}`
+		}
+	})
+	return response.data;
+}
+
 export default api

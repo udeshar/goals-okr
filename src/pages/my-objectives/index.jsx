@@ -49,12 +49,14 @@ const MyObjectives = () => {
                               }
                               {
                                     data.length == 0 && !isLoading &&
-                                    <NotFound 
-                                    title={"No Objectives found"} 
-                                    desc={"Click the button below to add your first objective"} 
-                                    btnText={"Add Objective"}
-                                    onClick={()=>setShow(true)}
-                                    />
+                                    <div style={{position : "relative", minHeight : '65vh'}} >
+                                          <NotFound 
+                                          title={"No Objectives found"} 
+                                          desc={"Click the button below to add your first objective"} 
+                                          btnText={"Add Objective"}
+                                          onClick={()=>setShow(true)}
+                                          />
+                                    </div>
                               }
                               <ObjectiveList screen={"myObjectives"} data={data || []} cb={()=> refetch()} />
                         </DashboardLayout>
