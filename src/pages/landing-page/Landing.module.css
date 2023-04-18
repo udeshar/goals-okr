@@ -1,0 +1,43 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+
+
+
+navbar{
+    font-weight: 500;
+    font-size: larger;
+    font-family: Calibri, 'Trebuchet MS', sans-serif;
+    padding: 15px;
+    display: flex;
+    justify-content:space-between;
+}
+
+.nav-left{
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-direction: row;
+}
+
+.nav-right{
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-direction: row;
+}
+
+
+a{
+    text-decoration: none;
+    color: rgb(0, 0, 0);
+}
+
+
+
+main{
+    height: 55vh;
+    background-color: rgb(189, 189, 189);
+}
