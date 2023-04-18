@@ -49,8 +49,8 @@
 
  .okr {
     font-size: 25px;
-    font-family: var(--poppins);
-    font-weight: 500;
+    font-family: var(--cavet);
+    font-weight: 700;
  }
 
 
@@ -59,16 +59,34 @@
     width: 100%;
     display: flex;
     flex-direction: row;
-    justify-content: space-evenly;
+    justify-content: center;
     background-color: var(--below-background-color);
 }
 
 .maintitle{
-    width: 70%;
-    height: auto;
-    text-align: center;
+    background-image: url('https://lh3.googleusercontent.com/vvm00GimaLqpsW4zeODWAbrpApsUfm8t7XVOvW4ZMShdEjRa5dx3ZzQzXcbg7jMa6Fo2X63naBVvcXhuj3etkPO78ZHbA21oQfVc2xuWRo2A7wlKaE4=w2400-rj');
+    background-repeat: no-repeat;
+    height: 50%;
+    background-size: cover;
+    width: 98%;
+    border-radius: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .h1tag{
+    width: 55%;
+    text-align: center;
     font-size: 5rem;
+    color: #373838;;
+}
+
+
+.h4tag{
+    width: 70%;
+    text-align: center;
+    font-size: 1.5rem;
+    color: #757979;
 }

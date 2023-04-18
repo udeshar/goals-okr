@@ -39,7 +39,9 @@ const mypage = () => {
             <h1 className={styles.h1tag}>
                 Managerial Optimization for your Company
             </h1>
-
+            <h4 className={styles.h4tag}>
+            Choose efficency or flexibility for your organization, reconstruction of your team will lead to improved productivity, collaboration and higher business results
+            </h4>
             </div>
 
             </main>
