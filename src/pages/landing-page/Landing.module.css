@@ -1,12 +1,5 @@
-*{
-    margin: 0;
-    padding: 0;
-}
 
-
-
-
-navbar{
+.nav{
     font-weight: 500;
     font-size: larger;
     font-family: Calibri, 'Trebuchet MS', sans-serif;
@@ -15,14 +8,14 @@ navbar{
     justify-content:space-between;
 }
 
-.nav-left{
+.navleft{
     display: flex;
     gap: 10px;
     align-items: center;
     flex-direction: row;
 }
 
-.nav-right{
+.navright{
     display: flex;
     gap: 10px;
     align-items: center;
@@ -30,14 +23,29 @@ navbar{
 }
 
 
-a{
-    text-decoration: none;
-    color: rgb(0, 0, 0);
+.butn{
+    padding: 30px;
 }
 
 
+.logo {
+    width: 40px;
+    height: auto;
+ }
+ 
+ .logowrapper {
+    padding: 20px 0px;
+ }
 
-main{
-    height: 55vh;
-    background-color: rgb(189, 189, 189);
+
+ .okr {
+    font-size: 25px;
+    font-family: var(--poppins);
+    font-weight: 500;
+ }
+
+ 
+.maincontent{
+    height: 100vh;
+    background-color: var(--below-background-color);
 }
