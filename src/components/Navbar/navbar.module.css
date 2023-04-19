@@ -18,11 +18,13 @@
 .name{
           font-size: 15px;
           font-weight: 500;
+          text-transform: capitalize;
 }
 .role{
           font-size: 14px;
           font-weight: 400;
           color: var(--accent);
+          text-transform: capitalize;
 }
 .screen_name{
           font-family: var(--poppins);

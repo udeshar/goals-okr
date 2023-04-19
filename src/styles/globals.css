@@ -168,7 +168,7 @@ input.hide-controls {
 .heading{
   font-size: 25px;
   font-weight: 700;
-  font-family: var(--cavet);
+  font-family: var(--poppins);
 }
 
 .modal-content{

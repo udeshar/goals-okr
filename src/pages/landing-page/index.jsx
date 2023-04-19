@@ -7,7 +7,7 @@ import Image from 'next/image'
 const mypage = () => {
     return (
         <>
-            <header>
+            <header className={styles.full}>
                 <navbar className={styles.nav}>
                     <div className={styles.navleft}>
                         <div className={styles.logowrapper + " d-flex align-items-center justify-content-between"}>
@@ -29,7 +29,7 @@ const mypage = () => {
                             <a className={styles.styllink} href="#">Need Help?</a>
                         </h4>
                         <h4>
-                            <CustomButton text={"Login"} onClick={() => submitForm()} className={styles.butn} />
+                            <CustomButton text={"Login"} onClick={() => submitForm()} className={styles.butn}  />
                         </h4>
                     </div>
                 </navbar>
