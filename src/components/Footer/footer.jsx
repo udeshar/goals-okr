@@ -23,7 +23,7 @@ const Footer = () => {
                         <p style={{fontSize : 14, color : 'var(--mediumGrey)'}}  >KeyVision © 2023. All Rights Reserved</p>
                   </div>
                   <div style={{whiteSpace : 'nowrap'}} >
-                        <Link href="#" className='ms-3 link' >About us</Link>
+                        <Link href="/about-us" className='ms-3 link' >About us</Link>
                         <Link href="#" className='ms-3 link' >Contact us</Link>
                   </div>
             </Foot>
