@@ -10,17 +10,29 @@ import CreateObjective from '@/components/Modals/CeateObjective'
 import NotFound from '@/components/NotFound/NotFound'
 import useBoundStore from '@/store';
 import { useRouter } from 'next/router'
+import { useQuery } from 'react-query'
+import { getTeams } from '@/services/api'
+import TeamCard from '@/components/TeamCard/TeamCard'
 
 const Objectives = () => {
-      const [show, setShow] = useState(false);
       const activeOrganization = useBoundStore((state) => state.activeOrganization)
       const [actOrg, setActOrg] = useState(false);
 
+      const { data=[], isLoading: objLoading, refetch } = useQuery('getTeams', () => getTeams(actOrg?.organization?.id), {
+            enabled: false,
+      })
+
       useEffect(() => {
-            if(activeOrganization && Object.keys(activeOrganization).length > 0){
+            if (activeOrganization && Object.keys(activeOrganization).length > 0) {
                   setActOrg(activeOrganization)
             }
       }, [activeOrganization])
+
+      useEffect(() => {
+            if (actOrg && Object.keys(actOrg).length > 0) {
+                  refetch();
+            }
+      }, [actOrg])
 
       const router = useRouter();
       return (
@@ -37,17 +49,16 @@ const Objectives = () => {
                                     actOrg && Object.keys(actOrg).length > 0 &&
                                     <>
                                           <div className={'d-flex align-items-center justify-content-between'} >
-                                                <CreateObjective show={show} setShow={(v) => setShow(v)} />
-                                                <div className={'d-flex link align-items-center'} >
-                                                      {/* <MdAddTask /> */}
-                                                      <CustomButton text={"Add Objective"} className={'px-4'} nofilled onClick={() => setShow(true)} />
-                                                      {/* <p ></p> */}
-                                                </div>
-                                                <div>
-                                                      <p>sort By</p>
-                                                </div>
+                                                <p className='heading' >Select Team</p>
                                           </div>
-                                          <ObjectiveList />
+                                          <Row className="mt-2" >
+                                                {
+                                                      data.map((item, index) =>
+                                                            <Col xxxl={2} xl={3} lg={4} md={4} sm={6} xs={12} className="my-3" >
+                                                                  <TeamCard item={item} index={index} role={actOrg?.role} orgid={actOrg?.organization?.id} cb={() => refetch()} screen="objectives" />
+                                                            </Col>)
+                                                }
+                                          </Row>
                                     </> ||
                                     <NotFound
                                           title={"No Active Organization Found"}

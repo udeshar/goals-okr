@@ -9,7 +9,7 @@ import ProfileSlideDown from '../ProfileSlideDown/ProfileSlideDown';
 import dynamic from 'next/dynamic';
 import { ContextMenu, MenuItem, ContextMenuTrigger, SubMenu } from "react-contextmenu";
 
-const Navbar = ({ screen }) => {
+const Navbar = ({ screen, breadcrumb }) => {
       const { toggleDrawer, menuCollapsed, toggleMenu, userInfo, activeOrganization } = useBoundStore((state) => ({
             toggleDrawer: state?.toggleDrawer,
             menuCollapsed: state?.menuCollapsed,
@@ -42,7 +42,7 @@ const Navbar = ({ screen }) => {
             <div className={styles.nav_wrapper + ' d-flex justify-content-between w-100 align-items-center'} >
                   <div className="d-flex align-items-center" >
                         <CiMenuFries onClick={onMenuClick} className={clsx(styles.menu, menuCollapsed && "d-block", " me-3")} size={18} role="button" />
-                        <p className={styles.screen_name} >{screen}</p>
+                        <p className={styles.screen_name} >{screen}{breadcrumb && ` / ${breadcrumb}`}</p>
                   </div>
                   <div className="d-flex align-items-center" >
                         <div className={styles.switchAndBell + " me-4"}>

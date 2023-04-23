@@ -72,9 +72,29 @@ export async function createObjective(data){
 	return response.data;
 }
 
+export async function createTeamObjective(data, teamid){
+	const token = getToken();
+	const response = await api.post('/team/objectives/createObjective?teamid='+teamid, data,{
+		headers : {
+			Authorization : `Bearer ${token}`
+		}
+	})
+	return response.data;
+}
+
 export async function getAllMyObjectives(){
 	const token = getToken();
 	const response = await api.get('/objectives',{
+		headers : {
+			Authorization : `Bearer ${token}`
+		}
+	})
+	return response.data;
+}
+
+export async function getAllMyTeamObjectives(teamid){
+	const token = getToken();
+	const response = await api.get('/team/objectives/getall?teamid='+teamid,{
 		headers : {
 			Authorization : `Bearer ${token}`
 		}
@@ -92,9 +112,29 @@ export async function deleteMyObjectives(id){
 	return response.data;
 }
 
+export async function deleteTeamObjectives(id){
+	const token = getToken();
+	const response = await api.delete('team/objectives/'+id,{
+		headers : {
+			Authorization : `Bearer ${token}`
+		}
+	})
+	return response.data;
+}
+
 export async function updateMyObjectives(id, data){
 	const token = getToken();
 	const response = await api.patch('/objectives/'+id,data,{
+		headers : {
+			Authorization : `Bearer ${token}`
+		}
+	})
+	return response.data; 
+}
+
+export async function updateTemObjectives(id, data){
+	const token = getToken();
+	const response = await api.patch('/team/objectives/'+id,data,{
 		headers : {
 			Authorization : `Bearer ${token}`
 		}
@@ -123,6 +163,37 @@ export async function deleteKeyResult(id){
 	})
 	return response.data;
 }
+
+export async function deletePeopleFromKey(id){
+	const token = getToken();
+	const response = await api.delete(`/keyResults/deletePeople/${id}`, {
+		headers : {
+			Authorization : `Bearer ${token}`
+		}
+	})
+	return response.data;
+}
+
+export async function addPeopleFromKey(data){
+	const token = getToken();
+	const response = await api.post(`/keyResults/addPeople`, data, {
+		headers : {
+			Authorization : `Bearer ${token}`
+		}
+	})
+	return response.data;
+}
+
+export async function deleteTeamKeyResult(id,teamid){
+	const token = getToken();
+	const response = await api.delete(`/keyResults/deletePeople/${id}teamid=${teamid}`, {
+		headers : {
+			Authorization : `Bearer ${token}`
+		}
+	})
+	return response.data;
+}
+
 
 export async function updateKeyResult(id, data){
 	const token = getToken();

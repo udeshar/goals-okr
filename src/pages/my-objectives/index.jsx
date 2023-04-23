@@ -18,10 +18,6 @@ const MyObjectives = () => {
 
       const { isLoading, isError, data=[], error, refetch } = useQuery('getAllMyObjective', () => getAllMyObjectives())
 
-      if(data){
-            console.log(data)
-      }
-
       return (
             <>
                   <Head>

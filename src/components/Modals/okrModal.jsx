@@ -11,16 +11,17 @@ import { ContextMenu, MenuItem, ContextMenuTrigger } from "react-contextmenu";
 import SingleKeyResult from '../SingleKeyResult/singleKeyResult'
 import CreateKeyResult from './CreateKeyResult'
 import { useQuery } from 'react-query'
-import { createKeyResult, getAllMyObjectives } from '@/services/api'
+import { createKeyResult, getAllMyObjectives, getTeamByTeamId } from '@/services/api'
 import Loader from '../Loader/Loader'
 import NotFound from '../NotFound/NotFound'
 
-const OkrModal = ({ show, setShow, data, screen, cb }) => {
+const OkrModal = ({ show, setShow, data, screen, cb, id }) => {
 
           const handleClose = () => setShow(false);
           const [item, setItem] = useState(data || {});
           const [krModal, setKrModal] = useState(false);
           const [keyData, setKeyData] = useState({});
+          const [options, setOptions] = useState([]);
 
           const { data: newKeyData, isLoading, isError, error, refetch } = useQuery('createKeyResult', () => createKeyResult(keyData), {
                     enabled: false,
@@ -30,6 +31,27 @@ const OkrModal = ({ show, setShow, data, screen, cb }) => {
                               setKrModal(false);
                     }
           })
+
+          const { isLoading : teamLoading, data : teamData, refetch : teamRefetch } = useQuery('team' + id, () => getTeamByTeamId(id), {
+                    enabled: false,
+                    onSuccess: (data) => {
+                              console.log(data)
+                              const opt = data.teamUsers?.map((item, index) => {
+                                        return {
+                                                  label: `${item?.user?.id} ${item?.user?.firstName} ${item?.user?.lastName}`,
+                                                  value: item?.user?.id
+                                        }
+                              })
+                              setOptions(opt)
+                    }
+          })
+
+          useEffect(() => {
+                    if(screen != 'myObjectives'){
+                              console.log("this is hhhh")
+                              teamRefetch()
+                    }
+          }, [screen])
 
           useEffect(() => {
                     setItem(data)
@@ -55,8 +77,13 @@ const OkrModal = ({ show, setShow, data, screen, cb }) => {
                                         isLoading={isLoading}
                                         onClick={(e) => {
                                                   e.objective = item?.objective?.id;
+                                                  if(screen != 'myObjectives'){
+                                                            e.isTeam = true;
+                                                            e.teamid = parseInt(id);
+                                                  }
                                                   setKeyData(e);
                                         }} 
+                                        options={options}
                                         isError={isError}
                                         error={error} />
                               <ModalWrapper show={show} setShow={setShow} size={"xl"} >
@@ -75,22 +102,13 @@ const OkrModal = ({ show, setShow, data, screen, cb }) => {
                                                   <div className="d-flex justify-content-between" >
                                                             <div className="d-md-flex d-block align-items-center flex-wrap" >
                                                                       <h4 className='m-0' >{item?.objective?.title}</h4>
-                                                                      {
-                                                                                screen != 'myObjectives' &&
-                                                                                <Link href="#" className={styles.singleTeam + ' align-items-center linkWithNoStyles d-flex ps-md-4'}>
-                                                                                          <div style={{ backgroundColor: 'red' }} className={styles.teamIcon + " allcenter"} >
-                                                                                                    <p>OP</p>
-                                                                                          </div>
-                                                                                          <p className={styles.smallText + " ps-1"} >Operations</p>
-                                                                                </Link>
-                                                                      }
                                                             </div>
                                                   </div>
                                                   <p className='accentText mt-4' >Key Results</p>
                                                   <div className="pt-2" >
                                                             {
                                                                       item?.keys?.map((itemm, index) => (
-                                                                                <SingleKeyResult item={itemm} index={index} key={"jhdch" + index} screen={screen} cb={cb} />
+                                                                                <SingleKeyResult item={itemm} index={index} key={"jhdch" + index} screen={screen} cb={cb} options={options} />
                                                                       ))
                                                             }
                                                   </div>

@@ -7,7 +7,7 @@ import CreateTeam from '../Modals/CreateTeam';
 import { deleteTeam } from '@/services/api'
 import { useQuery } from 'react-query'
 
-const TeamCard = ({ item, index, orgid, cb, role }) => {
+const TeamCard = ({ item, index, orgid, cb, role, screen }) => {
           const [show, setShow] = useState(false);
 
           const { isLoading, refetch } = useQuery('deleteTeam', () => deleteTeam(item?.id, orgid), {
@@ -25,7 +25,7 @@ const TeamCard = ({ item, index, orgid, cb, role }) => {
                                         <div className="d-flex justify-content-between" >
                                                   <p className="heading" >{item?.name}</p>
                                                   {
-                                                            role != "Employee" &&
+                                                            role != "Employee" && screen != 'objectives' &&
                                                             <div>
                                                                       <ContextMenuTrigger id={"objj" + index} mouseButton={0}>
                                                                                 <BsThreeDotsVertical style={{ color: '#fff' }} size={18} role="button" />
@@ -46,7 +46,11 @@ const TeamCard = ({ item, index, orgid, cb, role }) => {
                               </div>
                               <div className="overlay" />
                               <div>
-                                        <Link href={"/teams/"+item?.id}  ><p className="noof mt-1" role="button" >View Team  </p></Link>
+                                        {
+                                                  screen == 'objectives' && 
+                                                  <Link href={"/objectives/"+item?.id}  ><p className="noof mt-1" role="button" >See Objectives  </p></Link>
+                                                  || <Link href={"/teams/"+item?.id}  ><p className="noof mt-1" role="button" >View Team  </p></Link>
+                                        }
                               </div>
                     </TeamCardWrapper>
           )

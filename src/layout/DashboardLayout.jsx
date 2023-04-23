@@ -9,7 +9,7 @@ import { getMyInvites } from '@/services/api'
 import { useQuery } from 'react-query'
 // import { useState } from "react";
 
-const DashboardLayout = ({ children, screen }) => {
+const DashboardLayout = ({ children, screen, breadcrumb }) => {
           const { drawerOpened, toggleDrawer, setMyInvites } = useBoundStore((state) => ({
                     drawerOpened: state.drawerOpened,
                     toggleDrawer: state.toggleDrawer,
@@ -45,7 +45,7 @@ const DashboardLayout = ({ children, screen }) => {
                               </Drawer>
                               <div className={styles.middle} >
                                         <div className={styles.middleContent} >
-                                                  <Navbar screen={screen} />
+                                                  <Navbar screen={screen} breadcrumb={breadcrumb} />
                                                   <div className={styles.content} >
                                                             {children}
                                                   </div>

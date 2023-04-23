@@ -12,6 +12,7 @@
           font-size: 15px;
           color: var(--light);
           font-weight: 500;
+          white-space: nowrap;
 } 
 .nofill{
           background-color: transparent;

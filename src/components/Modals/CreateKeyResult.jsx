@@ -8,22 +8,7 @@ import CustomButton from '../CustomButton/customButton'
 import {Row, Col} from 'react-bootstrap'
 import Custom_input from '../CustomInput/custom_input'
 
-const options = [
-     {
-          label: "Mayuresh",
-          value: "Mayuresh"
-     },
-     {
-          label: "Ranjana",
-          value: "Ranjana"
-     },
-     {
-          label: "Udesh",
-          value: "Udesh"
-     }
-]
-
-const CreateKeyResult = ({ show, setShow, kr, init, pr, tr, dt, edit, screen, onClick, isLoading, error, isError }) => {
+const CreateKeyResult = ({ show, setShow, kr, init, pr, tr, dt, edit, screen, onClick, isLoading, error, isError, options }) => {
      const [keyResult, setKeyResult] = useState(kr || '');
      const [keyResultError, setKeyResultError] = useState('');
      const [initial, setInitial] = useState(edit ? init : '');
@@ -34,6 +19,8 @@ const CreateKeyResult = ({ show, setShow, kr, init, pr, tr, dt, edit, screen, on
      const [targetError, setTargetError] = useState('');
      const [dateTime, setDateTime] = useState(edit ? dt : '');
      const [dateTimeError, setDateTimeError] = useState('');
+     const [users, setUsers] = useState({})
+     const [usersError, setUsersError] = useState('')
      const handleClose = () => setShow(false);
 
      const submitData = ()=> {
@@ -54,14 +41,18 @@ const CreateKeyResult = ({ show, setShow, kr, init, pr, tr, dt, edit, screen, on
           if(dateTime == ''){
                err = true;
                setDateTimeError('Due Date is Required')
-          } 
+          } if(Object.keys(users).length == 0 && screen != 'myObjectives' && !edit){
+               err = true;
+               setUsersError('select a user')
+          }
           if(!err){
                onClick({
                     title : keyResult,
                     initialProgress : parseInt(initial),
                     currentProgress : parseInt(progress),
                     totalProgress : parseInt(target),
-                    dueDate : new Date(dateTime).toISOString()
+                    dueDate : new Date(dateTime).toISOString(),
+                    user : users.value
                })
           }
      }
@@ -118,16 +109,17 @@ const CreateKeyResult = ({ show, setShow, kr, init, pr, tr, dt, edit, screen, on
                     </div>
                     <Row>
                          {
-                              screen != 'myObjectives' &&
+                              screen != 'myObjectives' && !edit &&
                               <Col>
                                    <div  >
                                         <Custom_dropdown
                                              title={"Select People"}
+                                             value={users}
+                                             setValue={setUsers}
                                              styleInside={{ borderRadius: '10px !important' }}
-                                             error={''}
-                                             setError={() => { }}
+                                             error={usersError}
+                                             setError={() => setUsersError('')}
                                              options={options}
-                                             isMulti={true}
                                         />
                                    </div>
                               </Col>

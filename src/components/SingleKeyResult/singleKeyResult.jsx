@@ -8,71 +8,84 @@ import CreateKeyResult from '../Modals/CreateKeyResult';
 import { useQuery } from 'react-query'
 import { deleteKeyResult, updateKeyResult } from '@/services/api'
 import moment from 'moment'
+import PeopleKr from '../Modals/PeopleKrModal'
 
-const SingleKeyResult = ({ item, index, key, screen, cb }) => {
-          // const [initial, setInitial] = useState(item?.initialProgress);
-          // const [progress, setProgress] = useState(item?.currentProgress);
-          // const [target, setTarget] = useState(item?.totalProgress);
+const SingleKeyResult = ({ item, index, key, screen, cb, options }) => {
           const [krModal, setKrModal] = useState(false);
+          const [peopleModal, setPeopleModal] = useState(false);
           const [finalData, setFinalData] = useState({});
 
-          const { data, refetch } = useQuery('deleteKeyResult', ()=> deleteKeyResult(item?.id),{
-                    enabled : false,
-                    cacheTime : 0,
-                    onSuccess : ()=> cb()
+          const { data, refetch } = useQuery('deleteKeyResult', () => deleteKeyResult(item?.id), {
+                    enabled: false,
+                    cacheTime: 0,
+                    onSuccess: () => cb()
           })
 
-          const { data : data2, isLoading, isError, error, refetch: refetch2 } = useQuery('updateKeyResult', ()=> updateKeyResult(item?.id, finalData),{
-                    enabled : false,
-                    cacheTime : 0,
-                    onSuccess : ()=> {
+          const { data: data2, isLoading, isError, error, refetch: refetch2 } = useQuery('updateKeyResult', () => updateKeyResult(item?.id, finalData), {
+                    enabled: false,
+                    cacheTime: 0,
+                    onSuccess: () => {
                               cb();
                               setKrModal(false);
                     }
           })
 
           useEffect(() => {
-                    if(finalData && finalData?.title != undefined){
+                    if (finalData && finalData?.title != undefined) {
                               refetch2();
                     }
           }, [finalData])
-          
+
 
           return (
                     <div className={styles.keyFullWrapper + " d-flex"} key={key} >
                               {
-                                        krModal && 
-                                        <CreateKeyResult 
-                                        show={krModal} 
-                                        setShow={(val) => setKrModal(val)} 
-                                        edit={true} 
-                                        kr={item?.title}
-                                        init={item?.initialProgress}
-                                        pr={item?.currentProgress}
-                                        tr={item?.totalProgress}
-                                        dt={moment(item?.dueDate).format('YYYY-MM-DDThh:mm')}
-                                        screen={screen}
-                                        isLoading = {isLoading}
-                                        isError={isError}
-                                        error={error} 
-                                        onClick={(e)=>{
-                                                  setFinalData(e);
-                                        }}
+                                        krModal &&
+                                        <CreateKeyResult
+                                                  show={krModal}
+                                                  setShow={(val) => setKrModal(val)}
+                                                  edit={true}
+                                                  kr={item?.title}
+                                                  init={item?.initialProgress}
+                                                  pr={item?.currentProgress}
+                                                  tr={item?.totalProgress}
+                                                  dt={moment(item?.dueDate).format('YYYY-MM-DDThh:mm')}
+                                                  screen={screen}
+                                                  isLoading={isLoading}
+                                                  isError={isError}
+                                                  error={error}
+                                                  onClick={(e) => {
+                                                            setFinalData(e);
+                                                  }}
+                                        />
+                              }
+                              {
+                                        peopleModal &&
+                                        <PeopleKr
+                                                  show={peopleModal}
+                                                  setShow={setPeopleModal}
+                                                  onClick={() => { }}
+                                                  data={item}
+                                                  cb={cb}
+                                                  options={options}
                                         />
                               }
                               <div className={styles.keyResults + " d-flex py-3 justify-content-between align-items-center"} >
                                         <p className={styles.keyTitle} >{item?.title}</p>
                                         <div className={styles.rightSection + " d-flex align-items-center"} >
-                                                  <div className={styles.duedata + " me-4 d-none d-lg-flex"} style={{backgroundColor : 'var(--green)'}}  >
+                                                  <div className={styles.duedata + " me-4 d-none d-lg-flex"} style={{ backgroundColor: 'var(--green)' }}  >
                                                             <BiTimeFive className="me-1" size={16} />
                                                             <p>{moment(item?.dueDate).format('DD/MM/YYYY h:mm:ss a')}</p>
                                                   </div>
                                                   {
-                                                            screen != 'myObjectives' &&
-                                                            <div className='d-flex align-items-center my-1 me-5'>
+                                                            screen != 'myObjectives' && (item?.user?.firstName &&
+                                                            <div className='d-flex align-items-center my-1 me-5' onClick={() => setPeopleModal(true)} >
                                                                       <MdPeople className={styles.people} />
-                                                                      <p className={styles.people + ' ps-2'} >Udesh</p>
-                                                            </div>
+                                                                      <p className={styles.people + ' ps-2'} style={{whiteSpace : 'nowrap'}} role="button" >{item?.user?.firstName + " " + item?.user?.lastName}</p>
+                                                            </div> ||
+                                                            <div className='d-flex align-items-center my-1 me-5' onClick={() => setPeopleModal(true)} >
+                                                                      <p className={styles.people + ' ps-2'} style={{whiteSpace : 'nowrap'}} role="button" >Add People</p>
+                                                            </div>)
                                                   }
                                                   <div className="d-flex">
                                                             <div className="me-4" >
@@ -98,10 +111,10 @@ const SingleKeyResult = ({ item, index, key, screen, cb }) => {
                                         <BsThreeDotsVertical className="mt-4" role="button" />
                               </ContextMenuTrigger>
                               <ContextMenu id={"keyResult" + index} rtl={true} >
-                                        <MenuItem data={{ foo: 'bar' }} onClick={()=>setKrModal(true)}>
+                                        <MenuItem data={{ foo: 'bar' }} onClick={() => setKrModal(true)}>
                                                   Edit Key Result
                                         </MenuItem>
-                                        <MenuItem data={{ foo: 'bar' }} onClick={()=>refetch()}>
+                                        <MenuItem data={{ foo: 'bar' }} onClick={() => refetch()}>
                                                   Delete Key Result
                                         </MenuItem>
                               </ContextMenu>
