@@ -105,6 +105,7 @@ input::-webkit-inner-spin-button {
 
 input.hide-controls {
   /* Hide the input's number-specific UI */
+  appearance: textfield;
   -moz-appearance: textfield;
 }
 
