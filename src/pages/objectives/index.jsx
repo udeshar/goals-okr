@@ -18,7 +18,7 @@ const Objectives = () => {
       const activeOrganization = useBoundStore((state) => state.activeOrganization)
       const [actOrg, setActOrg] = useState(false);
 
-      const { data=[], isLoading: objLoading, refetch } = useQuery('getTeams', () => getTeams(actOrg?.organization?.id), {
+      const { data = [], isLoading: objLoading, refetch } = useQuery('getTeams', () => getTeams(actOrg?.organization?.id), {
             enabled: false,
       })
 
@@ -57,6 +57,20 @@ const Objectives = () => {
                                                             <Col xxxl={2} xl={3} lg={4} md={4} sm={6} xs={12} className="my-3" >
                                                                   <TeamCard item={item} index={index} role={actOrg?.role} orgid={actOrg?.organization?.id} cb={() => refetch()} screen="objectives" />
                                                             </Col>)
+                                                }
+                                                {
+                                                      data?.length == 0 && (actOrg.role != "Employee" &&
+                                                            <NotFound
+                                                                  title={"No Teams Found"}
+                                                                  desc={"To start creating objectives you should create a team first"}
+                                                                  btnText={"Create Team"}
+                                                                  onClick={() => router.push('/teams')}
+                                                            /> ||
+                                                            <NotFound
+                                                                  title={"No Teams Found"}
+                                                                  desc={"Ask your manager to create a team to start working on objectives"}
+                                                            />
+                                                      )
                                                 }
                                           </Row>
                                     </> ||

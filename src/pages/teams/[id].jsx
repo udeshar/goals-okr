@@ -98,15 +98,22 @@ const TeamInfo = () => {
                                                             </div>
 
                                                             {
-                                                                      !isLoading && data?.teamUsers?.length == 0 &&
-                                                                      <div style={{ position: "relative", minHeight: '65vh' }} >
-                                                                                <NotFound
-                                                                                          title={"No people found in Team"}
-                                                                                          desc={"Click the button below to add people in the team"}
-                                                                                          btnText={"Add People"}
-                                                                                          onClick={() => setShow(true)}
-                                                                                />
-                                                                      </div> ||
+                                                                      !isLoading && data?.teamUsers?.length == 0 && (actOrg?.role != "Employee" &&
+                                                                                <div style={{ position: "relative", minHeight: '65vh' }} >
+                                                                                          <NotFound
+                                                                                                    title={"No people found in Team"}
+                                                                                                    desc={"Click the button below to add people in the team"}
+                                                                                                    btnText={"Add People"}
+                                                                                                    onClick={() => setShow(true)}
+                                                                                          />
+                                                                                </div> ||
+                                                                                <div style={{ position: "relative", minHeight: '65vh' }} >
+                                                                                          <NotFound
+                                                                                                    title={"No people found in this Team"}
+                                                                                                    desc={"There is no one in this team"}
+                                                                                          />
+                                                                                </div>
+                                                                      ) ||
                                                                       <div style={{ overflow: 'auto' }} >
                                                                                 <table className={'tableWrapper mt-3'} >
                                                                                           <thead className={"theadWrapper"}  >
@@ -114,7 +121,10 @@ const TeamInfo = () => {
                                                                                                               <th>First Name</th>
                                                                                                               <th>Last Name</th>
                                                                                                               <th>Email</th>
-                                                                                                              <th>Action</th>
+                                                                                                              {
+                                                                                                                        actOrg?.role != "Employee" &&
+                                                                                                                        <th>Action</th>
+                                                                                                              }
                                                                                                     </tr>
                                                                                           </thead>
                                                                                           <tbody className={"tbodyWrapper"}>
@@ -124,9 +134,12 @@ const TeamInfo = () => {
                                                                                                                                   <td>{item?.user?.firstName}</td>
                                                                                                                                   <td>{item?.user?.lastName}</td>
                                                                                                                                   <td>{item?.user?.email}</td>
-                                                                                                                                  <td>
-                                                                                                                                            <p onClick={() => setUserid(item?.user?.id)} className="error" role="button" >Delete</p>
-                                                                                                                                  </td>
+                                                                                                                                  {
+                                                                                                                                            actOrg?.role != "Employee" &&
+                                                                                                                                            <td>
+                                                                                                                                                      <p onClick={() => setUserid(item?.user?.id)} className="error" role="button" >Delete</p>
+                                                                                                                                            </td>
+                                                                                                                                  }
                                                                                                                         </tr>
                                                                                                               ))
                                                                                                     }

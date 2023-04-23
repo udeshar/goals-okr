@@ -8,7 +8,7 @@ import CustomButton from '../CustomButton/customButton'
 import { useQuery } from 'react-query'
 import { createKeyResult, getAllMyObjectives, getTeamByTeamId } from '@/services/api'
 
-const ConfirmModal = ({ show, setShow, onContinue }) => {
+const ConfirmModal = ({ show, setShow, onContinue, onClose }) => {
           const handleClose = () => setShow(false);
           return (
                     <>
@@ -23,7 +23,10 @@ const ConfirmModal = ({ show, setShow, onContinue }) => {
                                         </div>
                                         <Modal.Footer className={styles.footer + " justify-content-center"} >
                                                   <div className='d-flex' >
-                                                            <CustomButton className="w-auto px-5" text={"No"} onClick={() => handleClose()} nofilled={true} />
+                                                            <CustomButton className="w-auto px-5" text={"No"} onClick={() => {
+                                                                      onClose && onClose();
+                                                                      handleClose()
+                                                            }} nofilled={true} />
                                                             <CustomButton className="w-auto px-5 ms-4" text={"Yes"} onClick={() => onContinue()} nofilled={false} />
                                                   </div>
 

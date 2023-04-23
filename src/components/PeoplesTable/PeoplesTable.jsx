@@ -11,18 +11,20 @@ import styled from '@emotion/styled';
 import InvitePeopleModal from '../Modals/InvitePeopleModal';
 import { changeRole, deleteUser } from '@/services/api';
 import { useQuery } from 'react-query';
+import ConfirmModal from '../Modals/ConfirmModal';
 
 const SingleTr = ({ item, index, orgid, cb, roles }) => {
 
           const [role, setRole] = useState('');
-
-          console.log(orgid)
+          const [confirm, setConfirm] = useState(false);
+          const [deleteConfirm, setDeleteConfirm] = useState(false);
 
           const { data: roleData, isLoading: roleLoading, refetch: roleRefetch } = useQuery('changeRole', () => changeRole(item?.user?.id, { role, orgid }), {
                     enabled: false,
                     cacheTime: 0,
                     onSuccess: () => {
                               cb()
+                              setConfirm(false)
                     }
           })
 
@@ -31,18 +33,30 @@ const SingleTr = ({ item, index, orgid, cb, roles }) => {
                     cacheTime: 0,
                     onSuccess: () => {
                               cb()
+                              setDeleteConfirm(false)
                     }
           })
 
           useEffect(() => {
                     if (role != '') {
-                              roleRefetch()
+                              setConfirm(true)
                     }
           }, [role])
 
 
           return (
                     <tr className={styles.tbodyTrWrapper}>
+                              <ConfirmModal 
+                                        show={confirm}
+                                        setShow={setConfirm}
+                                        onContinue={()=>roleRefetch()}
+                                        onClose={()=>setRole('')}
+                              />
+                              <ConfirmModal 
+                                        show={deleteConfirm}
+                                        setShow={setDeleteConfirm}
+                                        onContinue={()=>deleteRefetch()}
+                              />
                               <td>{item?.user?.firstName} {item?.user?.lastName}</td>
                               <td>{moment(item?.createdAt).format('DD/MM/YYYY')}</td>
                               <td>{item?.user?.email}</td>
@@ -68,7 +82,7 @@ const SingleTr = ({ item, index, orgid, cb, roles }) => {
                                         }
                               </td>
                               {item?.role != "Owner" && roles == "Owner" &&
-                                        <td><IconButton Icon={MdDelete} onClick={() => deleteRefetch()} className={"redBtn"} /></td>
+                                        <td><IconButton Icon={MdDelete} onClick={() => setDeleteConfirm(true)} className={"redBtn"} /></td>
                               }
                               {item?.role == "Owner" && roles == "Owner" && <td> - </td> }
                     </tr>

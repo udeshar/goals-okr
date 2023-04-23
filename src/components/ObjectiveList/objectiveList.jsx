@@ -10,16 +10,52 @@ import CreateObjective from '@/components/Modals/CeateObjective'
 import { useQuery } from 'react-query';
 import { deleteMyObjectives, getAllMyObjectives, getAllMyTeamObjectives, deleteTeamKeyResult, deleteTeamObjectives } from '@/services/api';
 import ConfirmModal from '../Modals/ConfirmModal';
+import useBoundStore from '@/store';
 
-const SingleOkr = ({ item, index, screen, cb, id }) => {
+export const getColor = (num) => {
+     if(num < 30){
+          return 'var(--red)'
+     } else if(num >= 30 && num < 80){
+          return 'var(--orange)'
+     } else{
+          return 'var(--green)'
+     }
+}
+
+export const getKeyProgress = (item) => {
+     return (item?.currentProgress - item?.initialProgress) * 100 / (item?.totalProgress - item?.initialProgress)
+}
+
+export const getTotalObjProgress = (item) => {
+     let sum = 0;
+     item?.keys.map((e,index)=>{
+          sum = sum + getKeyProgress(e)
+     })
+     return (sum / (item?.keys?.length)).toFixed(0);
+}
+
+export const getProgressString = (num) => {
+     if(!num) return 'No Keys'
+     if(num < 30){
+          return 'At risk'
+     } else if(num >= 30 && num < 99){
+          return 'Almost there'
+     } else{
+          return 'Completed'
+     }
+}
+
+const SingleOkr = ({ item, index, screen, cb, id, actOrg }) => {
      const [isOpen, setIsOpen] = useState(false);
      const [isModalOpen, setIsModalOpen] = useState(false);
      const [show, setShow] = useState(false);
      const [confirm, setConfirm] = useState(false);
 
-     const { refetch : refetch2 } = useQuery('getAllMyObjective', () => getAllMyObjectives(), {
+     const userInfo = useBoundStore((state)=> state.userInfo);
+
+     const { refetch: refetch2 } = useQuery('getAllMyObjective', () => getAllMyObjectives(), {
           enabled: false,
-          onSuccess : ()=> {
+          onSuccess: () => {
                setConfirm(false)
                setShow(false)
           }
@@ -35,7 +71,7 @@ const SingleOkr = ({ item, index, screen, cb, id }) => {
           onSuccess: () => refetch2()
      })
 
-     const { refetch : deleteTeamObjective } = useQuery('deleteTeamObjective', () => deleteTeamObjectives(item?.id), {
+     const { refetch: deleteTeamObjective } = useQuery('deleteTeamObjective', () => deleteTeamObjectives(item?.id), {
           enabled: false,
           cacheTime: 0,
           onSuccess: () => getObjectives()
@@ -43,44 +79,46 @@ const SingleOkr = ({ item, index, screen, cb, id }) => {
 
      return (
           <>
-               <OkrModal 
-               show={isModalOpen} 
-               setShow={(value) => setIsModalOpen(value)} 
-               data={item} 
-               screen={screen} 
-               cb={()=>{
-                    if(screen != 'myObjectives'){
-                         getObjectives()
-                    } else{
-                         refetch2()
-                    }
-               }} 
-               id={id} />
+               <OkrModal
+                    show={isModalOpen}
+                    setShow={(value) => setIsModalOpen(value)}
+                    data={item}
+                    screen={screen}
+                    cb={() => {
+                         if (screen != 'myObjectives') {
+                              getObjectives()
+                         } else {
+                              refetch2()
+                         }
+                    }}
+                    id={id} 
+                    actOrg={actOrg}
+                    />
 
                <CreateObjective
                     show={show}
-                    setShow={() =>  {setShow(false)}}
+                    setShow={() => { setShow(false) }}
                     edit
                     obj={item}
                     screen={screen}
-                    cb={()=>{
-                         if(screen != 'myObjectives'){
+                    cb={() => {
+                         if (screen != 'myObjectives') {
                               getObjectives()
-                         } else{
+                         } else {
                               refetch2()
                          }
                     }}
                />
 
-               <ConfirmModal 
-               show={confirm} 
-               setShow={setConfirm} onContinue={()=>{
-                    if(screen != 'myObjectives'){
-                         deleteTeamObjective()
-                    } else{
-                         refetch()
-                    }
-               }} 
+               <ConfirmModal
+                    show={confirm}
+                    setShow={setConfirm} onContinue={() => {
+                         if (screen != 'myObjectives') {
+                              deleteTeamObjective()
+                         } else {
+                              refetch()
+                         }
+                    }}
                />
 
                <div className={styles.overallOkrWrapper} >
@@ -90,25 +128,32 @@ const SingleOkr = ({ item, index, screen, cb, id }) => {
                               <p className="ps-3" role="button" onClick={() => setIsModalOpen(true)} >{item?.objective?.title}</p>
                          </div>
                          <div className='d-flex align-items-center' >
-                              <div className={styles.status + " " + styles.risk} >
+                              <div className={styles.status} style={{color : getColor(getTotalObjProgress(item))}} >
                                    <BsDot size={30} />
-                                   <p className={styles.smallText} >At Risk</p>
+                                   <p className={styles.smallText} >{getProgressString(getTotalObjProgress(item))}</p>
                               </div>
-                              <div>
-                                   <ContextMenuTrigger id={"objj" + index} mouseButton={0}>
-                                        <BsThreeDotsVertical size={20} role="button" className='ms-3 ms-md-1 me-1 me-md-5' />
-                                   </ContextMenuTrigger>
-                                   <ContextMenu id={"objj" + index} rtl={true} >
-                                        <MenuItem data={{ foo: 'bar' }} onClick={() => setShow(true)}>
-                                             Edit Objective
-                                        </MenuItem>
-                                        <MenuItem data={{ foo: 'bar' }} onClick={() => setConfirm(true)}>
-                                             Delete Objective
-                                        </MenuItem>
-                                   </ContextMenu>
-                              </div>
-                              <div className={styles.progress + " d-none d-md-flex"} >
-                                   <p>20%</p>
+                              {
+                                   actOrg?.role != "Employee" &&
+                                   <div>
+                                        <ContextMenuTrigger id={"objj" + index} mouseButton={0}>
+                                             <BsThreeDotsVertical size={20} role="button" className='ms-3 ms-md-1 me-1 me-md-5' />
+                                        </ContextMenuTrigger>
+                                        <ContextMenu id={"objj" + index} rtl={true} >
+                                             <MenuItem data={{ foo: 'bar' }} onClick={() => setShow(true)}>
+                                                  Edit Objective
+                                             </MenuItem>
+                                             <MenuItem data={{ foo: 'bar' }} onClick={() => setConfirm(true)}>
+                                                  Delete Objective
+                                             </MenuItem>
+                                        </ContextMenu>
+                                   </div>
+                              }
+                              <div className={styles.progress + " d-none d-md-flex"} style={{backgroundColor : getColor(getTotalObjProgress(item))}} >
+                                   {
+                                        item?.keys.length == 0 &&
+                                        <p>0%</p> ||
+                                        <p>{getTotalObjProgress(item) || 0}%</p>
+                                   }
                               </div>
                          </div>
                     </div>
@@ -123,14 +168,15 @@ const SingleOkr = ({ item, index, screen, cb, id }) => {
                                         </div>
                                         <div className={clsx('d-flex justify-content-between')}>
                                              {
-                                                  itemm?.user?.firstName &&
-                                                  <p>{itemm?.user?.firstName  + " " + itemm?.user?.lastName}</p>
+                                                  screen != 'myObjectives' &&( userInfo?.id == itemm?.user?.id &&
+                                                  <p>You</p> ||
+                                                  <p>{itemm?.user?.firstName + " " + itemm?.user?.lastName}</p>)
                                              }
                                              <div className={clsx(styles.status, 'd-none d-md-flex')}>
                                                   <p>{itemm?.currentProgress} / {itemm?.totalProgress}</p>
                                              </div>
-                                             <p className='ms-2' style={{ color: 'var(--red)' }} >
-                                                  50%
+                                             <p className='ms-2' style={{ color: getColor((itemm?.currentProgress - itemm?.initialProgress) * 100 / (itemm?.totalProgress - itemm?.initialProgress)) }} >
+                                                  {(itemm?.currentProgress - itemm?.initialProgress) * 100 / (itemm?.totalProgress - itemm?.initialProgress)} %
                                              </p>
                                         </div>
                                    </div>
@@ -143,7 +189,7 @@ const SingleOkr = ({ item, index, screen, cb, id }) => {
 }
 
 
-const ObjectiveList = ({ screen, data, cb, id }) => {
+const ObjectiveList = ({ screen, data, cb, id, actOrg }) => {
      const [isModalOpen, setIsModalOpen] = useState(false);
      const [item, setItem] = useState({});
      const [show, setShow] = useState(false);
@@ -152,6 +198,7 @@ const ObjectiveList = ({ screen, data, cb, id }) => {
                {
                     data?.map((item, index) => (
                          <SingleOkr
+                              actOrg={actOrg}
                               item={item}
                               index={index}
                               screen={screen}

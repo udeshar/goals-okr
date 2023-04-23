@@ -15,7 +15,7 @@ import { createKeyResult, getAllMyObjectives, getTeamByTeamId } from '@/services
 import Loader from '../Loader/Loader'
 import NotFound from '../NotFound/NotFound'
 
-const OkrModal = ({ show, setShow, data, screen, cb, id }) => {
+const OkrModal = ({ show, setShow, data, screen, cb, id, actOrg }) => {
 
           const handleClose = () => setShow(false);
           const [item, setItem] = useState(data || {});
@@ -32,7 +32,7 @@ const OkrModal = ({ show, setShow, data, screen, cb, id }) => {
                     }
           })
 
-          const { isLoading : teamLoading, data : teamData, refetch : teamRefetch } = useQuery('team' + id, () => getTeamByTeamId(id), {
+          const { isLoading: teamLoading, data: teamData, refetch: teamRefetch } = useQuery('team' + id, () => getTeamByTeamId(id), {
                     enabled: false,
                     onSuccess: (data) => {
                               console.log(data)
@@ -47,7 +47,7 @@ const OkrModal = ({ show, setShow, data, screen, cb, id }) => {
           })
 
           useEffect(() => {
-                    if(screen != 'myObjectives'){
+                    if (screen != 'myObjectives') {
                               console.log("this is hhhh")
                               teamRefetch()
                     }
@@ -77,12 +77,12 @@ const OkrModal = ({ show, setShow, data, screen, cb, id }) => {
                                         isLoading={isLoading}
                                         onClick={(e) => {
                                                   e.objective = item?.objective?.id;
-                                                  if(screen != 'myObjectives'){
+                                                  if (screen != 'myObjectives') {
                                                             e.isTeam = true;
                                                             e.teamid = parseInt(id);
                                                   }
                                                   setKeyData(e);
-                                        }} 
+                                        }}
                                         options={options}
                                         isError={isError}
                                         error={error} />
@@ -93,8 +93,10 @@ const OkrModal = ({ show, setShow, data, screen, cb, id }) => {
                                         }
                                         <div className={styles.modalWrapper + ' px-2 px-md-4 pt-4'} >
                                                   {
-                                                            !isLoading && item?.keys?.length == 0 &&
-                                                            <NotFound title={"No Key Result found"} desc={"Click the below button to create Key Result"} btnText={"Add Key Result"} onClick={() => setKrModal(true)} />
+                                                            !isLoading && item?.keys?.length == 0 && (
+                                                                      actOrg?.role != "Employee" &&
+                                                                      <NotFound title={"No Key Result found"} desc={"Click the below button to create Key Result"} btnText={"Add Key Result"} onClick={() => setKrModal(true)} />
+                                                                      || <NotFound title={"No Key Result found"} desc={"No key Result found in this objective"} />)
                                                   }
                                                   <div className={styles.closeButton} >
                                                             <AiOutlineClose size={25} role={"button"} onClick={handleClose} />
@@ -108,17 +110,20 @@ const OkrModal = ({ show, setShow, data, screen, cb, id }) => {
                                                   <div className="pt-2" >
                                                             {
                                                                       item?.keys?.map((itemm, index) => (
-                                                                                <SingleKeyResult item={itemm} index={index} key={"jhdch" + index} screen={screen} cb={cb} options={options} />
+                                                                                <SingleKeyResult actOrg={actOrg} item={itemm} index={index} key={"jhdch" + index} screen={screen} cb={cb} options={options} />
                                                                       ))
                                                             }
                                                   </div>
                                         </div>
                                         <Modal.Footer className={styles.footer} >
                                                   <div className='d-flex' >
-                                                            <CustomButton className="w-auto px-5" text={"Add Key Result"} onClick={() => {
-                                                                      // setShow(false)
-                                                                      setKrModal(true)
-                                                            }} nofilled={true} />
+                                                            {
+                                                                      actOrg?.role != "Employee" &&
+                                                                      <CustomButton className="w-auto px-5" text={"Add Key Result"} onClick={() => {
+                                                                                // setShow(false)
+                                                                                setKrModal(true)
+                                                                      }} nofilled={true} />
+                                                            }
                                                             <CustomButton className="w-auto px-5 ms-4" text={"Cancel"} onClick={() => {
                                                                       setShow(false)
                                                             }} nofilled={true} />

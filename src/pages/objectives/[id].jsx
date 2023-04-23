@@ -28,7 +28,7 @@ const TeamObjectives = () => {
 
           const { data: obj = [], isLoading: objLoading, refetch: getObjectives } = useQuery('getTeamObjectives', () => getAllMyTeamObjectives(id), {
                     enabled: false,
-                    onSuccess : () => {
+                    onSuccess: () => {
                               setShow(false);
                     }
           })
@@ -56,26 +56,48 @@ const TeamObjectives = () => {
                               </Head>
                               <main>
                                         <DashboardLayout screen={"objectives"} breadcrumb={data?.name}>
-                                                  <div className={'d-flex align-items-center justify-content-between'} >
-                                                            <CreateObjective show={show} setShow={(v) => setShow(v)} cb={() => getObjectives()} teamid={id} />
-                                                            <div className={'d-flex link align-items-center'} >
-                                                                      <CustomButton text={"Add Objective"} className={'px-4'} nofilled onClick={() => setShow(true)} />
-                                                            </div>
-                                                            <div>
-                                                                      <p>sort By</p>
-                                                            </div>
-                                                  </div>
                                                   {
-                                                            obj.length == 0 &&
-                                                            <div style={{minHeight : '65vh', position : 'relative'}} >
-                                                                      <NotFound
-                                                                                title={"No Objective found"}
-                                                                                desc={"You can start creating an objective for your team"}
-                                                                                btnText={"Add Objective"}
-                                                                                onClick={() => setShow(true)}
-                                                                      />
-                                                            </div> ||
-                                                            <ObjectiveList screen={"objectives"} data={obj || []} cb={() => refetch()} id={id} />
+                                                            actOrg.role != "Employee" &&
+                                                            <div className={'d-flex align-items-center justify-content-between'} >
+                                                                      <CreateObjective show={show} setShow={(v) => setShow(v)} cb={() => getObjectives()} teamid={id} />
+                                                                      <div className={'d-flex link align-items-center'} >
+                                                                                <CustomButton text={"Add Objective"} className={'px-4'} nofilled onClick={() => setShow(true)} />
+                                                                      </div>
+                                                                      <div>
+                                                                                <p>sort By</p>
+                                                                      </div>
+                                                            </div>
+                                                  }
+                                                  {
+                                                            obj.length > 0 && actOrg.role == "Employee" &&
+                                                            <div className={'d-flex align-items-center justify-content-between'} >
+                                                                      <div className={'d-flex link align-items-center'} >
+                                                                                <p className="heading" >Objectives</p>
+                                                                      </div>
+                                                                      <div>
+                                                                                <p>sort By</p>
+                                                                      </div>
+                                                            </div>
+
+                                                  }
+                                                  {
+                                                            obj.length == 0 && (actOrg.role != "Employee" &&
+                                                                      <div style={{ minHeight: '65vh', position: 'relative' }} >
+                                                                                <NotFound
+                                                                                          title={"No Objective found"}
+                                                                                          desc={"You can start creating an objective for your team"}
+                                                                                          btnText={"Add Objective"}
+                                                                                          onClick={() => setShow(true)}
+                                                                                />
+                                                                      </div> ||
+                                                                      <div style={{ minHeight: '70vh', position: 'relative' }} >
+                                                                                <NotFound
+                                                                                          title={"No Objective found"}
+                                                                                          desc={"No objectives found in this team"}
+                                                                                />
+                                                                      </div>
+                                                            ) ||
+                                                            <ObjectiveList actOrg={actOrg} screen={"objectives"} data={obj || []} cb={() => refetch()} id={id} />
                                                   }
                                         </DashboardLayout>
                               </main>

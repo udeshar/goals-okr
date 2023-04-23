@@ -74,7 +74,7 @@ const Team = () => {
                                           }
 
                                           {
-                                                !isLoading && data.length == 0 &&
+                                                !isLoading && data.length == 0 && (actOrg?.role != "Employee" &&
                                                 <div style={{ position: "relative", minHeight: '65vh' }} >
                                                       <NotFound
                                                             title={"No Teams found"}
@@ -83,6 +83,13 @@ const Team = () => {
                                                             onClick={() => setShow(true)}
                                                       />
                                                 </div> ||
+                                                      <div style={{ position: "relative", minHeight: '65vh' }} >
+                                                            <NotFound
+                                                                  title={"No Teams found"}
+                                                                  desc={"Ask your manager to create team"}
+                                                            />
+                                                      </div>
+                                                ) ||
                                                 <Row className="mt-3" >
                                                       {
                                                             data.map((item, index) =>
