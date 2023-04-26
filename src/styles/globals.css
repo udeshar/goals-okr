@@ -169,6 +169,7 @@ input.hide-controls {
 .heading{
   font-size: 25px;
   font-weight: 700;
+  text-transform: capitalize;
   font-family: var(--poppins);
 }
 
