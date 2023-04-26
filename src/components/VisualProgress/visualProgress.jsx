@@ -32,25 +32,6 @@ export const data = {
           ],
 };
 
-const companydata = {
-          ...data,
-          datasets : [
-                    {
-                              ...data.datasets[0],
-                              data : [70, 20, 10]
-                    },
-          ]
-}
-const individualdata = {
-          ...data,
-          datasets : [
-                    {
-                              ...data.datasets[0],
-                              data : [90, 8, 2]
-                    },
-          ]
-}
-
 const VisualCard = ({data,title}) => {
           return(
                     <div className={styles.visualCard + ' my-3'} >
@@ -62,16 +43,43 @@ const VisualCard = ({data,title}) => {
           )
 }
 
-const VisualProgress = () => {
+const VisualProgress = ({progressData}) => {
+          const orgdata = {
+                    ...data,
+                    datasets : [
+                              {
+                                        ...data.datasets[0],
+                                        data : [progressData?.totalsum, progressData?.totalPending, progressData?.totalDue]
+                              },
+                    ]
+          }
+          const teamdata = {
+                    ...data,
+                    datasets : [
+                              {
+                                        ...data.datasets[0],
+                                        data : [progressData?.t_totalsum, progressData?.t_totalPending, progressData?.t_totalDue]
+                              },
+                    ]
+          }
+          const individualdata = {
+                    ...data,
+                    datasets : [
+                              {
+                                        ...data.datasets[0],
+                                        data : [progressData?.u_totalsum, progressData?.u_totalPending, progressData?.u_totalDue]
+                              },
+                    ]
+          }
           return (
                     <div className="mt-4">
                               <p className={styles.heading}>Visual Progress</p>
                               <Row >
                                         <Col lg={4} xs={6} >
-                                                  <VisualCard  data={data} title={'Company Progress'} />
+                                                  <VisualCard  data={orgdata} title={'Org Progress'} />
                                         </Col>
                                         <Col lg={4} xs={6} >
-                                                  <VisualCard data={companydata} title={'Team Progress'} />
+                                                  <VisualCard data={teamdata} title={'Team Progress'} />
                                         </Col>
                                         <Col lg={4} xs={6} >
                                                   <VisualCard data={individualdata} title={'Individual Progress'} />

@@ -207,6 +207,16 @@ export async function updateKeyResult(id, data){
 
 // Organization related api calls
 
+export async function getStats(id){
+	const token = getToken();
+	const response = await api.get(`/organization/getstats/${id}` ,{
+		headers : {
+			Authorization : `Bearer ${token}`
+		}
+	})
+	return response.data;
+}
+
 export async function getOrganization(id, data){
 	const token = getToken();
 	const response = await api.get('/organization' ,{

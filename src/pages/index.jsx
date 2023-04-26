@@ -1,18 +1,45 @@
 import Head from 'next/head'
+import { useState, useEffect } from 'react'
 import DashboardLayout from '@/layout/DashboardLayout'
 import ObjectiveCard from '@/components/ObjectiveCard/objectiveCard'
-import {Row, Col} from 'react-bootstrap'
+import { Row, Col } from 'react-bootstrap'
 import styles from '@/styles/home.module.css'
 import OverallProgress from '@/components/OverallProgress/overallProgress'
 import DetailedProgress from '@/components/DetailedProgress/detailedProgress'
 import Teams from '@/components/Teams/Teams'
 import VisualProgress from '@/components/VisualProgress/visualProgress'
 import Cookies from 'js-cookie'
+import { useQuery } from 'react-query'
+import { getStats } from '@/services/api'
+import useBoundStore from '@/store';
 
 export default function Home() {
 
 	const userData = Cookies.get('accessToken');
 	console.log(userData);
+
+	const activeOrganization = useBoundStore((state) => state.activeOrganization)
+	const [actOrg, setActOrg] = useState(false);
+
+	useEffect(() => {
+		if (activeOrganization && Object.keys(activeOrganization).length > 0) {
+			setActOrg(activeOrganization)
+		}
+	}, [activeOrganization])
+
+
+	const { data, isLoading, refetch } = useQuery('getStats', () => getStats(actOrg?.organization?.id), {
+		enabled: false,
+		onSuccess : (data) => {
+			console.log(data)
+		}
+	})
+
+	useEffect(() => {
+		if (actOrg && Object.keys(actOrg).length > 0) {
+			refetch()
+		}
+	}, [actOrg])
 
 	return (
 		<>
@@ -24,13 +51,13 @@ export default function Home() {
 			</Head>
 			<main>
 				<DashboardLayout screen={"home"}>
-					<OverallProgress />
+					<OverallProgress progressData={data} />
 					<Row>
 						<Col lg={8} xs={12} >
-							<VisualProgress />
+							<VisualProgress progressData={data}  />
 						</Col>
 						<Col lg={4} xs={12} >
-						<Teams />
+							<Teams />
 						</Col>
 					</Row>
 					<DetailedProgress />
