@@ -11,6 +11,24 @@
 }
 
 
+
+.prmycontent{
+    padding-top: 30px;
+    display: flex;
+    justify-content: space-around;
+}
+.seccontent{
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.seccontent img{
+    width: 80px;
+    height:80px;
+}
+
+
 .navleft{
     display: flex;
     gap: 10px;

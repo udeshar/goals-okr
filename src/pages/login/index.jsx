@@ -133,8 +133,11 @@ export default function Login() {
 							<p className={styles.createAccount} >Not Registered Yet? <Link className="link" href="/signup">Create An Account Here</Link></p>
 						</div>
 					</Col>
-					<Col xl={6} lg={4} sm={12} className={styles.imageSection + " d-none d-lg-block"}>
-						<img src="https://mir-s3-cdn-cf.behance.net/projects/max_808_webp/3c8fa3161199455.Y3JvcCwxOTIwLDE1MDEsMCwxOQ.png" alt="Dashboard image" />
+					<Col xl={6} lg={4} sm={12} className={ styles.imageSection}>
+					<div className={styles.textleftalign}>
+					<h1>Starting With a New Day!</h1>
+					<h4 >Get ready to experience the best of what we have to offer, as we strive to provide you with an exceptional user experience.</h4>
+					</div>
 					</Col>
 				</Row>
 			</main>

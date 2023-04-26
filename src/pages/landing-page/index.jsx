@@ -3,6 +3,7 @@ import styles from './Landing.module.css'
 import CustomButton from '@/components/CustomButton/customButton'
 import logo from '@/assets/icons/logo.png'
 import Image from 'next/image'
+import Footer from '@/components/Footer/footer'
 
 const mypage = () => {
     return (
@@ -29,25 +30,54 @@ const mypage = () => {
                             <a className={styles.styllink} href="#">Need Help?</a>
                         </h4>
                         <h4>
-                            <CustomButton text={"Login"} onClick={() => submitForm()} className={styles.butn}  />
+                            <CustomButton text={"Login"} onClick={() => submitForm()} className={styles.butn} />
                         </h4>
                     </div>
                 </navbar>
             </header>
             <main className={styles.maincontent}>
-            <div className={styles.maintitle}>
-            <h1 className={styles.h1tag}>
-                Managerial Optimization for your Company
-            </h1>
-            <h4 className={styles.h4tag}>
-            Choose efficency or flexibility for your organization, reconstruction of your team will lead to improved productivity, collaboration and higher business results
-            </h4>
-            </div>
-
+                <div className={styles.maintitle}>
+                    <h1 className={styles.h1tag}>
+                        Managerial Optimization for your Company
+                    </h1>
+                    <h4 className={styles.h4tag}>
+                        Choose efficency or flexibility for your organization, reconstruction of your team will lead to improved productivity, collaboration and higher business results
+                    </h4>
+                </div>
             </main>
-            <footer>
-
-            </footer>
+            <div className={styles.prmycontent}>
+            <div className={styles.seccontent}>
+                    <Image
+                        src={logo}
+                        alt="logo"
+                        className={styles.seccontent}
+                    />
+                    <h2>
+                        3x Your Performance
+                    </h2>
+                </div>
+                <div className={styles.seccontent}>
+                    <Image
+                        src={logo}
+                        alt="logo"
+                        className={styles.seccontent}
+                    />
+                    <h2>
+                        Better Co-Ordination
+                    </h2>
+                </div>
+                <div className={styles.seccontent}>
+                    <Image
+                        src={logo}
+                        alt="logo"
+                        className={styles.seccontent}
+                    />
+                    <h2>
+                       Faster Growth
+                    </h2>
+                </div>
+            </div>
+            <Footer></Footer>
         </>
     )
 }
