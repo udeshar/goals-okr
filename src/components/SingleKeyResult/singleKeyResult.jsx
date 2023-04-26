@@ -147,7 +147,7 @@ const SingleKeyResult = ({ item, index, key, screen, cb, options, actOrg }) => {
                                                   </> || (userInfo?.id == item?.user?.id &&
                                                             <MenuItem data={{ foo: 'bar' }} onClick={() => setEditProg(true)}>
                                                                       Edit Progress
-                                                            </MenuItem>)) ||
+                                                            </MenuItem>)) || ( screen == 'myObjectives' &&
                                                   <>
                                                             <MenuItem data={{ foo: 'bar' }} onClick={() => setKrModal(true)}>
                                                                       Edit Key Result
@@ -155,7 +155,7 @@ const SingleKeyResult = ({ item, index, key, screen, cb, options, actOrg }) => {
                                                             <MenuItem data={{ foo: 'bar' }} onClick={() => refetch()}>
                                                                       Delete Key Result
                                                             </MenuItem>
-                                                  </>
+                                                  </>)
                                         }
 
                               </ContextMenu>

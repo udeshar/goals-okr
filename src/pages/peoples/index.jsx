@@ -33,7 +33,9 @@ const Peoples = () => {
       useEffect(()=>{
             console.log(actOrg)
             if(actOrg && Object.keys(actOrg).length > 0){
-                  getInvites()
+                  if(actOrg?.role == 'Owner'){
+                        getInvites()
+                  }
                   refetch()
             }
       },[actOrg])
