@@ -24,7 +24,7 @@ const Footer = () => {
                   </div>
                   <div style={{whiteSpace : 'nowrap'}} >
                         <Link href="/about-us" className='ms-3 link' >About us</Link>
-                        <Link href="#" className='ms-3 link' >Contact us</Link>
+                        <Link href="/contact-us" className='ms-3 link' >Contact us</Link>
                   </div>
             </Foot>
       )

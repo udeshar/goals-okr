@@ -4,7 +4,6 @@
 }
 
 .first{
-    background-color: aqua;
     background-image: url('laptop.jpg');
     background-repeat: no-repeat;
     background-size: cover;
