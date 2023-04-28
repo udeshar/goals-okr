@@ -100,7 +100,7 @@ export default function Signup() {
 							<Custom_input id="conpassword" required type={'password'} placeholder={'Password'} value={conpassword} setValue={setConPassword} className={'mb-3'} title={'Confirm Password'} error={conpassError} setError={setConPassError}   />
 							<div className='d-flex align-items-center mt-4' >
 								<Form.Check color='#000' value={tnc} onChange={(e)=>{setTnc(e.target.checked); setTncError('')}} type='checkbox' id='remember' label='I Agree To The ' />&nbsp;&nbsp;
-								<Link className="link" href="#"> Terms & Conditions</Link>
+								<Link className="link" href="/terms&conditions"> Terms & Conditions</Link>
 							</div>
 							{
 								tncError &&

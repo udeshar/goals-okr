@@ -4,8 +4,10 @@ import CustomButton from '@/components/CustomButton/customButton'
 import logo from '@/assets/icons/logo.png'
 import Image from 'next/image'
 import Footer from '@/components/Footer/footer'
+import { useRouter } from 'next/router'
 
 const mypage = () => {
+    const router = useRouter()
     return (
         <>
             <header className={styles.full}>
@@ -30,7 +32,7 @@ const mypage = () => {
                             <a className={styles.styllink} href="#">Need Help?</a>
                         </h4>
                         <h4>
-                            <CustomButton text={"Login"} onClick={() => submitForm()} className={styles.butn} />
+                            <CustomButton text={"Login"} onClick={() => router.push('/login')} className={styles.butn} />
                         </h4>
                     </div>
                 </navbar>
