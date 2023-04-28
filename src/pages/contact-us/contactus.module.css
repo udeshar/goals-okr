@@ -1,0 +1,50 @@
+.main{
+    background-image: url('iridescent.jpg');
+    background-size: cover;
+    min-height: 100vh;
+    padding: 70px;
+}
+.smain{
+    background-color: rgba(240, 248, 255, 0.841);
+    padding: 50px;
+    border-radius: 20px;
+    min-height: 80vh;
+}
+.title{
+    color: blueviolet;
+    text-align: center;
+    font-size: 50px;
+}
+.form{
+    padding: 68px;
+}
+.txtbox{
+    background-color: rgba(240, 248, 255, 0.351);
+    border: none;
+    border-bottom: 1px solid blueviolet;
+    outline: none;
+    color: blueviolet;
+    padding-left: 12px;
+}
+.bottomspace{
+    margin-bottom: 60px;
+    justify-content: center;
+
+}
+.txtbox1{
+    background-color: rgba(240, 248, 255, 0.351);
+    border: none;
+    border-bottom: 1px solid blueviolet;
+    outline: none;
+    color: blueviolet;
+    width: 60%;
+    margin: 13px;
+}
+.leftspace{
+    display: flex;
+    justify-content: center;
+    margin-top: 15px;
+}
+.submit{
+    width: 50% !important;
+}
