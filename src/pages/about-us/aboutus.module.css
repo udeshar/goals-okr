@@ -1,37 +1,25 @@
 .main{
-    width: 100%;
-    height: 100%;
+    background-image: url('img.jpg');
+    min-height: 100vh;
+    background-repeat: no-repeat;
+    background-size: cover;
+    padding: 70px;
 }
 
 .first{
-    background-image: url('laptop.jpg');
-    background-repeat: no-repeat;
-    background-size: cover;
-    height: 120px;
-    width: 100%;
-    color: black;
-    align-items: center;
-    padding: 20px;
-    display: flex;
+    background-color: aliceblue;
+    padding: 40px;
+    min-height: 85vh;
+
 }
 .second{
-    display: flex;
-    background-color: rgba(240, 248, 255, 0.555);
-    border-radius: 25px;
     text-align: center;
-    padding: 19px;
-    align-items: center;
-    margin: 92px;
- 
-    font-size: xx-large;
-    font-style: normal;
+    font-size: 45px;
+    border-bottom: dotted rgb(196, 24, 133);
+    padding-bottom: 20px;
 }
 
 .info{
-    display: flex;
-    background-color: rgba(136, 90, 90, 0.616);
-    margin: 80px;
     padding: 30px;
-    font-size: large;
-    border-radius: 3px;
+    border-bottom: dotted rgb(196, 24, 133);
 }
