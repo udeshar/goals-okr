@@ -69,7 +69,7 @@ const OverallProgress = ({ progressData }) => {
                                                   <ProgressCard
                                                             data={{
                                                                       title: "Total objectives",
-                                                                      result: progressData?.totalObjective,
+                                                                      result: progressData?.totalObjective || 0,
                                                                       color: 'var(--redO)',
                                                                       viewMore: true,
                                                             }}
@@ -80,7 +80,7 @@ const OverallProgress = ({ progressData }) => {
                                                   <ProgressCard
                                                             data={{
                                                                       title: "Organization Progress",
-                                                                      result: progressData?.organizationProgress?.toFixed(0) + '%',
+                                                                      result: progressData?.organizationProgress?.toFixed(0) || 0 + '%',
                                                                       color: 'var(--greenO)',
                                                                       viewMore: false,
                                                             }}
@@ -91,7 +91,7 @@ const OverallProgress = ({ progressData }) => {
                                                   <ProgressCard
                                                             data={{
                                                                       title: "Team Progress",
-                                                                      result: progressData?.teamProgress?.toFixed(0) + '%',
+                                                                      result: progressData?.teamProgress?.toFixed(0) || 0 + '%',
                                                                       color: 'var(--blueO)',
                                                                       viewMore: false,
                                                             }}
@@ -102,7 +102,7 @@ const OverallProgress = ({ progressData }) => {
                                                   <ProgressCard
                                                             data={{
                                                                       title: "Individual Progress",
-                                                                      result: progressData?.userProgress?.toFixed(0) + '%',
+                                                                      result: progressData?.userProgress?.toFixed(0) || 0 + '%',
                                                                       color: 'var(--yellowO)',
                                                                       viewMore: false,
                                                             }}

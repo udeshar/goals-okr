@@ -12,11 +12,14 @@ import Cookies from 'js-cookie'
 import { useQuery } from 'react-query'
 import { getStats } from '@/services/api'
 import useBoundStore from '@/store';
+import NotFound from '@/components/NotFound/NotFound'
+import { useRouter } from 'next/router'
 
 export default function Home() {
 
 	const userData = Cookies.get('accessToken');
 	console.log(userData);
+	const router = useRouter();
 
 	const activeOrganization = useBoundStore((state) => state.activeOrganization)
 	const [actOrg, setActOrg] = useState(false);
@@ -30,7 +33,7 @@ export default function Home() {
 
 	const { data, isLoading, refetch } = useQuery('getStats', () => getStats(actOrg?.organization?.id), {
 		enabled: false,
-		onSuccess : (data) => {
+		onSuccess: (data) => {
 			console.log(data)
 		}
 	})
@@ -51,24 +54,26 @@ export default function Home() {
 			</Head>
 			<main>
 				<DashboardLayout screen={"home"}>
-					<OverallProgress progressData={data} />
-					<Row>
-						<Col lg={8} xs={12} >
-							<VisualProgress progressData={data}  />
-						</Col>
-						<Col lg={4} xs={12} >
-							<Teams />
-						</Col>
-					</Row>
-					<DetailedProgress />
-					{/* <Row>
-						<Col lg={8} xs={12} >
+					{!actOrg && Object?.keys(actOrg)?.length === 0 && <NotFound
+						title={"No Active Organization Found"}
+						desc={"You are not part of any organazation to access this featue. Ask your manager to invite you or create your own organization."}
+						btnText={"Create Organization"}
+						onClick={() => router.push('/organization')}
+					/> ||
+						<>
+							<OverallProgress progressData={data} />
+							<Row>
+								<Col lg={8} xs={12} >
+									<VisualProgress progressData={data} />
+								</Col>
+								<Col lg={4} xs={12} >
+									<Teams />
+								</Col>
+							</Row>
 							<DetailedProgress />
-						</Col>
-						<Col lg={4}  xs={12} >
-							<Teams />
-						</Col>
-					</Row> */}
+						</>
+					}
+
 				</DashboardLayout>
 			</main>
 		</>

@@ -49,7 +49,7 @@ const VisualProgress = ({progressData}) => {
                     datasets : [
                               {
                                         ...data.datasets[0],
-                                        data : [progressData?.totalsum, progressData?.totalPending, progressData?.totalDue]
+                                        data : [progressData?.totalsum || 0, progressData?.totalPending || 0, progressData?.totalDue || 0]
                               },
                     ]
           }
@@ -58,7 +58,7 @@ const VisualProgress = ({progressData}) => {
                     datasets : [
                               {
                                         ...data.datasets[0],
-                                        data : [progressData?.t_totalsum, progressData?.t_totalPending, progressData?.t_totalDue]
+                                        data : [progressData?.t_totalsum || 0, progressData?.t_totalPending || 0, progressData?.t_totalDue || 0]
                               },
                     ]
           }
@@ -67,7 +67,7 @@ const VisualProgress = ({progressData}) => {
                     datasets : [
                               {
                                         ...data.datasets[0],
-                                        data : [progressData?.u_totalsum, progressData?.u_totalPending, progressData?.u_totalDue]
+                                        data : [progressData?.u_totalsum || 0, progressData?.u_totalPending || 0, progressData?.u_totalDue || 0]
                               },
                     ]
           }
