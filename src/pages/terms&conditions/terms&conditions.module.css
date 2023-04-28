@@ -1,0 +1,16 @@
+.main{
+    background-color: black;
+    min-height: 100vh;
+    padding-left: 100px;
+    padding-right: 100px;
+}
+.smain{
+    color: black;
+    padding: 120px;
+    text-align: center;
+     background-color: aliceblue;
+     min-height: 100vh
+}
+.title{
+    text-align: center;
+}
