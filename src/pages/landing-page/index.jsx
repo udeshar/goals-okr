@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 import styles from './Landing.module.css'
 import CustomButton from '@/components/CustomButton/customButton'
 import logo from '@/assets/icons/logo.png'
@@ -8,8 +8,19 @@ import { useRouter } from 'next/router'
 import {GiGears} from 'react-icons/gi'
 import {FaHandsHelping} from 'react-icons/fa'
 import {BsGraphUpArrow} from 'react-icons/bs'
+import Cookies from 'js-cookie'
+import Logout from '@/components/Logout/Logout'
+
 
 const mypage = () => {
+    const [user, setUser] = useState('');
+    const userData = Cookies.get('accessToken');
+    useEffect(() => {
+      if(userData){
+        setUser(userData)
+      }
+    }, [userData])
+    
     const router = useRouter()
     return (
         <>
@@ -30,13 +41,23 @@ const mypage = () => {
                     </div>
                     <div className={styles.navright}>
                         <h4>
-                            <a className={styles.styllink} href="#">About Us</a>
+                            <a className={styles.styllink} href="/">Dashboard</a>
                         </h4>
                         <h4>
-                            <a className={styles.styllink} href="#">Need Help?</a>
+                            <a className={styles.styllink} href="/about-us">About Us</a>
                         </h4>
                         <h4>
-                            <CustomButton text={"Login"} onClick={() => router.push('/login')} className={styles.butn} />
+                            <a className={styles.styllink} href="/contact-us">Need Help?</a>
+                        </h4>
+                        <h4>
+                            {
+                                user &&
+                                <Logout>
+                                    <CustomButton text={"Logout"} onClick={() =>{}} className={styles.butn} />
+                                </Logout>
+                                ||
+                                <CustomButton text={"Login"} onClick={() => router.push('/login')} className={styles.butn} />
+                            }
                         </h4>
                     </div>
                 </navbar>
