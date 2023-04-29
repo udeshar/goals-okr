@@ -10,7 +10,7 @@ import Teams from '@/components/Teams/Teams'
 import VisualProgress from '@/components/VisualProgress/visualProgress'
 import Cookies from 'js-cookie'
 import { useQuery } from 'react-query'
-import { getStats } from '@/services/api'
+import { getStats, getTeams } from '@/services/api'
 import useBoundStore from '@/store';
 import NotFound from '@/components/NotFound/NotFound'
 import { useRouter } from 'next/router'
@@ -30,6 +30,13 @@ export default function Home() {
 		}
 	}, [activeOrganization])
 
+	const { data : teamsData = [], isLoading : teamsLoading, refetch : teamsRefetch } = useQuery('getTeams', () => getTeams(actOrg?.organization?.id), {
+		enabled: false,
+		onSuccess: (datae) => {
+			console.log(datae)
+		}
+		
+	    })
 
 	const { data, isLoading, refetch } = useQuery('getStats', () => getStats(actOrg?.organization?.id), {
 		enabled: false,
@@ -41,6 +48,7 @@ export default function Home() {
 	useEffect(() => {
 		if (actOrg && Object.keys(actOrg).length > 0) {
 			refetch()
+			teamsRefetch()
 		}
 	}, [actOrg])
 
@@ -67,10 +75,10 @@ export default function Home() {
 									<VisualProgress progressData={data} />
 								</Col>
 								<Col lg={4} xs={12} >
-									<Teams />
+									<Teams data={teamsData} />
 								</Col>
 							</Row>
-							<DetailedProgress />
+							{/* <DetailedProgress /> */}
 						</>
 					}
 

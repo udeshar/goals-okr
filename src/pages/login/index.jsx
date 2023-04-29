@@ -59,6 +59,8 @@ export default function Login() {
 		onSuccess: (data=[]) => {
 			if (data?.length > 0) {
 				setActiveOrganization(data.filter((item) => item.status)[0] || {})
+			} else{
+				setActiveOrganization({})
 			}
 			getInviteRefetch()
 		}

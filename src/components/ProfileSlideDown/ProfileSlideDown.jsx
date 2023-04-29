@@ -1,14 +1,20 @@
 import React from 'react'
 import styled from '@emotion/styled'
 import IconButton from '../IconButton/IconButton'
-import { CiSettings, CiLogout} from 'react-icons/ci'
+import { CiSettings, CiLogout } from 'react-icons/ci'
 import Logout from '../Logout/Logout'
+import Image from 'next/image'
+import profile from '@/assets/icons/profile.png'
 
-const ProfileSlideDown = ({actOrg, userInfo}) => {
+const ProfileSlideDown = ({ actOrg, userInfo }) => {
           return (
                     <ProfileModalWrapper>
                               <div>
-                                        <img className='profile_image' src="https://images.unsplash.com/photo-1615109398623-88346a601842?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTd8fG1hbnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60" alt="user" />
+                                        {
+                                                  userInfo?.profileImage &&
+                                                  <img className='profile_image' src={userInfo?.profileImage} alt="user" /> ||
+                                                  <Image src={profile} height={44} width={44} className='profile_image' />
+                                        }
                               </div>
                               <p className="mt-3 heading" >{userInfo?.firstName + " " + userInfo?.lastName}</p>
                               <p className={"org mt-1"} >{actOrg?.organization?.name || "No active Org"}</p>
@@ -16,9 +22,9 @@ const ProfileSlideDown = ({actOrg, userInfo}) => {
                               <hr />
                               <div className="d-flex justify-content-evenly my-2">
                                         <Logout>
-                                                  <IconButton  className={"btnClass"}  Icon={CiLogout} onClick={()=>{}} />
+                                                  <IconButton className={"btnClass"} Icon={CiLogout} onClick={() => { }} />
                                         </Logout>
-                                        <IconButton  className={"btnClass"} Icon={CiSettings} onClick={()=>{}} />
+                                        <IconButton className={"btnClass"} Icon={CiSettings} onClick={() => { }} />
                               </div>
                     </ProfileModalWrapper>
           )

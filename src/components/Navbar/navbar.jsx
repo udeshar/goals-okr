@@ -7,7 +7,9 @@ import { CiMenuFries } from 'react-icons/ci'
 import useBoundStore from '@/store';
 import ProfileSlideDown from '../ProfileSlideDown/ProfileSlideDown';
 import dynamic from 'next/dynamic';
+import profile from '@/assets/icons/profile.png'
 import { ContextMenu, MenuItem, ContextMenuTrigger, SubMenu } from "react-contextmenu";
+import Image from 'next/image';
 
 const Navbar = ({ screen, breadcrumb }) => {
       const { toggleDrawer, menuCollapsed, toggleMenu, userInfo, activeOrganization } = useBoundStore((state) => ({
@@ -23,7 +25,7 @@ const Navbar = ({ screen, breadcrumb }) => {
       useEffect(() => {
             if (activeOrganization && Object.keys(activeOrganization).length > 0) {
                   setActOrg(activeOrganization)
-            } else{
+            } else {
                   setActOrg({});
             }
       }, [activeOrganization])
@@ -49,10 +51,13 @@ const Navbar = ({ screen, breadcrumb }) => {
                               <Switch />
                         </div>
                         <div className={" me-3 me-md-5 mt-1"} style={{ position: 'relative' }} >
-                              <CiBellOn size={25} />
-                              <div className={styles.noti + " allcenter"} >
-                                    <p style={{ fontSize: 13 }} > 3</p>
-                              </div>
+                              <ContextMenuTrigger id={"notifi"} mouseButton={0}  >
+                                    <CiBellOn size={25} />
+                              </ContextMenuTrigger>
+                              <ContextMenu id={"notifi"} rtl={true} >
+                                    <p className="px-3" >Notifications will becoming soon</p>
+                                    <p className="px-3 font-bold" >Stay tuned</p>
+                              </ContextMenu>
                         </div>
                         <div style={{ position: "relative" }} >
                               <ContextMenuTrigger id={"profile"} mouseButton={0}  >
@@ -62,13 +67,17 @@ const Navbar = ({ screen, breadcrumb }) => {
                                                 <p className={styles.role} >{actOrg?.organization?.name || "No active Org"}</p>
                                           </div>
                                           <div>
-                                                <img className='profile_image' src="https://images.unsplash.com/photo-1615109398623-88346a601842?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTd8fG1hbnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60" alt="user" />
+                                                {
+                                                      userInfo?.profileImage &&
+                                                      <img className='profile_image' src={userInfo?.profileImage || profile} alt="user" /> ||
+                                                      <Image src={profile} height={44} width={44} className='profile_image' />
+                                                }
                                           </div>
                                     </div>
                               </ContextMenuTrigger>
                               <ContextMenu id={"profile"} rtl={true} >
                                     {/* <MenuItem preventClose onClick={()=>}  > */}
-                                          <ProfileSlideDown actOrg={actOrg} userInfo={userInfo} />
+                                    <ProfileSlideDown actOrg={actOrg} userInfo={userInfo} />
                                     {/* </MenuItem> */}
                               </ContextMenu>
                               {/* <div role="button" className='d-flex justify-content-between align-items-center'>

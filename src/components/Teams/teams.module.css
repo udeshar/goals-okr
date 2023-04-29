@@ -15,5 +15,7 @@
           height: 28px;
           width: 28px;
           border-radius: 50%;
-          font-size: 13px;;
+          font-size: 13px;
+          text-transform: uppercase;
+          color : #fff;
 }

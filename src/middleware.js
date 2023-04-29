@@ -14,7 +14,7 @@ export default function middleware(req){
                               !req.nextUrl.pathname.startsWith('/terms&conditions') &&
                               !req.nextUrl.pathname.startsWith('/user-info') 
                     ){
-                              return NextResponse.rewrite(new URL('/login', req.url))
+                              return NextResponse.rewrite(new URL('/landing-page', req.url))
                     }
           } else{
                     if (
