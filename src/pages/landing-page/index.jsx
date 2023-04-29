@@ -5,6 +5,9 @@ import logo from '@/assets/icons/logo.png'
 import Image from 'next/image'
 import Footer from '@/components/Footer/footer'
 import { useRouter } from 'next/router'
+import {GiGears} from 'react-icons/gi'
+import {FaHandsHelping} from 'react-icons/fa'
+import {BsGraphUpArrow} from 'react-icons/bs'
 
 const mypage = () => {
     const router = useRouter()
@@ -50,31 +53,19 @@ const mypage = () => {
             </main>
             <div className={styles.prmycontent}>
             <div className={styles.seccontent}>
-                    <Image
-                        src={logo}
-                        alt="logo"
-                        className={styles.seccontent}
-                    />
+                    <GiGears size={50} />
                     <h2>
                         3x Your Performance
                     </h2>
                 </div>
                 <div className={styles.seccontent}>
-                    <Image
-                        src={logo}
-                        alt="logo"
-                        className={styles.seccontent}
-                    />
+                    <FaHandsHelping size={50} />
                     <h2>
                         Better Co-Ordination
                     </h2>
                 </div>
                 <div className={styles.seccontent}>
-                    <Image
-                        src={logo}
-                        alt="logo"
-                        className={styles.seccontent}
-                    />
+                    <BsGraphUpArrow size={50} />
                     <h2>
                        Faster Growth
                     </h2>
