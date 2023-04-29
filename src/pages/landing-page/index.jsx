@@ -20,6 +20,7 @@ const mypage = () => {
                                     alt="logo"
                                     className={styles.logo}
                                 />
+                                <img src="" alt="" />
                                 <p className={styles.okr + ' ms-2'} >KeyVision</p>
                             </div>
                         </div>

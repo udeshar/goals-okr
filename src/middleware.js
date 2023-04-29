@@ -12,10 +12,9 @@ export default function middleware(req){
                               !req.nextUrl.pathname.startsWith('/confirm-otp')  &&
                               !req.nextUrl.pathname.startsWith('/change-password') &&
                               !req.nextUrl.pathname.startsWith('/terms&conditions') &&
-                              !req.nextUrl.pathname.startsWith('/user-info') &&
-                              !req.nextUrl.pathname.startsWith('/landing-page') 
+                              !req.nextUrl.pathname.startsWith('/user-info')
                     ){
-                              return NextResponse.rewrite(new URL('/landing-page', req.url))
+                              return NextResponse.rewrite(new URL('/login', req.url))
                     }
           } else{
                     if (
