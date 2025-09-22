@@ -3,7 +3,8 @@ import Cookies from 'js-cookie'
 
 const api = axios.create({
 	// baseURL: 'http://localhost:3001/api'
-	baseURL: 'https://okr-backend.vercel.app/api'
+	// baseURL: 'https://okr-backend.vercel.app/api'
+	baseURL: 'https://okr-backend-61m6.onrender.com/api'
 })
 
 export function getToken(){
